@@ -1,17 +1,17 @@
 {
     "R.A.":{
         "age": 29,
-        "additionalHealthIssues":"serious",
-        "drinkingHabitPrediagnosis":"none",
-        "criminalRecord": "Non-Violent Felony",
-        "dependents": "Two children"
+        "additionalHealthIssues":0,
+        "drinkingHabitPrediagnosis":0,
+        "criminalRecord": 0,
+        "dependents": 0
     },
     "C.E.":{
         "age": 66,
-        "additionalHealthIssues":"none",
-        "drinkingHabitPrediagnosis":"heavy",
-        "criminalRecord": "violent felony",
-        "dependents": "one children; one elderly"
+        "additionalHealthIssues":1,
+        "drinkingHabitPrediagnosis":1,
+        "criminalRecord": 1,
+        "dependents": 1
     }
 
 }

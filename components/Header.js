@@ -4,8 +4,8 @@ import { Transition } from 'react-spring'
 
 const StyHeader = styled.header`
     padding:4rem 4rem 1rem 4rem;
-    background:${props=>props.theme.lightbrown};
-    color:${props=>props.theme.darkblue};
+    background:${props=>props.theme.primary};
+    color:${props=>props.theme.milky};
     margin: 0 0;
     height:100vh;
     text-transform:uppercase;
@@ -19,7 +19,7 @@ const StyHeader = styled.header`
         line-height:2rem;
         font-weight:400;
         text-transform:none;
-        color:${props=>props.theme.blue};
+        color:${props=>props.theme.tertiary};
 
 
     }
@@ -52,7 +52,7 @@ const LineBreaker = styled.br`
 
 const Logo = styled.h1`
     font-family:${props=>props.theme.sans};
-    color:${props=>props.theme.darkblue};
+    color:${props=>props.theme.tertiaryLight};
         font-size: 7rem;
         margin: 0 0;
         line-height:1.4;
@@ -76,7 +76,7 @@ const MenuLink = styled.a`
 `
 
 const Emphasis = styled.span`
-    color:${props=>props.theme.contrast};
+    color:${props=>props.theme.secondary};
 `
 const SLogo = (<Logo>Who <LineBreaker/> Should <LineBreaker/> Get <LineBreaker/><Emphasis>the Kidney?</Emphasis></Logo>);
 

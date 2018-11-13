@@ -14,6 +14,15 @@ export const theme = {
     milky:'#f5f1e4',
     lightbrown:"#dbd2c5",
     contrast:"rgb(157, 23, 72)",
+    primary:"#344955",
+    primaryDark:"#232f34",
+    primaryLight:"#4a6572",
+    secondary:"#f9aa33",
+    grey:"#E5E5E5",
+    tertiary:"#EDF0F2",
+    tertiaryDark:"#D2DBE0",
+    tertiaryLight:"rgb(210, 235, 245)",
+    black:"#202124",
     breakpoint:{
         w:["1000px","600px"]
     }
@@ -37,8 +46,8 @@ injectGlobal`
         font-size: 1.5rem;
         line-height: 2;
         font-family: ${theme.sans};
-        color:${theme.milky};
-        background:${theme.darkblue};
+        color:${theme.black};
+        background:${theme.primary};
       }
 `
 
@@ -47,6 +56,10 @@ const MainContainer = styled.div`
       flex-direction:row;
     @media (max-width:${theme.breakpoint.w[0]}){
         flex-direction:column;
+        height:100vh;
+    }
+    @media (max-width:${theme.breakpoint.w[1]}){
+        height:auto;
     }
 
 `

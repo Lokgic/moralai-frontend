@@ -16,9 +16,9 @@ class index extends Component {
     render() {
 
         return (
-            <DecisionContainer>
+            // <DecisionContainer>
                 <Grid setHeaderState={this.props.setHeaderState}/>
-            </DecisionContainer>
+            // </DecisionContainer>
         );
     }
 }
