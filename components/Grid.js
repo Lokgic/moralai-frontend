@@ -19,6 +19,15 @@ const CF = props=>(
 </svg>
 )
 
+const expandTranslator = feature=>{
+    return {
+        age:["age","Should age matter? Should preference be given to younger patients?"],
+        additionalHealthIssues:["additional health issues","A patient might have additional non-kidney related health problems, which might affect how healthy they will be after receiving a kidney. Should their non-kidney-related health be taken into account in allocating a kidney?"],
+        drinkingHabitPrediagnosis:["drinking habit before diagnosis","Should we consider drinking habits when allocating a kidney? Does it matter if the patient’s drinking habits changed after they were diagnosed with a kidney problem?"],
+        criminalRecord:["criminal record","Should we judge someone by his/her criminal record when distributing kidneys? Does the nature of the crime matter? Or patterns of behavior?"],
+        dependents:["dependents","Sometimes a patient has someone depending on them - it could be a child or an elderly person such as a parent."]
+    }[feature]
+}
 
 const predicateTranslater = (feature,value)=>{
     switch(feature){
@@ -115,12 +124,32 @@ const featuresDisplayName = {
 
 const featuresKey = Object.keys(featuresDisplayName)
 
+const FlexContainer = styled.div `
+    margin:20px 40px;
+    flex-grow:1;
+    background-color:${props=>props.theme.tertiaryDark}};
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),
+                0 2px 2px 0 rgba(0,0,0,.14),
+                0 1px 5px 0 rgba(0,0,0,.12);
+    display:flex;
+    flex-direction:column;
+    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
+        min-height:700px;
+        margin:0px 0px;
+    }
+    @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+        min-height:700px;
+        height:100vh;
+        margin:0px 0px;
+    }
+`   
 
 const GridContainer = styled.div`
     display:grid;
     grid-template-columns: 3fr 1fr 3fr;
-    /* grid-template-rows: 3fr 3fr 3fr 3fr 3fr; */
-    grid-auto-rows: 1fr;
+    /* grid-template-rows: ${props=>props.expanded?"1fr":"0px"};
+    grid-auto-rows: ${props=>props.expanded?"0px":"1fr"}; */
+    grid-auto-rows:1fr;
     grid-auto-flow: row;
     width:1fr;
     flex-grow:1;
@@ -140,7 +169,7 @@ const GridContainer = styled.div`
     }
     @media (max-width:${props=>props.theme.breakpoint.w[1]}){
         /* height:100vh; */
-        grid-template-rows:  ${()=>"20% " + featuresKey.filter(d=>d!=="name").map(d=>`${80/featuresKey.length}%`).join(' ')}
+        /* grid-template-rows:  ${()=>"20% " + featuresKey.filter(d=>d!=="name").map(d=>`${80/featuresKey.length}%`).join(' ')} */
     }
 
 `
@@ -152,7 +181,7 @@ const BottomCell = styled.div`
     display:grid;
     grid-template-columns: repeat(3,1fr);
     grid-template-rows:1fr 2fr;
-    
+    overflow:hidden;
 
 
 `
@@ -195,14 +224,53 @@ const MsgButton = styled.div`
            }
 `
 
+const GridCell = styled.div`
+    background-color:${({theme,expand})=>expand==2?theme.grey:theme.offWhite};
+    display:grid;
+    grid-template-columns: ${props=>props.expand===2? "1fr" :"2fr 1fr 2fr"};
+    grid-template-rows:${props=>props.expand===2? "1fr 4fr 4fr" :"1fr"};;
+    flex-grow:${props=>props.expand};
+    flex-basis:0;
+    transition: all .2s;
+    overflow:hidden;
+    border-bottom:1px solid rgba(0,0,0,.12);
+    cursor:pointer;
+    .expanded-title {
+        background-color:${({theme,expand})=>theme.offWhite};
+        margin:0;
+        display:flex;
+        padding-left: 16px;
+        h1 {
+            margin:auto 0;
+            text-align:left;
+            font-family: ${props=>props.theme.sans}; 
+            text-transform:uppercase;
+            font-weight:400;
+            color: ${props=>props.theme.primary};
+            font-size:3rem;
+        }
+    }
+    .expanded-description{
+        background-color:${({theme,expand})=>theme.offWhite};
+        margin:0;
+        padding: 16px;
+        text-align:left;
+        font-family: ${props=>props.theme.sans}; 
+        font-weight:400;
+        color: ${props=>props.theme.primary};
+        font-size:1.7rem;
+
+    }
+` 
+
 const Cell = styled.div`
-    background-color:${props=>props.theme.offWhite};
-    /* background:brown; */
+    /* background-color:${props=>props.theme.offWhite}; */
     display:flex;
     flex-direction:column;
     align-content: center;
     align-items:center;
-    border-bottom:1px solid rgba(0,0,0,.12);
+
+    overflow:hidden;
     div {
         margin: auto auto auto 16px;
         height:82px;
@@ -215,7 +283,7 @@ const Cell = styled.div`
         }
     }
     h1{
-        font-family: ${props=>props.theme.sans};
+        font-family: ${props=>props.theme.sans}; 
         text-transform:uppercase;
         font-weight:400;
         color: ${props=>props.theme.primary};
@@ -245,6 +313,7 @@ const Cell = styled.div`
 `
 
 const LeftCell = styled(Cell)`
+
     h1{
         margin:8px  auto 8px 16px;
     }
@@ -275,67 +344,47 @@ const RightCell = styled(Cell)`
 `
 
 const IconCell = styled.div`
+
     display:flex;
-    background-color:${props=>props.theme.offWhite};
-    border-bottom:1px solid rgba(0,0,0,.12);
+
+    overflow:hidden;
     svg{
         margin:auto;
     }
 `
 
 
-const TopCell = styled.div`
-    flex-direction:row-reverse;
-    background:${props=>props.theme.primary};
-    color: white;
-    display:flex;
-    flex-direction:row;
-    align-content: center;
-    align-items:center;
-    grid-column: 1 / -1;
-    div{
-        display:flex;
-        margin:auto;
-    }
-     h3 {
-        font-family: ${props=>props.theme.serif};
-        font-weight:400;
-        font-size:2.5rem;
-            margin:auto auto auto 0;
-            text-align: center;
-        }
-        svg{
-            margin:auto 16px auto 16px;
-        }
 
+const ExplanationBoxSty = styled.div`
+
+    background:red;
+    height:0;
+    bottom:50px;
+    grid-column: 1/-1;
+    overflow:hidden;
 `
 
+// class ExplanationBox extends Component {
 
-const CoinFlipContainer = styled.img`
-        width:20px;
-        height:20px;
-        svg{
-            color: blue;
-        }
-        
-`
+// }
 
 class Grid extends Component {
     constructor(props){
         super(props);
         this.state = {
-            highlight:"none",
-            chosen:-1
-        }
-        this.handleClick = this.handleClick.bind(this);
-        this.handleHover = this.handleHover.bind(this);
-    }
-    handleHover(el){
-        if (el!==this.state.chosen){
-            const highlight = el===this.state.highlight? "none": el;
-            this.setState({highlight})
+            expand:"none",
+            chosen:-1,
 
         }
+        this.handleClick = this.handleClick.bind(this);
+        this.handleHover = this.handleExpand.bind(this);
+    }
+    handleExpand(el){
+
+        const expand = el===this.state.expand? "none": el;
+        this.setState({expand})
+        console.log(expand)
+        
     }
     handleClick(el){
         const chosen = el===this.state.chosen? -1: el;
@@ -345,40 +394,52 @@ class Grid extends Component {
     render() {
         const names = Object.keys(MockData);
         const {setHeaderState} = this.props;
+        const {chosen, expand} = this.state;
         let cells = []
   
 
         for (let feat of featuresKey){
-            const key1 = `${names[0]}_${feat}`;
-            const key2 = `${names[1]}_${feat}`;
+            const key1 = `${feat}_L`;
+            const key2 = `${feat}_R`;
+            const key3 = `${feat}_M`;
             
             cells.push(
-                <LeftCell key={`${key1}_cell`}>
-                    <h3 key={`${key1}_h3`}>{subjectTranslater(feat, names[0])}</h3>
-                    <h1 key={`${key1}_h1`}>{valueTranslater(feat,MockData[names[0]][feat])}</h1>
-                    <h4 key={`${key1}_h4`}>{predicateTranslater(feat,MockData[names[0]][feat])}</h4>
-                </LeftCell>
-            )
-            cells.push(
-                <IconCell key={`${feat}_icon_cell`}>
-                    <FontAwesomeIcon icon={graphicSelector(feat)} size="2x" color = {theme.black} key={`cellicon_${feat}`}/>
-                </IconCell>
-            )
-            cells.push(
-                <RightCell key={`${key2}_cell`}>
-                    <h3 key={`${key2}_h3`}>{subjectTranslater(feat, names[1])}</h3>
-                    <h1 key={`${key2}_h1`}>{valueTranslater(feat,MockData[names[1]][feat])}</h1>
-                    <h4 key={`${key2}_h4`}>{predicateTranslater(feat,MockData[names[1]][feat])}</h4>
-                </RightCell>
+                <GridCell onClick={()=>this.handleExpand(feat)} expand = {expand==="none"?1:expand===feat?2:0}>
+                    {
+                        expand!==feat? (
+                            <LeftCell key={`${key1}_cell`} >
+                            <h3 key={`${key1}_h3`}>{subjectTranslater(feat, names[0])}</h3>
+                            <h1 key={`${key1}_h1`}>{valueTranslater(feat,MockData[names[0]][feat])}</h1>
+                            <h4 key={`${key1}_h4`}>{predicateTranslater(feat,MockData[names[0]][feat])}</h4>
+                        </LeftCell>):<div className="expanded-title"><h1 >{expandTranslator(feat)[0]}</h1></div>
+                        
+                    }
+                    
+            
+                    <IconCell key={`${feat}_icon_cell`} expand = {expand==="none"?1:expand===feat?2:0}>
+                        <FontAwesomeIcon icon={graphicSelector(feat)} size={expand===feat?"10x":"3x"} color = {theme.black} key={`cellicon_${feat}`}/>
+                    </IconCell>
+                    {
+                        expand!==feat? (
+                            <RightCell key={`${key2}_cell`}>
+                                <h3 key={`${key2}_h3`}>{subjectTranslater(feat, names[1])}</h3>
+                                <h1 key={`${key2}_h1`}>{valueTranslater(feat,MockData[names[1]][feat])}</h1>
+                                <h4 key={`${key2}_h4`}>{predicateTranslater(feat,MockData[names[1]][feat])}</h4>
+                            </RightCell>
+                        ):<div className="expanded-description">{expandTranslator(feat)[1]}</div>
+                    }
+                    
+                </GridCell>
             )
 
         }
 
-        const {chosen, highlight} = this.state;
+        
 
         return (
-            <GridContainer>
-            {cells}
+ 
+            <FlexContainer>
+                {cells}
             <BottomCell>
                 <MsgButton>
                     <p>
@@ -415,7 +476,8 @@ class Grid extends Component {
 
                 </ChoiceButton>
             </BottomCell>
-            </GridContainer>
+            </FlexContainer>
+          
         );
     }
 }

@@ -29,8 +29,6 @@ export const theme = {
   };
 
 
-
-
 injectGlobal`
     html {
         box-sizing: border-box;
