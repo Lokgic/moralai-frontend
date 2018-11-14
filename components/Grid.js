@@ -147,12 +147,12 @@ const FlexContainer = styled.div `
 const BottomCell = styled.div`
     background-color:${props=>props.theme.grey};
     color:${props=>props.theme.offWhite};
-    grid-column: 1 / -1;
     display:grid;
     grid-template-columns: repeat(3,1fr);
     grid-template-rows:1fr 2fr;
     overflow:hidden;
 
+    /* height:250px; */
 
 `
 
@@ -161,23 +161,48 @@ const ChoiceButton = styled.div`
     display:flex;
     flex-direction:column;
     background: ${props=>props.chosen==="chosen"?props.theme.secondary:props.theme.offWhite};
+    padding-top:5px;
     &:hover {
             background: ${props=>props.theme.secondary};
         }
     p {
         text-align: center;
         color: ${props=>props.theme.black};
-        font-size: 1.2rem;
+        font-size: 2rem;
         margin:0 auto auto auto;
     }
     svg{
         margin:auto auto 0 auto;
-        height:45px;
+        height:65px;
         fill: ${props=>props.theme.black};
         
         
     }
-    
+    .choice-icon{
+        font-size:65px;
+        color: ${props=>props.theme.black};
+    }
+    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
+
+    }
+    @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+        p {
+
+            font-size: 1.2rem;
+
+        }
+        svg{
+
+            height:35px;
+
+            
+            
+        }
+        .choice-icon{
+            font-size:35px;
+
+        }
+    }
 `
 
 const MsgButton = styled.div`
@@ -188,6 +213,9 @@ const MsgButton = styled.div`
             font-size:1.9rem;
             color: ${props=>props.theme.offWhite};
             margin:auto;
+            @media(max-width:${props=>props.theme.breakpoint.w[1]}){
+                font-size:1.2rem;
+            }
         }
         &:hover {
                background: ${props=>props.theme.primaryLight};
@@ -218,7 +246,11 @@ const GridCell = styled.div`
             font-weight:400;
             color: ${props=>props.theme.primary};
             font-size:3rem;
+            @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+             font-size:2rem;
+            }
         }
+        
     }
     .expanded-description{
         background-color:${({theme,expand})=>theme.offWhite};
@@ -229,7 +261,9 @@ const GridCell = styled.div`
         font-weight:400;
         color: ${props=>props.theme.primary};
         font-size:1.7rem;
-
+        @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+             font-size:1.2rem;
+            }
     }
 ` 
 
@@ -308,7 +342,22 @@ const LeftCell = styled(Cell)`
     h4 {
         margin:0px  auto auto 16px;
     }
-    
+    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
+
+
+        }
+    @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+        h1{
+        margin:4px  auto 4px 8px;
+        }
+        h3 {
+            margin:auto auto 0px 8px;
+        }
+        h4 {
+            margin:0px  auto auto 8px;
+        }
+
+    }
 
 `
 
@@ -324,6 +373,22 @@ const RightCell = styled(Cell)`
     h4 {
         margin:0px  16px auto auto;
     }
+    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
+
+
+    }
+    @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+    h1{
+        margin:4px  8px 4px auto;
+    }
+    h3 {
+        margin:auto 8px 0px auto;
+    }
+    h4 {
+        margin:0px  8px auto auto;
+    }
+
+}
     
 
 `
@@ -333,25 +398,22 @@ const IconCell = styled.div`
     display:flex;
 
     overflow:hidden;
+    font-size:${props=>props.expand===2?"7em":"4em"};
     svg{
         margin:auto;
+    }
+    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
+        
+
+        }
+    @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+        font-size:${props=>props.expand===2?"3em":"1.7em"};
+
     }
 `
 
 
 
-const ExplanationBoxSty = styled.div`
-
-    background:red;
-    height:0;
-    bottom:50px;
-    grid-column: 1/-1;
-    overflow:hidden;
-`
-
-// class ExplanationBox extends Component {
-
-// }
 
 class Grid extends Component {
     constructor(props){
@@ -402,7 +464,7 @@ class Grid extends Component {
                     
             
                     <IconCell key={`${feat}_icon_cell`} expand = {expand==="none"?1:expand===feat?2:0}>
-                        <FontAwesomeIcon icon={graphicSelector(feat)} size={expand===feat?"3x":"3x"} color = {theme.black} key={`cellicon_${feat}`}/>
+                        <FontAwesomeIcon icon={graphicSelector(feat)}  key={`cellicon_${feat}`}/>
                     </IconCell>
                     {
                         expand!==feat? (
@@ -437,7 +499,7 @@ class Grid extends Component {
                     chosen = {chosen===0?"chosen":"notChosen"}
                     onClick={()=>this.handleClick(0)}
                     >
-                        <FontAwesomeIcon icon="user" size="3x" color = {theme.black}/>
+                        <FontAwesomeIcon icon="user" className = "choice-icon" />
                         <p>Choose {names[0]}</p>
 
                 </ChoiceButton>
@@ -453,10 +515,10 @@ class Grid extends Component {
                     onClick={()=>this.handleClick(1)}
                     chosen = {chosen===1?"chosen":"notChosen"
                     }
-                    yo
+                    
                     >
 
-                        <FontAwesomeIcon icon="user" size="3x" color = {theme.black}/>
+                        <FontAwesomeIcon className = "choice-icon" icon="user"/>
                         <p>Choose {names[1]}</p>
 
                 </ChoiceButton>

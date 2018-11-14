@@ -64,6 +64,9 @@ const Logo = styled.h1`
             text-align:center;
             margin:auto;
         }
+        @media (max-width:${props=>props.theme.breakpoint.w[1]}) {
+            font-size: 1.5rem;
+        }
 `
 
 

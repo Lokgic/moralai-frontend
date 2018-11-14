@@ -4,7 +4,6 @@ import Header from './Header';
 import Meta from './Meta';
 
 
-
 export const theme = {
     blue: '#506174',
     serif:'Roboto Slab',
@@ -48,7 +47,6 @@ injectGlobal`
       }
 `
 
-
 const MainContainer = styled.div`
       display:grid;
       grid-template-columns: 450px 1fr;
@@ -60,7 +58,7 @@ const MainContainer = styled.div`
         grid-template-rows: 1fr 8fr;
     }
     @media (max-width:${theme.breakpoint.w[1]}){
-        grid-template-rows: 1fr 7fr;
+        grid-template-rows: .5fr 7fr;
     }
 
 `
