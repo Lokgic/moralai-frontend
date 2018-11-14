@@ -12,7 +12,7 @@ export const theme = {
     offWhite: '#EDEDED',
     darkblue:'rgb(96, 135, 150)',
     milky:'#f5f1e4',
-    lightbrown:"#dbd2c5",
+    secondaryDark:"#f59a12",
     contrast:"rgb(157, 23, 72)",
     primary:"#344955",
     primaryDark:"#232f34",
@@ -27,7 +27,6 @@ export const theme = {
         w:["1000px","600px"]
     }
   };
-
 
 injectGlobal`
     html {
@@ -49,19 +48,22 @@ injectGlobal`
       }
 `
 
+
 const MainContainer = styled.div`
-      display:flex;
-      flex-direction:row;
+      display:grid;
+      grid-template-columns: 450px 1fr;
+      height:100vh;
     @media (max-width:${theme.breakpoint.w[0]}){
-        flex-direction:column;
+        /* flex-direction:column; */
         height:100vh;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 8fr;
     }
     @media (max-width:${theme.breakpoint.w[1]}){
-        height:auto;
+        grid-template-rows: 1fr 7fr;
     }
 
 `
-
 class Page extends Component {
     constructor(props){
         super(props);

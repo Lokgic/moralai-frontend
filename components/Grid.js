@@ -134,45 +134,15 @@ const FlexContainer = styled.div `
     display:flex;
     flex-direction:column;
     @media (max-width:${props=>props.theme.breakpoint.w[0]}){
-        min-height:700px;
+        /* min-height:700px; */
         margin:0px 0px;
     }
     @media (max-width:${props=>props.theme.breakpoint.w[1]}){
-        min-height:700px;
-        height:100vh;
+        /* min-height:700px; */
+        /* height:100vh; */
         margin:0px 0px;
     }
 `   
-
-const GridContainer = styled.div`
-    display:grid;
-    grid-template-columns: 3fr 1fr 3fr;
-    /* grid-template-rows: ${props=>props.expanded?"1fr":"0px"};
-    grid-auto-rows: ${props=>props.expanded?"0px":"1fr"}; */
-    grid-auto-rows:1fr;
-    grid-auto-flow: row;
-    width:1fr;
-    flex-grow:1;
-    margin: 0 0;
-    grid-gap:0px;
-    /* border-style:solid;
-    border-color:${props=>props.theme.tertiaryDark}}; */
-    margin:20px 40px;
-    background-color:${props=>props.theme.tertiaryDark}};
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),
-                0 2px 2px 0 rgba(0,0,0,.14),
-                0 1px 5px 0 rgba(0,0,0,.12);
-
-    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
-        min-height:700px;
-        margin:0px 0px;
-    }
-    @media (max-width:${props=>props.theme.breakpoint.w[1]}){
-        /* height:100vh; */
-        /* grid-template-rows:  ${()=>"20% " + featuresKey.filter(d=>d!=="name").map(d=>`${80/featuresKey.length}%`).join(' ')} */
-    }
-
-`
 
 const BottomCell = styled.div`
     background-color:${props=>props.theme.grey};
@@ -285,17 +255,32 @@ const Cell = styled.div`
     h1{
         font-family: ${props=>props.theme.sans}; 
         text-transform:uppercase;
-        font-weight:400;
-        color: ${props=>props.theme.primary};
+        font-weight:500;
         font-size:3rem;
         line-height:3rem;
+        color:${props=>props.theme.secondaryDark};
+        @media (max-width:${props=>props.theme.breakpoint.w[0]}){
+            font-size:2.5rem;
+            line-height:2.5rem;
+        }
+        @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+            font-size:2.3rem;
+            line-height:2.3rem;
+        }
     }
     h3 {
         font-family: ${props=>props.theme.sans};
         font-weight:400;
         font-size:2rem;
         line-height:2rem;
-        /* line-height:3rem; */
+        @media (max-width:${props=>props.theme.breakpoint.w[0]}){
+            font-size:1.8rem;
+            line-height:1.8rem;
+        }
+        @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+            font-size:1.2rem;
+            line-height:1.2rem;
+        }
 
     }
     h4 {
@@ -417,7 +402,7 @@ class Grid extends Component {
                     
             
                     <IconCell key={`${feat}_icon_cell`} expand = {expand==="none"?1:expand===feat?2:0}>
-                        <FontAwesomeIcon icon={graphicSelector(feat)} size={expand===feat?"10x":"3x"} color = {theme.black} key={`cellicon_${feat}`}/>
+                        <FontAwesomeIcon icon={graphicSelector(feat)} size={expand===feat?"3x":"3x"} color = {theme.black} key={`cellicon_${feat}`}/>
                     </IconCell>
                     {
                         expand!==feat? (
