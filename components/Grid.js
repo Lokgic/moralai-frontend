@@ -251,6 +251,9 @@ const GridCell = styled.div`
     overflow:hidden;
     border-bottom:1px solid rgba(0,0,0,.12);
     cursor:pointer;
+    &:hover{
+        background: ${({theme,expand})=>theme.grey};
+    }
     .expanded-title {
         background-color:${({theme,expand})=>theme.offWhite};
         margin:0;
@@ -322,25 +325,34 @@ const Cell = styled.div`
     }
     h3 {
         font-family: ${props=>props.theme.sans};
-        font-weight:400;
-        font-size:2rem;
-        line-height:2rem;
+        font-weight:300;
+        font-size:1.4rem;
+        line-height:1.4rem;
+        color: #888;
         @media (max-width:${props=>props.theme.breakpoint.w[0]}){
-            font-size:1.8rem;
-            line-height:1.8rem;
+            font-size:1.2rem;
+            line-height:1rem;
         }
         @media (max-width:${props=>props.theme.breakpoint.w[1]}){
-            font-size:1.2rem;
-            line-height:1.2rem;
+            font-size:1rem;
+            line-height:1rem;
         }
 
     }
     h4 {
         font-family: ${props=>props.theme.sans};
         font-weight: 400;
-        font-size:1.4rem;
-        line-height:1.4rem;
-        color: #888;
+        font-size:2rem;
+        line-height:2rem;
+        color: ${({theme})=>theme.black};
+        @media (max-width:${props=>props.theme.breakpoint.w[0]}){
+            font-size:1.5rem;
+            line-height:1.5rem;
+        }
+        @media (max-width:${props=>props.theme.breakpoint.w[1]}){
+            font-size:1.4rem;
+            line-height:1.4rem;
+        }
 
     }
  
