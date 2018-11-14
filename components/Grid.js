@@ -182,8 +182,22 @@ const ChoiceButton = styled.div`
         font-size:65px;
         color: ${props=>props.theme.black};
     }
-    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
+    @media (max-height:${props=>props.theme.breakpoint.h[0]}){
+        p {
+            font-size: 1.2rem;
 
+            }
+            svg{
+
+            height:35px;
+
+
+
+            }
+            .choice-icon{
+            font-size:35px;
+
+            }
     }
     @media (max-width:${props=>props.theme.breakpoint.w[1]}){
         p {
@@ -216,6 +230,9 @@ const MsgButton = styled.div`
             @media(max-width:${props=>props.theme.breakpoint.w[1]}){
                 font-size:1.2rem;
             }
+            @media (max-height:${props=>props.theme.breakpoint.h[0]}){
+                font-size:1.2rem;
+            }   
         }
         &:hover {
                background: ${props=>props.theme.primaryLight};
@@ -273,8 +290,8 @@ const Cell = styled.div`
     flex-direction:column;
     align-content: center;
     align-items:center;
+    min-height:60px;
 
-    overflow:hidden;
     div {
         margin: auto auto auto 16px;
         height:82px;
@@ -325,9 +342,7 @@ const Cell = styled.div`
         color: #888;
 
     }
-    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
-        min-height:25px;
-    }
+ 
     
 `
 
@@ -342,10 +357,7 @@ const LeftCell = styled(Cell)`
     h4 {
         margin:0px  auto auto 16px;
     }
-    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
 
-
-        }
     @media (max-width:${props=>props.theme.breakpoint.w[1]}){
         h1{
         margin:4px  auto 4px 8px;
@@ -402,9 +414,8 @@ const IconCell = styled.div`
     svg{
         margin:auto;
     }
-    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
-        
-
+    @media (max-height:${props=>props.theme.breakpoint.h[0]}){
+        font-size:${props=>props.expand===2?"3em":"1.7em"};
         }
     @media (max-width:${props=>props.theme.breakpoint.w[1]}){
         font-size:${props=>props.expand===2?"3em":"1.7em"};

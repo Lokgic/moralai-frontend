@@ -23,7 +23,8 @@ export const theme = {
     tertiaryLight:"rgb(210, 235, 245)",
     black:"#202124",
     breakpoint:{
-        w:["1000px","600px"]
+        w:["1000px","600px"],
+        h:["700px"]
     }
   };
 
@@ -36,7 +37,7 @@ injectGlobal`
         box-sizing: inherit;
     }
     body {
-        min-height:800px;
+
         padding: 0;
         margin: 0;
         font-size: 1.5rem;
@@ -51,6 +52,7 @@ const MainContainer = styled.div`
       display:grid;
       grid-template-columns: 450px 1fr;
       height:100vh;
+      min-height:550px;
     @media (max-width:${theme.breakpoint.w[0]}){
         /* flex-direction:column; */
         height:100vh;
