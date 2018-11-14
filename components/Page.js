@@ -6,8 +6,7 @@ import Meta from './Meta';
 
 export const theme = {
     blue: '#506174',
-    serif:'Roboto Slab',
-    sans:'Open Sans',
+    sans:'Roboto',
     offWhite: '#EDEDED',
     darkblue:'rgb(96, 135, 150)',
     milky:'#f5f1e4',

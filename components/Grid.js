@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {theme} from './Page';
 import MockData from '../static/mock'
+import {FlexContainer} from './StyComps'
 
 
 const CF = props=>(
@@ -104,9 +105,9 @@ const MsgSelector = (chosen,names)=>{
     switch(chosen){
         case 0: 
         case 1:
-            return `You have chosen ${names[chosen]}: confirm?`;
+            return `You have chosen ${names[chosen]}.`;
         case 2:
-            return "The choice will be made by flipping a coin: confirm?"
+            return "The choice will be made by flipping a coin."
         default:
             return "who should get the kidney?";
             
@@ -124,25 +125,7 @@ const featuresDisplayName = {
 
 const featuresKey = Object.keys(featuresDisplayName)
 
-const FlexContainer = styled.div `
-    margin:20px 40px;
-    flex-grow:1;
-    background-color:${props=>props.theme.tertiaryDark}};
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),
-                0 2px 2px 0 rgba(0,0,0,.14),
-                0 1px 5px 0 rgba(0,0,0,.12);
-    display:flex;
-    flex-direction:column;
-    @media (max-width:${props=>props.theme.breakpoint.w[0]}){
-        /* min-height:700px; */
-        margin:0px 0px;
-    }
-    @media (max-width:${props=>props.theme.breakpoint.w[1]}){
-        /* min-height:700px; */
-        /* height:100vh; */
-        margin:0px 0px;
-    }
-`   
+
 
 const BottomCell = styled.div`
     background-color:${props=>props.theme.grey};
@@ -219,10 +202,11 @@ const ChoiceButton = styled.div`
     }
 `
 
-const MsgButton = styled.div`
-      grid-column: 1 / -1;
+const MsgBox = styled.div`
+        grid-column: 1 / -1;
         background-color:${props=>props.theme.primaryDark};
         display:flex;
+        justify-content:center;
         p{
             font-size:1.9rem;
             color: ${props=>props.theme.offWhite};
@@ -233,10 +217,27 @@ const MsgButton = styled.div`
             @media (max-height:${props=>props.theme.breakpoint.h[0]}){
                 font-size:1.2rem;
             }   
+            
         }
-        &:hover {
-               background: ${props=>props.theme.primaryLight};
-           }
+        button {
+            background:${({theme})=>theme.secondary};
+            border:none;
+            font-size:1.5em;
+            cursor:pointer;
+            display:${props=>props.chosen===-1? "none":"static"};
+            height:100%;
+            @media(max-width:${props=>props.theme.breakpoint.w[1]}){
+                font-size:1.2rem;
+            }
+            @media (max-height:${props=>props.theme.breakpoint.h[0]}){
+                font-size:1.2rem;
+            } 
+            &:hover{
+                color:${({theme})=>theme.secondary};
+                background:${({theme})=>theme.primaryDark};
+            }
+        }
+ 
 `
 
 const GridCell = styled.div`
@@ -306,7 +307,7 @@ const Cell = styled.div`
     h1{
         font-family: ${props=>props.theme.sans}; 
         text-transform:uppercase;
-        font-weight:500;
+        font-weight:700;
         font-size:3rem;
         line-height:3rem;
         color:${props=>props.theme.secondaryDark};
@@ -441,7 +442,7 @@ class Grid extends Component {
 
         const expand = el===this.state.expand? "none": el;
         this.setState({expand})
-        console.log(expand)
+    
         
     }
     handleClick(el){
@@ -462,7 +463,7 @@ class Grid extends Component {
             const key3 = `${feat}_M`;
             
             cells.push(
-                <GridCell onClick={()=>this.handleExpand(feat)} expand = {expand==="none"?1:expand===feat?2:0}>
+                <GridCell onClick={()=>this.handleExpand(feat)} expand = {expand==="none"?1:expand===feat?2:0} key={`${feat}_gridcell`}>
                     {
                         expand!==feat? (
                             <LeftCell key={`${key1}_cell`} >
@@ -498,14 +499,15 @@ class Grid extends Component {
  
             <FlexContainer>
                 {cells}
-            <BottomCell>
-                <MsgButton>
+            <BottomCell id="tour1">
+                <MsgBox chosen={chosen}>
                     <p>
                         {
                             MsgSelector(chosen,names)
                         }
                     </p>
-                </MsgButton>
+                    <button>confirm <FontAwesomeIcon  icon="check-circle"/></button>
+                </MsgBox>
                 <ChoiceButton 
                     chosen = {chosen===0?"chosen":"notChosen"}
                     onClick={()=>this.handleClick(0)}
@@ -534,6 +536,7 @@ class Grid extends Component {
 
                 </ChoiceButton>
             </BottomCell>
+ 
             </FlexContainer>
           
         );
