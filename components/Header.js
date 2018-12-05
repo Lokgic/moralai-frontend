@@ -60,7 +60,8 @@ const Logo = styled.h1`
         line-height:1.4;
         font-weight:700;
         @media (max-width:${props=>props.theme.breakpoint.w[0]}) {
-            font-size: 3rem;
+            font-size: 1.5rem;
+            line-height:1rem;
             text-align:center;
             margin:auto;
         }

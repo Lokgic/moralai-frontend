@@ -30,7 +30,7 @@ const expandTranslator = feature=>{
     }[feature]
 }
 
-const predicateTranslater = (feature,value)=>{
+export const predicateTranslater = (feature,value)=>{
     switch(feature){
         case "age": 
             return `years old`;
@@ -49,7 +49,7 @@ const predicateTranslater = (feature,value)=>{
 }
 
 
-const valueTranslater = (feature,value)=>{
+export const valueTranslater = (feature,value)=>{
     switch(feature){
         case "age": 
             return value;
@@ -83,7 +83,7 @@ const subjectTranslater = (feature,name)=>{
 }
 
 
-const graphicSelector = (feature)=>{
+export const graphicSelector = (feature)=>{
     switch(feature){
         case "age": 
             return `birthday-cake`;
@@ -105,9 +105,12 @@ const MsgSelector = (chosen,names)=>{
     switch(chosen){
         case 0: 
         case 1:
-            return `You have chosen ${names[chosen]}.`;
+            return `You have chosen ${names[chosen]}`;
         case 2:
-            return "The choice will be made by flipping a coin."
+            return "The choice will be made by flipping a coin"
+        case 3:
+        case 4:
+            return `Our AI predicts that you will choose ${names[chosen -3]}`;
         default:
             return "who should get the kidney?";
             
@@ -132,7 +135,7 @@ const BottomCell = styled.div`
     color:${props=>props.theme.offWhite};
     display:grid;
     grid-template-columns: repeat(3,1fr);
-    grid-template-rows:1fr 2fr;
+    grid-template-rows:1fr 1fr;
     overflow:hidden;
 
     /* height:250px; */
@@ -143,7 +146,7 @@ const ChoiceButton = styled.div`
 
     display:flex;
     flex-direction:column;
-    background: ${props=>props.chosen==="chosen"?props.theme.secondary:props.theme.offWhite};
+    background: ${props=>props.chosen==="chosen"||props.predicted==="predicted"?props.theme.secondary:props.theme.offWhite};
     padding-top:5px;
     &:hover {
             background: ${props=>props.theme.secondary};
@@ -151,12 +154,12 @@ const ChoiceButton = styled.div`
     p {
         text-align: center;
         color: ${props=>props.theme.black};
-        font-size: 2rem;
+        font-size: 1.3rem;
         margin:0 auto auto auto;
     }
     svg{
         margin:auto auto 0 auto;
-        height:65px;
+        height:30px;
         fill: ${props=>props.theme.black};
         
         
@@ -172,7 +175,7 @@ const ChoiceButton = styled.div`
             }
             svg{
 
-            height:35px;
+            height:20px;
 
 
 
@@ -190,7 +193,7 @@ const ChoiceButton = styled.div`
         }
         svg{
 
-            height:35px;
+            height:15px;
 
             
             
@@ -208,14 +211,14 @@ const MsgBox = styled.div`
         display:flex;
         justify-content:center;
         p{
-            font-size:1.9rem;
+            font-size:2rem;
             color: ${props=>props.theme.offWhite};
             margin:auto;
             @media(max-width:${props=>props.theme.breakpoint.w[1]}){
-                font-size:1.2rem;
+                font-size:1.5rem;
             }
             @media (max-height:${props=>props.theme.breakpoint.h[0]}){
-                font-size:1.2rem;
+                font-size:1.7rem;
             }   
             
         }
@@ -444,11 +447,12 @@ class Grid extends Component {
         super(props);
         this.state = {
             expand:"none",
-            chosen:-1,
+            chosen:-1
 
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleHover = this.handleExpand.bind(this);
+        this.handleConfirm = this.handleConfirm.bind(this);
     }
     handleExpand(el){
 
@@ -460,6 +464,10 @@ class Grid extends Component {
     handleClick(el){
         const chosen = el===this.state.chosen? -1: el;
             this.setState({chosen})
+
+    }
+    handleConfirm(el){
+            this.setState({chosen:3})
 
     }
     render() {
@@ -518,10 +526,11 @@ class Grid extends Component {
                             MsgSelector(chosen,names)
                         }
                     </p>
-                    <button>confirm <FontAwesomeIcon  icon="check-circle"/></button>
+                    <button onClick={()=>this.handleConfirm()}>confirm <FontAwesomeIcon  icon="check-circle"/></button>
                 </MsgBox>
                 <ChoiceButton 
                     chosen = {chosen===0?"chosen":"notChosen"}
+                    predicted = {chosen===3?"predicted":"notPredicted"}
                     onClick={()=>this.handleClick(0)}
                     >
                         <FontAwesomeIcon icon="user" className = "choice-icon" />
@@ -538,8 +547,8 @@ class Grid extends Component {
                     </ChoiceButton>
                 <ChoiceButton
                     onClick={()=>this.handleClick(1)}
-                    chosen = {chosen===1?"chosen":"notChosen"
-                    }
+                    chosen = {chosen===1?"chosen":"notChosen"}
+                    predicted = {chosen===4?"predicted":"notPredicted"}
                     
                     >
 

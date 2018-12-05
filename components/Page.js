@@ -56,10 +56,10 @@ const MainContainer = styled.div`
         /* flex-direction:column; */
         height:100vh;
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 8fr;
+        grid-template-rows: auto 9fr;
     }
     @media (max-width:${theme.breakpoint.w[1]}){
-        grid-template-rows: .5fr 7fr;
+        grid-template-rows: auto 7fr;
     }
 
 `
