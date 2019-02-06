@@ -1,0 +1,210 @@
+[
+  [
+    {
+      "age": 2,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 0,
+      "criminalRecord": 2,
+      "dependents": 2
+    },
+    {
+      "age": 2,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 2,
+      "dependents": 2
+    }
+  ],
+  [
+    {
+      "age": 2,
+      "additionalHealthIssues": 2,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 2,
+      "dependents": 2
+    },
+    {
+      "age": 2,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 2,
+      "dependents": 2
+    }
+  ],
+  [
+    {
+      "age": 1,
+      "additionalHealthIssues": 1,
+      "drinkingHabitPrediagnosis": 1,
+      "criminalRecord": 0,
+      "dependents": 1
+    },
+    {
+      "age": 1,
+      "additionalHealthIssues": 1,
+      "drinkingHabitPrediagnosis": 1,
+      "criminalRecord": 2,
+      "dependents": 1
+    }
+  ],
+  [
+    {
+      "age": 1,
+      "additionalHealthIssues": 1,
+      "drinkingHabitPrediagnosis": 1,
+      "criminalRecord": 1,
+      "dependents": 2
+    },
+    {
+      "age": 1,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 1,
+      "criminalRecord": 0,
+      "dependents": 2
+    }
+  ],
+  [
+    {
+      "age": 1,
+      "additionalHealthIssues": 2,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 1,
+      "dependents": 1
+    },
+    {
+      "age": 1,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 0,
+      "criminalRecord": 1,
+      "dependents": 1
+    }
+  ],
+  [
+    {
+      "age": 0,
+      "additionalHealthIssues": 1,
+      "drinkingHabitPrediagnosis": 1,
+      "criminalRecord": 2,
+      "dependents": 0
+    },
+    {
+      "age": 2,
+      "additionalHealthIssues": 1,
+      "drinkingHabitPrediagnosis": 1,
+      "criminalRecord": 0,
+      "dependents": 0
+    }
+  ],
+  [
+    {
+      "age": 1,
+      "additionalHealthIssues": 2,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 0,
+      "dependents": 0
+    },
+    {
+      "age": 1,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 0,
+      "criminalRecord": 2,
+      "dependents": 2
+    }
+  ],
+  [
+    {
+      "age": 1,
+      "additionalHealthIssues": 2,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 2,
+      "dependents": 2
+    },
+    {
+      "age": 1,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 0,
+      "criminalRecord": 2,
+      "dependents": 2
+    }
+  ],
+  [
+    {
+      "age": 0,
+      "additionalHealthIssues": 1,
+      "drinkingHabitPrediagnosis": 0,
+      "criminalRecord": 0,
+      "dependents": 0
+    },
+    {
+      "age": 0,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 0,
+      "criminalRecord": 1,
+      "dependents": 0
+    }
+  ],
+  [
+    {
+      "age": 2,
+      "additionalHealthIssues": 2,
+      "drinkingHabitPrediagnosis": 0,
+      "criminalRecord": 0,
+      "dependents": 2
+    },
+    {
+      "age": 0,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 2,
+      "dependents": 0
+    }
+  ],
+  [
+    {
+      "age": 0,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 0,
+      "criminalRecord": 0,
+      "dependents": 0
+    },
+    {
+      "age": 2,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 0,
+      "criminalRecord": 0,
+      "dependents": 2
+    }
+  ],
+  [
+    {
+      "age": 2,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 2,
+      "dependents": 0
+    },
+    {
+      "age": 2,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 2,
+      "dependents": 2
+    }
+  ],
+  [
+    {
+      "age": 1,
+      "additionalHealthIssues": 2,
+      "drinkingHabitPrediagnosis": 1,
+      "criminalRecord": 2,
+      "dependents": 1
+    },
+    {
+      "age": 1,
+      "additionalHealthIssues": 0,
+      "drinkingHabitPrediagnosis": 2,
+      "criminalRecord": 2,
+      "dependents": 0
+    }
+  ]
+]
