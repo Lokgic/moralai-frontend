@@ -222,7 +222,7 @@ export const expandTranslator = feature => {
     ],
     dependents: [
       "dependents",
-      "Sometimes a patient has someone depending on them - it could be a child or an elderly person such as a parent."
+      "Sometimes a patient has a child depending on them---does that make the patient more deserving of a kidney?"
     ]
   }[feature];
 };

@@ -8,7 +8,7 @@ import PairGen from "../components/PairGenerator";
 import queries from "../static/typedpairs";
 
 const introText =
-  "Who should get the kidney? You will be shown two patients, both in need the same kidney, and you get to decide who gets it. After a number of scenarios, you will see a summary of your judgements and how it compares to others";
+  "Who should get the kidney? You will be shown two patients, both in need the same kidney, and you get to decide who gets it. After a number of scenarios, you will see a summary of your judgements and your model in action.";
 
 class index extends Component {
   state = {
