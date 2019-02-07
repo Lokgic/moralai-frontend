@@ -122,8 +122,8 @@ export default class ModelRep extends Component {
           <WeightVizCard>
             <h2>Your Preference Model</h2>
             <p>
-              Our model has determined the following preferences best represent
-              your moral judgment based the decisions you have made so far.
+              Based the decisions you have made so far, our model has determined
+              that the following preferences best represent your moral judgment.
             </p>
             {propertyKeys.map((k, i) => (
               <WeightGrid
@@ -247,8 +247,8 @@ export default class ModelRep extends Component {
           <VizCard>
             <h2>Who has a chance?</h2>
             <p>
-              Find out if a type of patient has a good chance to get a kidney by
-              choosing a profile below
+              Find out how likely a type of patient will chosen given a kidney
+              by your model
             </p>
             {propertyKeys.map((k, i) => (
               <DropdownContainer key={`dropdown${k + i}`}>
