@@ -282,3 +282,14 @@ export const DoMoreCard = styled(VizCard)`
     background: ${props => props.theme.secondary};
   }
 `;
+
+export const IntroBox = styled(VizCard)`
+  margin: auto;
+  max-width: 600px;
+  cursor: pointer;
+  transition: all 0.5s;
+  padding: 100px 50px;
+  &:hover {
+    background: ${props => props.theme.secondary};
+  }
+`;

@@ -1,23 +1,18 @@
 import React, { Component } from "react";
 import Grid from "../components/Grid";
-import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IntroBox, FlexContainer } from "../components/styled/StyComps";
 // import Feedback from "../components/Feedback";
 import ModelRep from "../components/ModelRep";
 import PairGen from "../components/PairGenerator";
 import queries from "../static/typedpairs";
-const DecisionContainer = styled.div`
-  width: auto;
-  padding: 40px 40px 0px 80px;
-  flex-grow: 1;
-  @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
-    width: 100%;
-    padding: 20px 20px;
-  }
-`;
+
+const introText =
+  "Who should get the kidney? You will be shown two patients, both in need the same kidney, and you get to decide who gets it. After a number of scenarios, you will see a summary of your judgements and how it compares to others";
 
 class index extends Component {
   state = {
-    currentpage: "",
+    currentpage: "intro",
     data: null,
     nDecisions: 11,
     step: 5,
@@ -31,6 +26,9 @@ class index extends Component {
     const nDecisions = this.state.nDecisions + this.state.step;
     this.setState({ currentpage: "", nDecisions });
   };
+  start = () => {
+    this.setState({ currentpage: "" });
+  };
   render() {
     // console.log(da);
     const { pairMaker, responses } = this.state;
@@ -40,6 +38,15 @@ class index extends Component {
         data={{ pairMaker, responses }}
         moreDecisions={this.moreDecisions}
       />
+    ) : this.state.currentpage === "intro" ? (
+      <FlexContainer>
+        <IntroBox onClick={this.start}>
+          <p>{introText}</p>
+          <p>
+            <FontAwesomeIcon icon="chevron-down" size="4x" />
+          </p>
+        </IntroBox>
+      </FlexContainer>
     ) : (
       <Grid
         getFeedback={this.getFeedback}

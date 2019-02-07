@@ -16,10 +16,12 @@ import {
   faIdCard,
   faHandHoldingUsd,
   faUserCheck,
-  faUserTimes
+  faUserTimes,
+  faChevronDown
 } from "@fortawesome/free-solid-svg-icons";
 
 faLibrary.add(
+  faChevronDown,
   faAngleRight,
   faUser,
   faThumbsUp,

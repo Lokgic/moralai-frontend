@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { FlexContainer } from "./styled/StyComps";
-// import queries from "../static/typedpairs";
+
 import {
   featuresDisplayName,
   expandTranslator,

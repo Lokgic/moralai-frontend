@@ -112,15 +112,8 @@ export default class ModelRep extends Component {
     return (
       <FlexContainer style={{ height: "100vh" }}>
         <ScrollContainer>
-          <DoMoreCard onClick={this.props.moreDecisions}>
-            <p>
-              Not happy with your result? Continue training your model by making
-              more decisions.
-            </p>
-            <FontAwesomeIcon icon={"angle-right"} size="2x" />
-          </DoMoreCard>
           <WeightVizCard>
-            <h2>Your Preference Model</h2>
+            <h2>WE THINK YOU CARE ABOUT...</h2>
             <p>
               Based the decisions you have made so far, our model has determined
               that the following preferences best represent your moral judgment.
@@ -245,10 +238,10 @@ export default class ModelRep extends Component {
           </WeightVizCard>
 
           <VizCard>
-            <h2>Who has a chance?</h2>
+            <h2>WHAT WOULD THIS MEAN FOR A FRIEND WHO NEEDS A KIDNEY?</h2>
             <p>
-              Find out how likely a type of patient will be given a kidney by
-              your model
+              Use the options below to choose the characteristics that best
+              describe your friend.
             </p>
             {propertyKeys.map((k, i) => (
               <DropdownContainer key={`dropdown${k + i}`}>
@@ -319,7 +312,10 @@ export default class ModelRep extends Component {
                 ));
               })}
             </ChartContainer> */}
-            <p>Based on the model, a patient with the above profile will...</p>
+            <p>
+              If kidney exchanges incorporated what we know about your
+              preferences so far, your friend will...
+            </p>
             <FilteredVizGrid>
               {dis.map((d, i) => [
                 <FIcon key={"ficon" + d + i}>
@@ -391,6 +387,13 @@ export default class ModelRep extends Component {
               })}
             </FilteredVizGrid>
           </VizCard> */}
+          <DoMoreCard onClick={this.props.moreDecisions}>
+            <p>
+              Don't think we understand your preferences correctly? Continue
+              training your model by making more decisions!
+            </p>
+            <FontAwesomeIcon icon={"angle-right"} size="2x" />
+          </DoMoreCard>
         </ScrollContainer>
       </FlexContainer>
     );
