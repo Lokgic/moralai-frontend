@@ -247,8 +247,8 @@ export default class ModelRep extends Component {
           <VizCard>
             <h2>Who has a chance?</h2>
             <p>
-              Find out how likely a type of patient will chosen given a kidney
-              by your model
+              Find out how likely a type of patient will be given a kidney by
+              your model
             </p>
             {propertyKeys.map((k, i) => (
               <DropdownContainer key={`dropdown${k + i}`}>
@@ -342,26 +342,26 @@ export default class ModelRep extends Component {
                     }
                   </p>
                 </IText>,
-                <Spring
-                  from={{ a: 0, b: 0 }}
-                  to={{ a: d, b: 1000 - d }}
-                  key={"spring" + d + i}
-                >
-                  {({ a, b }) => (
-                    <Bar
-                      color={color[i]}
-                      data={[a, b]}
-                      landscape
-                      key={`filtered${+i + d}`}
-                    />
-                  )}
-                </Spring>,
-                // <Bar
-                //   color={color[i]}
-                //   data={[d, 1000 - d]}
-                //   landscape
-                //   key={`filtered${+i + d}`}
-                // />
+                // <Spring
+                //   from={{ a: 0, b: 0 }}
+                //   to={{ a: d, b: 1000 - d }}
+                //   key={"spring" + d + i}
+                // >
+                //   {({ a, b }) => (
+                //     <Bar
+                //       color={color[i]}
+                //       data={[a, b]}
+                //       landscape
+                //       key={`filtered${+i + d}`}
+                //     />
+                //   )}
+                // </Spring>,
+                <Bar
+                  color={color[i]}
+                  data={d / 10}
+                  landscape
+                  key={`filtered${+i + d}`}
+                />,
                 <Divider key={"div" + d + i} />
               ])}
             </FilteredVizGrid>

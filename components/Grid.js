@@ -35,7 +35,7 @@ const MsgSelector = (chosen, names) => {
     case 4:
       return `Our AI predicts that you will choose ${names[chosen - 3]}`;
     default:
-      return "who should get the kidney?";
+      return "Who should get the kidney?";
   }
 };
 
@@ -152,14 +152,23 @@ class Grid extends Component {
         <Progress
           len={[responses.length - baseline, target - responses.length]}
         >
-          <div className="left-progress" />
-          <div className="right-progress" />
+          <div
+            className="left-progress"
+            style={{
+              height: "100%",
+              width:
+                Math.round(
+                  ((responses.length - baseline) / (target - baseline)) * 100
+                ) + "%"
+            }}
+          />
+          {/* <div className="right-progress" /> */}
         </Progress>
         <BottomCell id="tour1">
           <MsgBox chosen={chosen}>
             <p>{MsgSelector(chosen, names)}</p>
             <button onClick={this.handleConfirm}>
-              confirm <FontAwesomeIcon icon="angle-right" />
+              Next <FontAwesomeIcon icon="angle-right" />
             </button>
           </MsgBox>
           <ChoiceButton

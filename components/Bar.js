@@ -4,15 +4,28 @@ import styled from "styled-components";
 import { Object } from "es6-shim";
 import { Spring, animated } from "react-spring";
 
+// const StackContainer = styled.div`
+//   transition: all 0.2s;
+//   display: grid;
+//   width: 100%;
+//   height: 100%;
+//   grid-template-columns: ${props =>
+//     props.landscape ? props.data.map(d => `${d}fr `) : "1fr"};
+//   grid-template-rows: ${props =>
+//     props.landscape ? "1fr" : props.data.map(d => `${d}fr `)};
+// `;
+
 const StackContainer = styled.div`
-  transition: all 0.2s;
-  display: grid;
+  /* display: grid; */
   width: 100%;
   height: 100%;
-  grid-template-columns: ${props =>
-    props.landscape ? props.data.map(d => `${d}fr `) : "1fr"};
-  grid-template-rows: ${props =>
-    props.landscape ? "1fr" : props.data.map(d => `${d}fr `)};
+`;
+
+const BarViz = styled.div`
+  width: ${props => props.len};
+  background: ${props => props.color};
+  height: 100%;
+  transition: width 0.2s;
 `;
 
 const Slice = styled.div`
@@ -56,7 +69,7 @@ class StackedBar extends Component {
     return keys.map(d => data[d]);
   }
   render() {
-    const { slices, keys } = this.state;
+    const { slices, keys, data } = this.state;
     const { landscape } = this.props;
     const color = landscape
       ? [this.props.color, "none"]
@@ -87,9 +100,21 @@ class StackedBar extends Component {
 
     return (
       <StackContainer data={slices} landscape={this.props.landscape}>
-        {slices.map((d, i) => (
+        {/* {slices.map((d, i) => (
           <Slice key={`slice_key_${keys[i]}`} color={color[i]} />
-        ))}
+        ))} */}
+        <Spring from={{ w: "0%" }} to={{ w: data + "%" }} native>
+          {({ w }) => (
+            <animated.div
+              style={{
+                height: "100%",
+                width: w,
+                background: this.props.color
+              }}
+            />
+          )}
+        </Spring>
+        {/* <BarViz len={data + "%"} color={this.props.color} /> */}
       </StackContainer>
     );
   }

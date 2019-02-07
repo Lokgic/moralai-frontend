@@ -17,11 +17,12 @@ export const BottomCell = styled.div`
 export const Progress = styled.div`
   width: 100%;
   height: 10px;
-  display: grid;
-  grid-template-columns: ${props => `${props.len[0]}fr ${props.len[1]}fr`};
+  /* display: grid;
+  grid-template-columns: ${props => `${props.len[0]}fr ${props.len[1]}fr`}; */
 
   .left-progress {
     background: ${props => props.theme.contrast};
+    transition: width 0.5s;
   }
   .right-progress {
     background: ${props => props.theme.milky};
