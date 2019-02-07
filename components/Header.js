@@ -15,8 +15,8 @@ const StyHeader = styled.header`
     flex-direction:column;
     p {
         font-family:${props => props.theme.sans};
-        font-size:2rem;
-        line-height:2.1rem;
+        font-size:1.4rem;
+        line-height:2.2rem;
         font-weight:300;
         text-transform:none;
         color:${props => props.theme.tertiary};
@@ -108,10 +108,14 @@ class Header extends Component {
         {SLogo}
 
         <p>
-          Who should get the kidney? You will be shown two patients, both in
-          need the same kidney, and you get to decide who gets it. After a
-          number of scenarios, you will see a summary of your judgements and how
-          it compares to others
+          In a kidney exchange, patients in need of a kidney transplant who have
+          a willing but medically incompatible donor can attempt to exchange
+          their donors. Determining the optimal way to match patients and donors
+          is a computationally challenging problem. Most commonly, exchanges try
+          to maximize the total number of transplants. Designing these policies
+          is a morally challenging and contentious process. To explore the moral
+          challenges posed by kidney exchange, the Moral AI project is asking
+          you what the priorities of kidney exchange should be.
         </p>
         <MenuLink href="http://moralai.cs.duke.edu/about.html" target="_blank">
           Duke Moral AI Group
