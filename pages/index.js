@@ -3,8 +3,8 @@ import Grid from "../components/Grid";
 import styled from "styled-components";
 // import Feedback from "../components/Feedback";
 import ModelRep from "../components/ModelRep";
-// import brain from "brain.js";
-
+import PairGen from "../components/PairGenerator";
+import queries from "../static/typedpairs";
 const DecisionContainer = styled.div`
   width: auto;
   padding: 40px 40px 0px 80px;
@@ -18,17 +18,35 @@ const DecisionContainer = styled.div`
 class index extends Component {
   state = {
     currentpage: "",
-    data: null
+    data: null,
+    nDecisions: 11,
+    step: 5,
+    pairMaker: new PairGen(queries, false),
+    responses: []
   };
   getFeedback = data => {
-    this.setState({ data, currentpage: "feedback" });
+    this.setState({ responses: data.responses, currentpage: "feedback" });
+  };
+  moreDecisions = () => {
+    const nDecisions = this.state.nDecisions + this.state.step;
+    this.setState({ currentpage: "", nDecisions });
   };
   render() {
     // console.log(da);
+    const { pairMaker, responses } = this.state;
+
     return this.state.currentpage === "feedback" ? (
-      <ModelRep data={this.state.data} />
+      <ModelRep
+        data={{ pairMaker, responses }}
+        moreDecisions={this.moreDecisions}
+      />
     ) : (
-      <Grid getFeedback={this.getFeedback} />
+      <Grid
+        getFeedback={this.getFeedback}
+        nDecisions={this.state.nDecisions}
+        responses={this.state.responses}
+        pairMaker={this.state.pairMaker}
+      />
     );
   }
 }

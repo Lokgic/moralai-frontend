@@ -7,8 +7,25 @@ export const BottomCell = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr 1fr;
   overflow: hidden;
+  /* min-height: 150px; */
+  height: 200px;
+  @media (max-height: ${props => props.theme.breakpoint.h[0]}) {
+    height: auto;
+  }
+`;
 
-  /* height:250px; */
+export const Progress = styled.div`
+  width: 100%;
+  height: 10px;
+  display: grid;
+  grid-template-columns: ${props => `${props.len[0]}fr ${props.len[1]}fr`};
+
+  .left-progress {
+    background: ${props => props.theme.contrast};
+  }
+  .right-progress {
+    background: ${props => props.theme.milky};
+  }
 `;
 
 export const ChoiceButton = styled.div`
@@ -30,7 +47,7 @@ export const ChoiceButton = styled.div`
   }
   svg {
     margin: auto auto 0 auto;
-    height: 30px;
+    height: 55px;
     fill: ${props => props.theme.black};
   }
   .choice-icon {
@@ -42,7 +59,7 @@ export const ChoiceButton = styled.div`
       font-size: 1.2rem;
     }
     svg {
-      height: 20px;
+      height: 30px;
     }
     .choice-icon {
       font-size: 35px;
@@ -66,8 +83,9 @@ export const MsgBox = styled.div`
   background-color: ${props => props.theme.primaryDark};
   display: flex;
   justify-content: center;
+
   p {
-    font-size: 2rem;
+    font-size: 2.7rem;
     color: ${props => props.theme.offWhite};
     margin: auto;
     @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
@@ -77,13 +95,15 @@ export const MsgBox = styled.div`
       font-size: 1.7rem;
     }
   }
+
   button {
-    background: ${({ theme }) => theme.secondary};
+    background: ${({ theme }) => theme.primaryDark};
     border: none;
     font-size: 1.5em;
     cursor: pointer;
     display: ${props => (props.chosen === -1 ? "none" : "static")};
     height: 100%;
+    color: white;
     @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
       font-size: 1.2rem;
     }
@@ -91,8 +111,8 @@ export const MsgBox = styled.div`
       font-size: 1.2rem;
     }
     &:hover {
-      color: ${({ theme }) => theme.secondary};
-      background: ${({ theme }) => theme.primaryDark};
+      color: ${({ theme }) => theme.primaryDark};
+      background: ${({ theme }) => theme.secondary};
     }
   }
 `;

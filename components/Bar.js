@@ -57,7 +57,8 @@ class StackedBar extends Component {
   }
   render() {
     const { slices, keys } = this.state;
-    const color = this.props.landscape
+    const { landscape } = this.props;
+    const color = landscape
       ? [this.props.color, "none"]
       : ["none", this.props.color];
 
@@ -83,6 +84,7 @@ class StackedBar extends Component {
     //     }}
     //   </Spring>
     // );
+
     return (
       <StackContainer data={slices} landscape={this.props.landscape}>
         {slices.map((d, i) => (

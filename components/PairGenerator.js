@@ -56,12 +56,20 @@ class PairGen {
     this.history = [];
   }
   getNew() {
+    // if (this.customQ.length <= 0) {
+    //   const newPair = [new Person(), new Person()]
+    //   this.history.push(newPair);
+    // return newPair
+    // }
     if (this.random === false && this.customQ.length > 0) {
       const currentArray = this.customQ.shift();
       this.history.push([currentArray[0], currentArray[1]]);
       return this.history[this.history.length - 1];
-    } else this.history.push([new Person(), new Person()]);
-    return this.random ? [new Person(), new Person()] : null;
+    } else {
+      const newPair = [new Person(), new Person()];
+      this.history.push(newPair);
+      return newPair;
+    }
   }
   getRandomSamples(n = 100) {
     const out = [];
@@ -141,41 +149,56 @@ export class StatMaker {
     }
     return stat;
   }
+  getWeightBreakDown(key = "age") {
+    const stat = this.getFilteredStat(key);
+    const sum = stat.reduce((sum, d) => sum + d, 0) || 1;
+    return stat.map(d => Math.round((d / sum) * 100));
+  }
 
-  getDistribution() {
+  getDistribution(mode = "cat") {
     const { one, many } = this;
-    const dist = [
-      {
-        age: 0,
-        drinkingHabitPrediagnosis: 0,
-        additionalHealthIssues: 0,
-        criminalRecord: 0,
-        dependents: 0
-      },
-      {
-        age: 0,
-        drinkingHabitPrediagnosis: 0,
-        additionalHealthIssues: 0,
-        criminalRecord: 0,
-        dependents: 0
-      },
-      {
-        age: 0,
-        drinkingHabitPrediagnosis: 0,
-        additionalHealthIssues: 0,
-        criminalRecord: 0,
-        dependents: 0
-      }
-    ];
+    if (mode === "cat") {
+      const dist = [
+        {
+          age: 0,
+          drinkingHabitPrediagnosis: 0,
+          additionalHealthIssues: 0,
+          criminalRecord: 0,
+          dependents: 0
+        },
+        {
+          age: 0,
+          drinkingHabitPrediagnosis: 0,
+          additionalHealthIssues: 0,
+          criminalRecord: 0,
+          dependents: 0
+        },
+        {
+          age: 0,
+          drinkingHabitPrediagnosis: 0,
+          additionalHealthIssues: 0,
+          criminalRecord: 0,
+          dependents: 0
+        }
+      ];
 
-    for (let i in many) {
-      const { prediction, properties } = many[i];
-      const keys = Object.keys(one);
-      for (let k of keys) {
-        if (properties[k] > one[k]) dist[prediction][k] += 1;
+      for (let i in many) {
+        const { prediction, properties } = many[i];
+        const keys = Object.keys(one);
+        for (let k of keys) {
+          if (properties[k] > one[k]) dist[prediction][k] += 1;
+        }
       }
+      return dist;
+    } else {
+      const dist = [0, 0, 0];
+      for (let i in many) {
+        const { prediction, properties } = many[i];
+
+        dist[prediction] += 1;
+      }
+      return dist;
     }
-    return dist;
   }
 }
 
@@ -241,15 +264,33 @@ export const valueTranslater = (feature, value) => {
 export const valueTranslaterComplete = (feature, value) => {
   switch (feature) {
     case "age":
-      return [18, 32, 55, 75, 90][value];
+      return [
+        "18 years old",
+        "32 years old",
+        "55 years old",
+        "75 years old",
+        "90 years old"
+      ][value];
     case "additionalHealthIssues":
-      return ["none", "mild", "severe"][value];
+      return [
+        "no additional health issues",
+        "mild additional health issues",
+        "severe additional health issues"
+      ][value];
     case "drinkingHabitPrediagnosis":
-      return ["none", "moderate", "serious"][value];
+      return [
+        "no drinking habit",
+        "moderate drinking habit",
+        "serious drinking habit"
+      ][value];
     case "criminalRecord":
-      return ["no", "non-violent crime", "violent crime"][value];
+      return [
+        "no criminal record",
+        "non-violent criminal record",
+        "violent criminal record"
+      ][value];
     case "dependents":
-      return ["none", 1, 2][value];
+      return ["no dependents", "1 dependent", "two dependents"][value];
     default:
       return feature;
   }

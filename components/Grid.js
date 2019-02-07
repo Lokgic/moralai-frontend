@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import styled, { consolidateStreamedStyles } from "styled-components";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { theme } from "./Page";
+
 import { FlexContainer } from "./styled/StyComps";
-import queries from "../static/typedpairs";
-import PairGen, {
+// import queries from "../static/typedpairs";
+import {
   featuresDisplayName,
   expandTranslator,
   predicateTranslater,
@@ -20,7 +20,8 @@ import {
   RightCell,
   LeftCell,
   GridCell,
-  ChoiceButton
+  ChoiceButton,
+  Progress
 } from "./styled/GridSty";
 
 const MsgSelector = (chosen, names) => {
@@ -28,8 +29,8 @@ const MsgSelector = (chosen, names) => {
     case 0:
     case 1:
       return `You have chosen ${names[chosen]}`;
-    case 2:
-      return "The choice will be made by flipping a coin";
+    case 0.5:
+      return "Flip a coin!";
     case 3:
     case 4:
       return `Our AI predicts that you will choose ${names[chosen - 3]}`;
@@ -47,14 +48,18 @@ class Grid extends Component {
       expand: "none",
       chosen: -1
     };
-    const pairMaker = new PairGen(queries, false);
-
+    // const pairMaker = new PairGen(queries, false);
+    const { pairMaker, responses, nDecisions } = props;
+    const baseline = responses.length;
     this.state = {
       ...this.clean,
       // queries: [],
-      responses: [],
-      pair: pairMaker.getNew()
+      responses,
+      pair: pairMaker.getNew(),
+      target: nDecisions,
+      baseline
     };
+
     this.pairMaker = pairMaker;
     this.handleClick = this.handleClick.bind(this);
     this.handleHover = this.handleExpand.bind(this);
@@ -69,8 +74,9 @@ class Grid extends Component {
     this.setState({ chosen });
   }
   handleConfirm(el) {
+    const { target } = this.state;
     const responses = [...this.state.responses, this.state.chosen];
-    if (responses.length >= 5) {
+    if (responses.length === target) {
       this.props.getFeedback({ pairMaker: this.pairMaker, responses });
     } else {
       const pair = this.pairMaker.getNew();
@@ -84,8 +90,8 @@ class Grid extends Component {
   }
   render() {
     const names = ["Patient A", "Patient B"];
-    const { setHeaderState } = this.props;
-    const { chosen, expand } = this.state;
+
+    const { chosen, expand, responses, target, baseline } = this.state;
 
     const pair = [this.state.pair[0].properties, this.state.pair[1].properties];
     let cells = [];
@@ -143,11 +149,17 @@ class Grid extends Component {
     return (
       <FlexContainer>
         {cells}
+        <Progress
+          len={[responses.length - baseline, target - responses.length]}
+        >
+          <div className="left-progress" />
+          <div className="right-progress" />
+        </Progress>
         <BottomCell id="tour1">
           <MsgBox chosen={chosen}>
             <p>{MsgSelector(chosen, names)}</p>
             <button onClick={this.handleConfirm}>
-              confirm <FontAwesomeIcon icon="check-circle" />
+              confirm <FontAwesomeIcon icon="angle-right" />
             </button>
           </MsgBox>
           <ChoiceButton
@@ -159,7 +171,7 @@ class Grid extends Component {
             <p>Choose {names[0]}</p>
           </ChoiceButton>
           <ChoiceButton
-            chosen={chosen === 2 ? "chosen" : "notChosen"}
+            chosen={chosen === 0.5 ? "chosen" : "notChosen"}
             onClick={() => this.handleClick(0.5)}
           >
             <CF />
