@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IntroBox, FlexContainer } from "../components/styled/StyComps";
 // import Feedback from "../components/Feedback";
 import ModelRep from "../components/ModelRep";
-import PairGen from "../components/PairGenerator";
+import PairGen, { featuresDisplayName } from "../components/PairGenerator";
 import queries from "../static/typedpairs";
 import { v1 } from "uuid";
+import { shuffle } from "d3";
 
-console.log(process.env.NODE_ENV);
 const introText =
   "Who should get the kidney? You will be shown two patients, both in need of the same kidney, and you get to decide who gets it. After a number of scenarios, you will see how a model will make decisions based on your inputs.";
 
@@ -20,7 +20,8 @@ class index extends Component {
     step: 5,
     pairMaker: new PairGen(queries, false),
     responses: [],
-    userId: v1()
+    userId: v1(),
+    featuresKey: shuffle(Object.keys(featuresDisplayName))
   };
   getFeedback = data => {
     this.setState({ responses: data.responses, currentpage: "feedback" });
@@ -33,9 +34,8 @@ class index extends Component {
     this.setState({ currentpage: "" });
   };
   render() {
-    // console.log(da);
     const { pairMaker, responses } = this.state;
-    console.log(this.state);
+
     return this.state.currentpage === "feedback" ? (
       <ModelRep
         data={{ pairMaker, responses }}
@@ -52,6 +52,7 @@ class index extends Component {
       </FlexContainer>
     ) : (
       <Grid
+        featuresKey={this.state.featuresKey}
         userId={this.state.userId}
         getFeedback={this.getFeedback}
         nDecisions={this.state.nDecisions}

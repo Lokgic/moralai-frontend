@@ -115,8 +115,9 @@ export default class ModelRep extends Component {
           <WeightVizCard>
             <h2>WE THINK YOU CARE ABOUT...</h2>
             <p>
-              Based the decisions you have made so far, our model has determined
-              that the following preferences best represent your moral judgment.
+              Based on the decisions you have made so far, our model has
+              determined that these are your moral preferences for kidney
+              exchanges.
             </p>
             {propertyKeys.map((k, i) => (
               <WeightGrid

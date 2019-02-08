@@ -79,6 +79,18 @@ class Grid extends Component {
     const chosen = el === this.state.chosen ? -1 : el;
     this.setState({ chosen });
   }
+  sendPayload = async pl => {
+    const rawResponse = await fetch(postURL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(pl)
+    });
+    const content = await rawResponse;
+    console.log(content);
+  };
   handleConfirm(el) {
     const { target, chosen, timeStamp, pair } = this.state;
     const responses = [...this.state.responses, this.state.chosen];
@@ -102,27 +114,12 @@ class Grid extends Component {
       trialId: 0
     };
 
-    const doit = async pl => {
-      const rawResponse = await fetch(postURL, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(pl)
-      });
-      const content = await rawResponse;
-
-      console.log(content);
-    };
-
     for (let i = 0; i < order.length; i++) {
       for (let j = 0; j < featureOrder.length; j++) {
         payload[`${order[i]}_${j + 1}`] = pair[i].properties[featureOrder[j]];
       }
     }
-    doit(payload);
-    console.log(JSON.stringify(payload));
+    this.sendPayload(payload);
     if (responses.length === target) {
       this.props.getFeedback({ pairMaker: this.pairMaker, responses });
     } else {
@@ -138,9 +135,9 @@ class Grid extends Component {
   }
   render() {
     const names = ["Patient A", "Patient B"];
-
+    const featuresKey = this.props.featuresKey;
     const { chosen, expand, responses, target, baseline } = this.state;
-    console.log(this.state);
+
     const pair = [this.state.pair[0].properties, this.state.pair[1].properties];
     let cells = [];
     for (let feat of featuresKey) {
