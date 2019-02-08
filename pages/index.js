@@ -6,7 +6,9 @@ import { IntroBox, FlexContainer } from "../components/styled/StyComps";
 import ModelRep from "../components/ModelRep";
 import PairGen from "../components/PairGenerator";
 import queries from "../static/typedpairs";
+import { v1 } from "uuid";
 
+console.log(process.env.NODE_ENV);
 const introText =
   "Who should get the kidney? You will be shown two patients, both in need of the same kidney, and you get to decide who gets it. After a number of scenarios, you will see how a model will make decisions based on your inputs.";
 
@@ -17,7 +19,8 @@ class index extends Component {
     nDecisions: 11,
     step: 5,
     pairMaker: new PairGen(queries, false),
-    responses: []
+    responses: [],
+    userId: v1()
   };
   getFeedback = data => {
     this.setState({ responses: data.responses, currentpage: "feedback" });
@@ -32,7 +35,7 @@ class index extends Component {
   render() {
     // console.log(da);
     const { pairMaker, responses } = this.state;
-
+    console.log(this.state);
     return this.state.currentpage === "feedback" ? (
       <ModelRep
         data={{ pairMaker, responses }}
@@ -49,6 +52,7 @@ class index extends Component {
       </FlexContainer>
     ) : (
       <Grid
+        userId={this.state.userId}
         getFeedback={this.getFeedback}
         nDecisions={this.state.nDecisions}
         responses={this.state.responses}
