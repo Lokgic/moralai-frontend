@@ -16,7 +16,7 @@ class index extends Component {
   state = {
     currentpage: "intro",
     data: null,
-    nDecisions: 11,
+    nDecisions: 15,
     step: 5,
     pairMaker: new PairGen(queries, false),
     responses: [],
