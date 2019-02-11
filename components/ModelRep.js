@@ -16,11 +16,9 @@ import {
   FlexContainer,
   ScrollContainer,
   VizCard,
-  ChartContainer,
   FilteredVizGrid,
-  ChartControl,
   DropdownContainer,
-  FVizCard,
+  CallForAction,
   FIcon,
   IText,
   WeightGrid,
@@ -393,7 +391,7 @@ export default class ModelRep extends Component {
               Don't think we understand your preferences correctly? Continue
               training your model by making more decisions!
             </p>
-            <FontAwesomeIcon icon={"angle-right"} size="2x" />
+            <CallForAction>Continue</CallForAction>
           </DoMoreCard>
         </ScrollContainer>
       </FlexContainer>

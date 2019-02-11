@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { FlexContainer } from "./styled/StyComps";
+import { FlexContainer, CallForAction } from "./styled/StyComps";
 
 import {
   featuresDisplayName,
@@ -212,9 +212,9 @@ class Grid extends Component {
         <BottomCell id="tour1">
           <MsgBox chosen={chosen}>
             <p>{MsgSelector(chosen, names)}</p>
-            <button onClick={this.handleConfirm}>
+            <CallForAction onClick={this.handleConfirm}>
               Next <FontAwesomeIcon icon="angle-right" />
-            </button>
+            </CallForAction>
           </MsgBox>
           <ChoiceButton
             chosen={chosen === 0 ? "chosen" : "notChosen"}

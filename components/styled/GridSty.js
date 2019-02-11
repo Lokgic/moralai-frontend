@@ -98,23 +98,24 @@ export const MsgBox = styled.div`
   }
 
   button {
-    background: ${({ theme }) => theme.primaryDark};
-    border: none;
+    /* background: ${({ theme }) => theme.primaryDark}; */
+    /* border: none; */
     font-size: 1.5em;
     cursor: pointer;
     display: ${props => (props.chosen === -1 ? "none" : "static")};
-    height: 100%;
-    color: white;
+    /* height: 100%;
+    color: white; */
+    margin:auto 5% auto auto;
     @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
       font-size: 1.2rem;
     }
     @media (max-height: ${props => props.theme.breakpoint.h[0]}) {
       font-size: 1.2rem;
     }
-    &:hover {
+    /* &:hover {
       color: ${({ theme }) => theme.primaryDark};
       background: ${({ theme }) => theme.secondary};
-    }
+    } */
   }
 `;
 

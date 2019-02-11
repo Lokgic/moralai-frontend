@@ -270,6 +270,8 @@ export const IText = styled.div`
 export const DoMoreCard = styled(VizCard)`
   display: flex;
   cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 15px 2px;
+  padding: 50px 20px;
   p {
     margin: auto;
     text-align: center;
@@ -279,7 +281,8 @@ export const DoMoreCard = styled(VizCard)`
   }
 
   &:hover {
-    background: ${props => props.theme.secondary};
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+      0 3px 1px -2px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -289,7 +292,28 @@ export const IntroBox = styled(VizCard)`
   cursor: pointer;
   transition: all 0.5s;
   padding: 100px 50px;
+
   &:hover {
-    background: ${props => props.theme.secondary};
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+export const CallForAction = styled.button`
+  width: fit-content;
+  height: fit-content;
+  color: white;
+  text-transform: uppercase;
+  padding: 15px 22px;
+  border-radius: 999em;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  vertical-align: middle;
+  background: ${props => props.theme.sharpContrast};
+  &:hover {
+    background: ${props => props.theme.contrast};
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+      0 3px 1px -2px rgba(0, 0, 0, 0.2);
   }
 `;

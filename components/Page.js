@@ -13,7 +13,7 @@ export const theme = {
   milky: "#f5f1e4",
   secondaryDark: "#f59a12",
   contrast: "rgb(157, 23, 72)",
-  sharpContrast: "rgb(221, 35, 35)",
+  sharpContrast: "rgb(255, 51, 102)",
   primary: "#344955",
   primaryDark: "#232f34",
   primaryLight: "#4a6572",
