@@ -109,13 +109,12 @@ class Header extends Component {
 
         <p>
           In a kidney exchange, patients in need of a kidney transplant who have
-          a willing but medically incompatible donor can attempt to exchange
-          their donors. Determining the optimal way to match patients and donors
-          is a computationally challenging problem. Most commonly, exchanges try
-          to maximize the total number of transplants. Designing these policies
-          is a morally challenging and contentious process. To explore the moral
-          challenges posed by kidney exchange, the Moral AI project is asking
-          you what the priorities of kidney exchange should be.
+          a willing but medically incompatible donor can attempt to swap, or
+          exchange, their donors with other patients who also have a medically
+          incompatible donor. Determining the optimal way to make these donor
+          exchanges is a computationally challenging problem. In addition,
+          kidney exchanges may bring up moral issues. Please help us determine
+          what the moral priorities of kidney exchanges should be.
         </p>
         <MenuLink href="http://moralai.cs.duke.edu/about.html" target="_blank">
           Duke Moral AI Group
