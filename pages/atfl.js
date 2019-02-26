@@ -23,7 +23,7 @@ class index extends Component {
     responses: [],
     userId: "atfl_" + v1(),
     featuresKey: shuffle(Object.keys(featuresDisplayName)),
-    trialId: "atfl"
+    trialId: "122019"
   };
   getFeedback = data => {
     this.setState({ responses: data.responses, currentpage: "code" });
