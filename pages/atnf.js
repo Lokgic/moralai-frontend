@@ -20,12 +20,12 @@ class index extends Component {
     step: 5,
     pairMaker: new PairGen(queries, false),
     responses: [],
-    userId: v1(),
+    userId: "atnf_" + v1(),
     featuresKey: shuffle(Object.keys(featuresDisplayName)),
-    trialId: 0
+    trialId: "atnf"
   };
   getFeedback = data => {
-    this.setState({ responses: data.responses, currentpage: "feedback" });
+    this.setState({ responses: data.responses, currentpage: "code" });
   };
   moreDecisions = () => {
     const nDecisions = this.state.nDecisions + this.state.step;
@@ -37,11 +37,15 @@ class index extends Component {
   render() {
     const { pairMaker, responses } = this.state;
 
-    return this.state.currentpage === "feedback" ? (
-      <ModelRep
-        data={{ pairMaker, responses }}
-        moreDecisions={this.moreDecisions}
-      />
+    return this.state.currentpage === "code" ? (
+      <FlexContainer>
+        <IntroBox style={{ cursor: "auto" }}>
+          <h4>code 1:</h4>
+          <p>{this.state.userId}</p>
+          <h4>code 2:</h4>
+          <p>{this.state.responses.map(d => d + "-")}</p>
+        </IntroBox>
+      </FlexContainer>
     ) : this.state.currentpage === "intro" ? (
       <FlexContainer>
         <IntroBox onClick={this.start}>
@@ -59,6 +63,7 @@ class index extends Component {
         nDecisions={this.state.nDecisions}
         responses={this.state.responses}
         pairMaker={this.state.pairMaker}
+        disableFlip={true}
         trialId={this.state.trialId}
       />
     );

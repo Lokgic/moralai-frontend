@@ -93,6 +93,7 @@ class Grid extends Component {
   };
   handleConfirm(el) {
     const { target, chosen, timeStamp, pair } = this.state;
+    const { trialId, userId } = this.props;
     const responses = [...this.state.responses, this.state.chosen];
     const order = ["left", "right"];
     const featureOrder = [
@@ -105,15 +106,14 @@ class Grid extends Component {
 
     const newTS = Date.now();
     const payload = {
-      userId: this.props.userId,
+      userId,
       decision: chosen,
       start: timeStamp,
       end: newTS,
       delay: newTS - timeStamp,
       decisionRank: responses.length,
-      trialId: 0
+      trialId
     };
-
     for (let i = 0; i < order.length; i++) {
       for (let j = 0; j < featureOrder.length; j++) {
         payload[`${order[i]}_${j + 1}`] = pair[i].properties[featureOrder[j]];
@@ -121,7 +121,14 @@ class Grid extends Component {
     }
     this.sendPayload(payload);
     if (responses.length === target) {
-      this.props.getFeedback({ pairMaker: this.pairMaker, responses });
+      switch (trialId) {
+        case "atfl":
+        case "atnf":
+          this.props.getFeedback({ pairMaker: this.pairMaker, responses });
+          break;
+        default:
+          this.props.getFeedback({ pairMaker: this.pairMaker, responses });
+      }
     } else {
       const pair = this.pairMaker.getNew();
       this.setState({
@@ -224,13 +231,18 @@ class Grid extends Component {
             <FontAwesomeIcon icon="user" className="choice-icon" />
             <p>Choose {names[0]}</p>
           </ChoiceButton>
-          <ChoiceButton
-            chosen={chosen === 0.5 ? "chosen" : "notChosen"}
-            onClick={() => this.handleClick(0.5)}
-          >
-            <CF />
-            <p>Flip a coin</p>
-          </ChoiceButton>
+          {this.props.disableFlip ? (
+            <div />
+          ) : (
+            <ChoiceButton
+              chosen={chosen === 0.5 ? "chosen" : "notChosen"}
+              onClick={() => this.handleClick(0.5)}
+            >
+              <CF />
+              <p>Flip a coin</p>
+            </ChoiceButton>
+          )}
+
           <ChoiceButton
             onClick={() => this.handleClick(1)}
             chosen={chosen === 1 ? "chosen" : "notChosen"}
