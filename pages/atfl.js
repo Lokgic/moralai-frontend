@@ -11,7 +11,7 @@ import { shuffle } from "d3";
 import { noAuto } from "@fortawesome/fontawesome-svg-core";
 
 const introText =
-  "Who should get the kidney? You will be shown two patients, both in need of the same kidney, and you get to decide who gets it. After a number of scenarios, you will see how a model will make decisions based on your inputs.";
+  "Who should get the kidney? You will be shown two patients, both in need of the same kidney, and you get to decide who gets it. ";
 
 class index extends Component {
   state = {
