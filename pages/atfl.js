@@ -49,6 +49,7 @@ class index extends Component {
     ) : this.state.currentpage === "intro" ? (
       <FlexContainer>
         <IntroBox onClick={this.start}>
+          <h2>Mturk Study: Who Gets the Kidney Coin Flip</h2>
           <p>{introText}</p>
           <p>
             <FontAwesomeIcon icon="chevron-down" size="4x" />
