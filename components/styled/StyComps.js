@@ -12,6 +12,8 @@ export const FlexContainer = styled.div`
     0 1px 5px 0 rgba(0, 0, 0, 0.12); */
   display: flex;
   flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
   @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
     /* min-height:700px; */
     margin: 0px 0px;

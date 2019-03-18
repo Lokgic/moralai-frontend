@@ -290,7 +290,7 @@ export const valueTranslaterComplete = (feature, value) => {
         "violent criminal record"
       ][value];
     case "dependents":
-      return ["no dependents", "1 dependent", "two dependents"][value];
+      return ["0 dependents", "1 dependent", "2 dependents"][value];
     default:
       return feature;
   }

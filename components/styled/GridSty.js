@@ -132,6 +132,7 @@ export const GridCell = styled.div`
   overflow: hidden;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   cursor: pointer;
+
   &:hover {
     background: ${({ theme, expand }) => theme.grey};
   }

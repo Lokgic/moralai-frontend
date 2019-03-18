@@ -5,6 +5,7 @@ import { IntroBox, FlexContainer } from "../components/styled/StyComps";
 // import Feedback from "../components/Feedback";
 import ModelRep from "../components/ModelRep";
 import PairGen, { featuresDisplayName } from "../components/PairGenerator";
+import Intro from "../components/Intro";
 import queries from "../static/typedpairs";
 import { v1 } from "uuid";
 import { shuffle } from "d3";
@@ -43,14 +44,15 @@ class index extends Component {
         moreDecisions={this.moreDecisions}
       />
     ) : this.state.currentpage === "intro" ? (
-      <FlexContainer>
-        <IntroBox onClick={this.start}>
-          <p>{introText}</p>
-          <p>
-            <FontAwesomeIcon icon="chevron-down" size="4x" />
-          </p>
-        </IntroBox>
-      </FlexContainer>
+      // <FlexContainer>
+      //   <IntroBox onClick={this.start}>
+      //     <p>{introText}</p>
+      //     <p>
+      //       <FontAwesomeIcon icon="chevron-down" size="4x" />
+      //     </p>
+      //   </IntroBox>
+      // </FlexContainer>
+      <Intro startDecision={this.start} />
     ) : (
       <Grid
         featuresKey={this.state.featuresKey}

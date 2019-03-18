@@ -3,70 +3,50 @@ import styled from "styled-components";
 import { Transition } from "react-spring";
 
 const StyHeader = styled.header`
-    padding:4rem 4rem 1rem 4rem;
-    background:${props => props.theme.primary};
-    color:${props => props.theme.milky};
-    margin: 0 0;
+  padding: 4rem 4rem 1rem 4rem;
+  background: ${props => props.theme.primary};
+  color: ${props => props.theme.milky};
+  margin: 0 0;
 
-    text-transform:uppercase;
+  text-transform: uppercase;
 
-    padding: 20px 20px;
-    display:flex;
-    flex-direction:column;
-    p {
-        font-family:${props => props.theme.sans};
-        font-size:1.4rem;
-        line-height:2.2rem;
-        font-weight:300;
-        text-transform:none;
-        color:${props => props.theme.tertiary};
-        @media (max-width:${props => props.theme.breakpoint.w[0]}){
-            display:none;
-        }
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: row;
 
-
-    }
-    div {
-        display:flex;
-        margin-top:50px;
-    }
-    @media (max-width:${props => props.theme.breakpoint.w[0]}) {
-
-        display:flex;
-        flex-direction:column;
-        padding:10px 10px;
-        div {
-            margin:auto;
-        }
-`;
-
-const LineBreaker = styled.br`
-  display: static;
-  @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
-    display: none;
+  @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
+    padding: 10px 10px;
   }
 `;
 
-const Logo = styled.h1`
+const LineBreak = styled.br`
+  display: static;
+  /* @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
+    display: none;
+  } */
+`;
+
+const Logo = styled.div`
   font-family: ${props => props.theme.sans};
   color: ${props => props.theme.tertiaryLight};
-  font-size: 7rem;
-  margin: 0 0;
+  font-size: 1.5rem;
+  margin: 0 auto auto 5px;
   line-height: 1.4;
   font-weight: 700;
+  display: inline;
   @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
-    font-size: 1.5rem;
+    /* font-size: 1.5rem;
     line-height: 1rem;
     text-align: center;
-    margin: auto;
+    margin: auto; */
   }
   @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
-    font-size: 1.5rem;
+    /* font-size: 1.5rem; */
   }
 `;
 
 const MenuLink = styled.a`
-  margin: auto auto 0 auto;
+  margin: auto;
   color: ${props => props.theme.tertiaryLight};
   text-decoration: none;
   font-weight: 400;
@@ -76,12 +56,11 @@ const MenuLink = styled.a`
 `;
 
 const Emphasis = styled.span`
-  color: ${props => props.theme.secondary};
+  color: ${props => props.theme.blue};
 `;
 const SLogo = (
   <Logo>
-    Who <LineBreaker /> Should <LineBreaker /> Get <LineBreaker />
-    <Emphasis>the Kidney?</Emphasis>
+    Who Should Get <LineBreak /> <Emphasis>the Kidney?</Emphasis>
   </Logo>
 );
 
@@ -107,17 +86,8 @@ class Header extends Component {
       <StyHeader>
         {SLogo}
 
-        <p>
-          In a kidney exchange, patients in need of a kidney transplant who have
-          a willing but medically incompatible donor can attempt to swap, or
-          exchange, their donors with other patients who also have a medically
-          incompatible donor. Determining the optimal way to make these donor
-          exchanges is a computationally challenging problem. In addition,
-          kidney exchanges may bring up moral issues. Please help us determine
-          what the moral priorities of kidney exchanges should be.
-        </p>
         <MenuLink href="http://moralai.cs.duke.edu/about.html" target="_blank">
-          Duke Moral AI Group
+          Duke <Emphasis>Moral</Emphasis> AI
         </MenuLink>
       </StyHeader>
     );

@@ -7,16 +7,17 @@ import reakitTheme from "reakit-theme-default";
 export const theme = {
   ...reakitTheme,
   blue: "#5276d0",
-  sans: "Roboto",
+  serif: "Playfair Display, serif",
+  sans: "Roboto, sans-serif",
   offWhite: "#EDEDED",
   darkblue: "rgb(96, 135, 150)",
   milky: "#f5f1e4",
   secondaryDark: "#f59a12",
   contrast: "rgb(157, 23, 72)",
   sharpContrast: "rgb(255, 51, 102)",
-  primary: "#344955",
-  primaryDark: "#232f34",
-  primaryLight: "#4a6572",
+  primary: "hsl(222.7, 21.5%, 21%)",
+  primaryDark: "hsl(222.7, 15.5%, 20%)",
+  primaryLight: "hsl(222.7, 55.5%, 35%)",
   secondary: "#f9aa33",
   grey: "#E5E5E5",
   tertiary: "#EDF0F2",
@@ -51,17 +52,17 @@ injectGlobal`
 
 const MainContainer = styled.div`
   display: grid;
-  grid-template-columns: 450px 1fr;
+  grid-template-rows: 70px 1fr;
   height: 100vh;
   min-height: 550px;
   @media (max-width: ${theme.breakpoint.w[0]}) {
-    /* flex-direction:column; */
+    /* 
     height: 100vh;
     grid-template-columns: 1fr;
-    grid-template-rows: auto 9fr;
+    grid-template-rows: auto 9fr; */
   }
   @media (max-width: ${theme.breakpoint.w[1]}) {
-    grid-template-rows: auto 7fr;
+    /* grid-template-rows: auto 7fr; */
   }
 `;
 class Page extends Component {
