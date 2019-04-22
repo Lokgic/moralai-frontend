@@ -23,7 +23,7 @@ export const InterfaceContainer = styled.div`
 `;
 
 export const PatientContainer = styled.div`
-  min-width: 20rem;
+  /* min-width: 20rem; */
   grid-row: 3/4;
   grid-column: ${props => `${props.side * 2 + 1} / span 2`};
   display: grid;
