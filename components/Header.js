@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Transition } from "react-spring";
 
 const StyHeader = styled.header`
   padding: 4rem 4rem 1rem 4rem;
@@ -46,7 +45,7 @@ const Logo = styled.div`
 `;
 
 const MenuLink = styled.a`
-  margin: auto;
+  margin: auto 1rem auto auto;
   color: ${props => props.theme.tertiaryLight};
   text-decoration: none;
   font-weight: 400;
@@ -87,7 +86,7 @@ class Header extends Component {
         {SLogo}
 
         <MenuLink href="http://moralai.cs.duke.edu/about.html" target="_blank">
-          Duke <Emphasis>Moral</Emphasis> AI
+          <Emphasis>Duke</Emphasis> moral AI Lab
         </MenuLink>
       </StyHeader>
     );

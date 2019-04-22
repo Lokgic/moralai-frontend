@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { theme } from "./Page";
-import { Spring, animated } from "react-spring";
+import { Spring, animated } from "react-spring/renderprops";
 
 const SvgWrapper = styled.svg`
   width: 100%;

@@ -2,7 +2,7 @@ import { Component } from "react";
 import styled from "styled-components";
 
 import { Object } from "es6-shim";
-import { Spring, animated } from "react-spring";
+import { Spring, animated } from "react-spring/renderprops";
 
 // const StackContainer = styled.div`
 //   transition: all 0.2s;

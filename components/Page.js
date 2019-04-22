@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import styled, { ThemeProvider, injectGlobal } from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import Header from "./Header";
 import Meta from "./Meta";
-import reakitTheme from "reakit-theme-default";
 
 export const theme = {
-  ...reakitTheme,
   blue: "#5276d0",
   serif: "Playfair Display, serif",
   sans: "Roboto, sans-serif",
@@ -19,21 +17,22 @@ export const theme = {
   primaryDark: "hsl(222.7, 15.5%, 20%)",
   primaryLight: "hsl(222.7, 55.5%, 35%)",
   secondary: "#f9aa33",
-  grey: "#E5E5E5",
+  grey: "#AEAEAE",
+  darkGrey: "hsl(220, 7.3%, 24.1%)",
   tertiary: "#EDF0F2",
   tertiaryDark: "#D2DBE0",
   tertiaryLight: "rgb(210, 235, 245)",
   black: "#202124",
   breakpoint: {
-    w: ["1000px", "600px"],
+    w: ["1000px", "750px"],
     h: ["700px"]
   }
 };
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
     html {
         box-sizing: border-box;
-        font-size: 10px;
+        font-size: 62.5%;
     }
     *, *:before, *:after {
         box-sizing: inherit;
@@ -42,8 +41,8 @@ injectGlobal`
 
         padding: 0;
         margin: 0;
-        font-size: 1.5rem;
-        line-height: 2;
+        font-size: 1.6rem;
+        line-height: .5;
         font-family: ${theme.sans};
         color:${theme.black};
         background:${theme.primary};
@@ -52,9 +51,8 @@ injectGlobal`
 
 const MainContainer = styled.div`
   display: grid;
-  grid-template-rows: 70px 1fr;
+  grid-template-rows: min-content 1fr;
   height: 100vh;
-  min-height: 550px;
   @media (max-width: ${theme.breakpoint.w[0]}) {
     /* 
     height: 100vh;
@@ -64,6 +62,11 @@ const MainContainer = styled.div`
   @media (max-width: ${theme.breakpoint.w[1]}) {
     /* grid-template-rows: auto 7fr; */
   }
+`;
+
+const ContentContainer = styled.div`
+  place-self: stretch;
+  display: grid;
 `;
 class Page extends Component {
   constructor(props) {
@@ -89,8 +92,9 @@ class Page extends Component {
       <ThemeProvider theme={theme}>
         <MainContainer>
           <Meta />
+          <GlobalStyle />
           <Header headerState={this.state.headerState} />
-          {this.props.children}
+          <ContentContainer>{this.props.children}</ContentContainer>
         </MainContainer>
       </ThemeProvider>
     );

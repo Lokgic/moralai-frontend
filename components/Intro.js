@@ -1,6 +1,13 @@
 import React from "react";
-import { Transition, animated, Keyframes } from "react-spring";
-import { interval, randomUniform } from "d3";
+// import { Transition, animated, Keyframes } from "react-spring/renderprops";
+import {
+  interval,
+  randomUniform,
+  forceSimulation,
+  forceManyBody,
+  forceCenter,
+  forceLink
+} from "d3";
 import {
   IntroContainer,
   DescriptiveText,
@@ -10,49 +17,87 @@ import {
   ContrastContainer,
   IntroButton
 } from "./styled/IntroSty";
+import { ResponsiveSVG } from "./styled/SVGSty";
 import Exchange from "./ExchangeSVG";
 import { valueTranslaterComplete } from "./PairGenerator";
+
 const runif = randomUniform(5500, 15000);
 
-class RandomWords extends React.Component {
-  state = { loc: 0, show: true, content: [1, 2, 3, 4] };
-  componentDidMount() {
-    this.t = interval(e => {
-      this.updateText();
-    }, runif());
-  }
+var nodes_data = [
+  { name: "Travis", sex: "M" },
+  { name: "Rake", sex: "M" },
+  { name: "Diana", sex: "F" },
+  { name: "Rachel", sex: "F" },
+  { name: "Shawn", sex: "M" },
+  { name: "Emerald", sex: "F" }
+];
 
-  updateText() {
-    this.setState({ show: false });
-    setTimeout(e => {
-      this.setState({ show: true });
-    }, 500);
-  }
+var links_data = [
+  { source: "Travis", target: "Rake" },
+  { source: "Diana", target: "Rake" },
+  { source: "Diana", target: "Rachel" },
+  { source: "Rachel", target: "Rake" },
+  { source: "Rachel", target: "Shawn" },
+  { source: "Emerald", target: "Rachel" }
+];
+
+class ForceGraph extends React.Component {
   render() {
-    const content = this.props.content;
+    const simulation = forceSimulation()
+      //add nodes
+      .nodes(nodes_data);
+    simulation
+      .force("charge_force", forceManyBody())
+      .force("center_force", forceCenter(100 / 2, 100 / 2));
 
-    const toShow = Math.floor(randomUniform(0, 3)());
-
-    return (
-      <Transition
-        native
-        items={this.state.show}
-        from={{ overflow: "hidden", height: 0 }}
-        enter={[{ height: "auto" }]}
-        leave={{ height: 0 }}
-      >
-        {show =>
-          show &&
-          (props => (
-            <animated.div style={props}>
-              {valueTranslaterComplete(content, toShow)}
-            </animated.div>
-          ))
-        }
-      </Transition>
-    );
+    var link_force = forceLink(links_data).id(function(d) {
+      return d.name;
+    });
+    simulation.force("links", link_force);
+    console.log(nodes_data);
+    return <ResponsiveSVG />;
   }
 }
+
+// class RandomWords extends React.Component {
+//   state = { loc: 0, show: true, content: [1, 2, 3, 4] };
+//   componentDidMount() {
+//     this.t = interval(e => {
+//       this.updateText();
+//     }, runif());
+//   }
+
+//   updateText() {
+//     this.setState({ show: false });
+//     setTimeout(e => {
+//       this.setState({ show: true });
+//     }, 500);
+//   }
+//   render() {
+//     const content = this.props.content;
+
+//     const toShow = Math.floor(randomUniform(0, 3)());
+
+//     return (
+//       <Transition
+//         native
+//         items={this.state.show}
+//         from={{ overflow: "hidden", height: 0 }}
+//         enter={[{ height: "auto" }]}
+//         leave={{ height: 0 }}
+//       >
+//         {show =>
+//           show &&
+//           (props => (
+//             <animated.div style={props}>
+//               {valueTranslaterComplete(content, toShow)}
+//             </animated.div>
+//           ))
+//         }
+//       </Transition>
+//     );
+//   }
+// }
 
 export default props => (
   <IntroContainer>
@@ -73,7 +118,8 @@ export default props => (
     </HalfJumbo>
     <HalfJumbo bg="offWhite">
       <div className="centering">
-        <Exchange />
+        {/* <Exchange /> */}
+        <ForceGraph />
       </div>
     </HalfJumbo>
     <HalfJumbo bg="offWhite">
@@ -102,7 +148,7 @@ export default props => (
       </DescriptiveText>
     </HalfJumbo>
     <ContrastContainer bg="grey">
-      <div className="leftContrast" style={{ fontSize: "1.8rem" }}>
+      {/* <div className="leftContrast" style={{ fontSize: "1.8rem" }}>
         Patient A
       </div>
       <div className="rightContrast" style={{ fontSize: "1.8rem" }}>
@@ -137,7 +183,7 @@ export default props => (
       </div>
       <div className="rightContrast">
         <RandomWords content={"dependents"} />
-      </div>
+      </div> */}
     </ContrastContainer>
     {/* <ContrastContainer>
       <div className="contrast-header">

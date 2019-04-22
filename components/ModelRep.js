@@ -42,7 +42,7 @@ const net = new brain.NeuralNetwork({
 import Scale from "./Scale";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import archtype from "../static/archtype";
-import { Spring, animated } from "react-spring";
+import { Spring, animated } from "react-spring/renderprops";
 import { faUserCheck, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 export default class ModelRep extends Component {
   constructor(props) {
