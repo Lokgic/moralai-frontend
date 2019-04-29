@@ -22,7 +22,7 @@ export const predicateTranslater = (feature, value) => {
     case "additionalHealthIssues":
       return `additional health issues`;
     case "drinkingHabitPrediagnosis":
-      return `drinking habit before diagnosis`;
+      return `drinks per day on average (prediagnosis)`;
     case "criminalRecord":
       return `criminal record`;
     case "dependents":
@@ -37,7 +37,7 @@ export const valueTranslater = (feature, value) => {
     case "age":
       return value;
     case "drinkingHabitPrediagnosis":
-      return ["no", "moderate", "serious", "severe"][value];
+      return value;
     case "dependents":
       return value === 0 ? "no" : value;
     default:
