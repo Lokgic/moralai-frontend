@@ -52,7 +52,7 @@ const GlobalStyle = createGlobalStyle`
 const MainContainer = styled.div`
   display: grid;
   grid-template-rows: min-content 1fr;
-  height: 100vh;
+  height: 90vh;
   @media (max-width: ${theme.breakpoint.w[0]}) {
     /* 
     height: 100vh;
