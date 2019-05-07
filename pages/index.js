@@ -13,7 +13,7 @@ export const InterfaceContainer = styled.div`
   display: grid;
   grid-template-rows:
     min-content 8rem repeat(3, minmax(min-content, 1fr))
-    4rem;
+    1rem;
   grid-template-columns: 2fr 1fr 1fr 2fr;
   grid-column-gap: 0.8rem;
   height: 100%;
@@ -23,8 +23,7 @@ export const InterfaceContainer = styled.div`
     "abouta abouta aboutb aboutb"
     "a0 a0 b0 b0"
     "a1 a1 b1 b1"
-    "a2 a2 b2 b2"
-    "bar bar bar bar";
+    "a2 a2 b2 b2";
 
   .about-a {
     grid-area: abouta;
