@@ -100,38 +100,16 @@ const UserIconContainer = styled(ChoiceContainer)`
 
   .user-icon {
     margin: auto auto;
-    grid-area:icon;
+    grid-area: icon;
   }
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
     font-size: 8rem;
-    }
-  /* @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
-    font-size: 5rem;
   }
-  @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
-    font-size: 3.5rem;
-    padding-bottom: 0rem;
-  } */
 `;
 
-// const BackgroundColor = styled.div`
-//   grid-row: 1/3;
-//   grid-column: ${props => `${props.side * 3 + 1} / span 1`};
-//   background: ${({ theme, bg }) => (bg ? theme[bg] : theme.milky)};
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19);
-//   z-index: -0.5;
-// `;
-
-// const CFBackgroundColor = styled(BackgroundColor)`
-//   grid-row: 1/2;
-//   grid-column: 2 / 4;
-// `;
-
 const BackgroundColor = styled.div`
-  /* background: ${({ theme, bg }) => (bg ? theme[bg] : theme.grey)}; */
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19); */
-  background: #212121;  /* fallback for old browsers */
-
+  /* background: #212121;  */
+  border-bottom: 3px solid #212121;
   z-index: -0.5;
   grid-row: ${props => props.row};
   grid-column: ${props => props.col};
@@ -142,13 +120,11 @@ const BackgroundFrame = styled.div`
   z-index: -0.5;
   grid-row: ${props => props.row};
   grid-column: ${props => props.col};
-  background: #424242;
-  /* border: 5px solid; */
+  background: #7b7b7b;
+
   box-shadow: 0 1px 3px rgba(50, 50, 50, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   margin-top: 1rem;
-  /* box-shadow: inset 0 0 3px #000000;
-  border-radius: 5px; */
 `;
 
 const DecideButton = styled.button`
@@ -189,37 +165,33 @@ const FeatureContainer = styled.div`
   grid-column: ${props => `${props.side * 2 + 1} / span 2`};
   grid-row: ${({ index }) => `${3 + index} / span 1`};
   padding: 1rem 2rem 1rem 1rem;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: minmax(min-content, 1fr) 1rem min-content 1rem;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
 
   grid-template-areas:
-    "value icon"
-    ". icon"
-    "desc desc"
-    ". .";
+    "value"
+    "desc";
+  @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
+    grid-template-columns: 1fr 1.5fr 2fr;
+    grid-template-rows: 1fr;
+
+    grid-template-areas: "icon value desc";
+  }
 `;
 
 const FeatureIconContainer = styled.div`
-  /* grid-row: ${({ index }) => `${5 + index * 2} / span 1`};
-  grid-column: 1 / span 1;
-  justify-items: left;
-  align-items: end;
-  font-size: 4rem;
-  line-height: 0;
-  display: grid;
-  color: ${props => props.theme.offWhite};
-  padding: 0 1rem 0 2rem; */
-  grid-area:icon;
-  display:grid;
-  place-items:end center;
-  font-size:4.5rem;
+  grid-area: icon;
+  display: none;
+  place-items: center;
+  font-size: 2rem;
   color: ${props => props.theme.offWhite};
 
-  @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
-    font-size: 8rem;
+  @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
+    display: grid;
+    font-size: 4.5rem;
   }
-  @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
-    /* display: none; */
+  @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
+    font-size: 5.5rem;
   }
 `;
 
@@ -238,63 +210,38 @@ const PredicateContainer = styled.div`
     line-height: 2rem;
     color: ${props => props.theme.offWhite};
     /* padding: 0 1rem; */
-    margin: auto auto auto 1rem;
+    margin: auto ;
   }
-  @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
+  @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
     
     p{
       line-height: 3rem;
       font-size: 2rem;
-      margin: auto auto auto 3rem;
+      margin: auto ;
     }
     
   }
-  /* @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
-    font-size: 2rem;
-  }
-  @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
-    font-size: 1.5rem;
-    grid-column: 1 / span 1;
-    p {
-      line-height: 2.5rem;
-      padding-left: 0.5rem;
-      margin: 0.5rem 0.5rem 1rem 0;
-    }
-  } */
+
 `;
 
 const ValueContainer = styled.div`
-  /* grid-row: ${({ index }) => `${5 + index * 2} / span 1`};
-  grid-column: 2 / span 1; */
-  grid-area:value;
+  grid-area: value;
   font-size: 4rem;
   font-weight: 300;
   text-transform: uppercase;
   display: flex;
   color: ${({ theme }) => theme.secondary};
-  /* line-height: 4rem; */
 
   p {
-    margin: auto auto 1rem 1rem;
+    margin: auto;
   }
 
-  @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
-    font-size: 7rem;
+  @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
+    font-size: 5.5rem;
     p {
-    margin: auto auto 2rem 3rem;
-  }
-  }
-  /* @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
-    font-size: 4.5rem;
-  }
-  @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
-    font-size: 3.5rem;
-    p {
-      padding: 0 0.5rem;
-      margin: 1rem 0 0 0;
+      margin: auto;
     }
-    grid-column: 1 / span 1;
-  } */
+  }
 `;
 
 const DarkOverlay = styled.div`
@@ -367,32 +314,6 @@ const Dialog = styled.div`
 `;
 
 const Mock = [[25, 3, 3], [75, 0, 0]];
-
-// const Patient = ({ side, handleClick }) => (
-//   <PatientContainer side={side}>
-//     <BackgroundColor col />
-//     <UserIconContainer>
-//       <FontAwesomeIcon icon="user" className="user-icon" />
-//     </UserIconContainer>
-//     <PatientNameContainer onClick={() => handleClick(side)}>
-//       {side === 0 ? `Choose A` : `Choose B`}
-//     </PatientNameContainer>
-//     {["age", "drinkingHabitPrediagnosis", "dependents"].map((d, i) => [
-//       <FeatureIconContainer index={i} key={`key_for_fconc_${d}_${i}_${side}`}>
-//         <FontAwesomeIcon
-//           key={`key_for_fcon_${d}_${i}_${side}`}
-//           icon={FFn.graphicSelector(d)}
-//         />
-//       </FeatureIconContainer>,
-//       <PredicateContainer index={i} key={`key_for_pcon_${d}_${i}_${side}`}>
-//         <p>{FFn.predicateTranslater(d)}</p>
-//       </PredicateContainer>,
-//       <ValueContainer index={i} key={`key_for_vcon_${d}_${i}_${side}`}>
-//         <p>{FFn.valueTranslater(d, Mock[side][i])}</p>
-//       </ValueContainer>
-//     ])}
-//   </PatientContainer>
-// );
 
 export default props => {
   const [chosen, setChosen] = useState(-1);
@@ -481,7 +402,7 @@ export default props => {
             </div>
             <div className="buttons">
               <button className="confirm-button">Yes, proceed</button>
-              <button>On a second thought... </button>
+              <button>On second thought... </button>
             </div>
           </Dialog>
         </DarkOverlay>
