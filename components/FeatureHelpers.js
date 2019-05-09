@@ -35,7 +35,7 @@ export const predicateTranslater = (feature, value) => {
 export const valueTranslater = (feature, value) => {
   switch (feature) {
     case "age":
-      return value;
+      return value === -1 ? "DISEASED" : value;
     case "drinkingHabitPrediagnosis":
       return value;
     case "dependents":
