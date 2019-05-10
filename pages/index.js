@@ -107,7 +107,11 @@ export default props => {
                 icon={FFn.graphicSelector(f)}
               />
             </FeatureIconContainer>
-            <PredicateContainer index={i} key={`key_for_pcon_${d}_${i}_${f}`}>
+            <PredicateContainer
+              index={i}
+              key={`key_for_pcon_${d}_${i}_${f}`}
+              dead={f === "age" && pair[d][i] === -1}
+            >
               <p>{FFn.predicateTranslater(f)}</p>
             </PredicateContainer>
             <ValueContainer

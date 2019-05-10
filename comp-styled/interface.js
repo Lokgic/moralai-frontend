@@ -202,6 +202,7 @@ export const PredicateContainer = styled.div`
   /* align-items: start; */
   justify-items: left;
   p {
+      display:${({ dead }) => (dead ? "none" : "auto")};
     padding-top:0.2rem;
     line-height: 2rem;
     color: ${props => props.theme.offWhite};
@@ -223,11 +224,11 @@ export const PredicateContainer = styled.div`
 export const ValueContainer = styled.div`
   grid-area: value;
   font-size: 4rem;
-  font-weight: ${({ dead }) => (dead === -1 ? 700 : 300)};
+  font-weight: 300;
+  line-height: 1em;
   text-transform: uppercase;
   display: flex;
-  color: ${({ theme, dead }) =>
-    dead === -1 ? theme.contrast : theme.secondary};
+  color: ${({ theme, dead }) => theme.secondary};
 
   p {
     margin: auto;
