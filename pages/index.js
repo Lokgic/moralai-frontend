@@ -32,13 +32,22 @@ const attenionCheckAt = [
 export default props => {
   const [PG, setPG] = useState(new FFn.PairGenerator());
 
-  const forder = PG.props.featureOrder;
+  let forder = [...PG.props.features];
+  let currentIndex = forder.length,
+    tempValue,
+    randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    tempValue = forder[currentIndex];
+    forder[currentIndex] = forder[randomIndex];
+    forder[randomIndex] = tempValue;
+  }
+
   const [chosen, setChosen] = useState(-1);
   const [popUp, setPopUp] = useState(0);
   const [pair, setPair] = useState([PG.randomPatient(), PG.randomPatient()]);
   const [n, setN] = useState(0);
-
-  console.log(pair);
 
   let springObject = { from: {} };
   for (let fea of forder) {
@@ -53,7 +62,7 @@ export default props => {
       springObject.from[pat + "-" + fea + "viz"] = 0 + "%";
     }
   }
-  console.log(springObject);
+
   springObject.dialog = popUp ? 15 : 0;
   const spring = useSpring(springObject);
 
