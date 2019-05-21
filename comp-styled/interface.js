@@ -112,13 +112,12 @@ export const FeatureBackgroundColor = styled.div`
 `;
 
 export const FeatureViz = styled.div`
-  display: grid;
   grid-row: 1/-1;
   grid-column: 1/-1;
-  transition: all 1s;
-  grid-template-columns: ${({ l, r }) => `${l}fr ${r}fr`};
+
   .left {
     background: ${props => props.theme.primaryDark};
+    height: 100%;
   }
 `;
 

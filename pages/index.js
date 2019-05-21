@@ -47,12 +47,14 @@ export default props => {
   for (let fea in forder) {
     for (let pat of [0, 1]) {
       springObject[pat + "-" + fea] = pair[pat][fea];
+      springObject[pat + "-" + fea + "viz"] =
+        (pair[pat][fea] / PG.getRange(PG.props.features[fea])[1]) * 100 + "%";
     }
   }
   springObject.dialog = popUp ? 15 : 0;
   const spring = useSpring(springObject);
 
-  console.log(spring);
+  console.log(springObject);
   let data = [];
 
   const handleClick = selected => {
@@ -112,12 +114,12 @@ export default props => {
               row="2 / span 3"
               col="1/-1"
             /> */}
-            <FeatureViz
-              l={pair[d][i] / PG.getRange(f)[1]}
-              r={1 - pair[d][i] / PG.getRange(f)[1]}
-            >
-              <div className="left" />
-              <div />
+            <FeatureViz>
+              <animated.div
+                className="left"
+                style={{ width: spring[d + "-" + i + "viz"] }}
+              />
+              {/* <div /> */}
             </FeatureViz>
             <FeatureIconContainer
               index={i}
