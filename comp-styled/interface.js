@@ -117,7 +117,7 @@ export const FeatureViz = styled.div`
 
   .left {
     background: ${props => props.theme.primaryDark};
-    height: 100%;
+    width: 100%;
   }
 `;
 

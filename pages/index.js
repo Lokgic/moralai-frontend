@@ -23,7 +23,6 @@ import CF from "../components/CoinFlip";
 import { randomUniform as runif } from "d3";
 
 const PG = new FFn.PairGenerator();
-console.log(PG.getRange("age"));
 
 const attenionCheckAt = Math.floor(runif(2, 4)());
 console.log(attenionCheckAt);
@@ -49,6 +48,9 @@ export default props => {
       springObject[pat + "-" + fea] = pair[pat][fea];
       springObject[pat + "-" + fea + "viz"] =
         (pair[pat][fea] / PG.getRange(PG.props.features[fea])[1]) * 100 + "%";
+      springObject[pat + "-" + fea + "viz-neg"] =
+        (1 - pair[pat][fea] / PG.getRange(PG.props.features[fea])[1]) * 100 +
+        "%";
     }
   }
   springObject.dialog = popUp ? 15 : 0;
@@ -116,8 +118,11 @@ export default props => {
             /> */}
             <FeatureViz>
               <animated.div
+                style={{ height: spring[d + "-" + i + "viz-neg"] }}
+              />
+              <animated.div
                 className="left"
-                style={{ width: spring[d + "-" + i + "viz"] }}
+                style={{ height: spring[d + "-" + i + "viz"] }}
               />
               {/* <div /> */}
             </FeatureViz>
