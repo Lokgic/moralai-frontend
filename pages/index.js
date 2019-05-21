@@ -22,48 +22,41 @@ import * as FFn from "../components/FeatureHelpers";
 import CF from "../components/CoinFlip";
 import { randomUniform as runif } from "d3";
 
-const PG = new FFn.PairGenerator();
-
 const attenionCheckAt = [
   Math.floor(runif(2, 12)()),
   Math.floor(runif(12, 23)()),
   Math.floor(runif(23, 34)()),
   Math.floor(runif(34, 45)())
 ];
-console.log(attenionCheckAt);
-const forder = ["age", "drinkingHabitPrediagnosis", "dependents"];
-
-const PatientGenerator = {
-  age: runif(25, 71),
-  drinkingHabitPrediagnosis: runif(1, 6),
-  dependents: runif(0, 3)
-};
-
-const randomPatient = (order = forder) =>
-  order.map(d => Math.floor(PatientGenerator[d]()));
 
 export default props => {
+  const [PG, setPG] = useState(new FFn.PairGenerator());
+
+  const forder = PG.props.featureOrder;
   const [chosen, setChosen] = useState(-1);
   const [popUp, setPopUp] = useState(0);
-  const [pair, setPair] = useState([randomPatient(), randomPatient()]);
+  const [pair, setPair] = useState([PG.randomPatient(), PG.randomPatient()]);
   const [n, setN] = useState(0);
+
+  console.log(pair);
+
   let springObject = { from: {} };
-  for (let fea in forder) {
-    for (let pat of [0, 1]) {
-      const denominator = forder[fea] === "age" ? 55 : 5;
+  for (let fea of forder) {
+    for (let pat in pair) {
+      const denominator = fea === "age" ? 55 : 5;
       springObject[pat + "-" + fea] = pair[pat][fea];
       springObject[pat + "-" + fea + "viz"] =
-        forder[fea] === "age"
+        fea === "age"
           ? (Math.max(0, pair[pat][fea] - 20) / denominator) * 100 + "%"
           : (pair[pat][fea] / denominator) * 100 + "%";
       springObject.from[pat + "-" + fea] = 0;
       springObject.from[pat + "-" + fea + "viz"] = 0 + "%";
     }
   }
+  console.log(springObject);
   springObject.dialog = popUp ? 15 : 0;
   const spring = useSpring(springObject);
 
-  console.log(springObject);
   let data = [];
 
   const handleClick = selected => {
@@ -75,7 +68,7 @@ export default props => {
     let newPair =
       attenionCheckAt.indexOf(n) !== -1
         ? [[25, 1, 3], [0, 5, 0]]
-        : [randomPatient(), randomPatient()];
+        : [PG.randomPatient(), PG.randomPatient()];
     console.log(n);
     setPair(newPair);
     setPopUp(0);
@@ -93,7 +86,6 @@ export default props => {
       </div>
 
       <CoinFlipContainer>
-        {/* <ButtonBackground /> */}
         <CFSVGContainer>
           <CF />
         </CFSVGContainer>
@@ -116,7 +108,7 @@ export default props => {
             Choose {["A", "B"][d]}
           </PatientNameButton>
         </UserIconContainer>,
-        ...["age", "drinkingHabitPrediagnosis", "dependents"].map((f, i) => (
+        ...forder.map((f, i) => (
           <FeatureContainer side={d} index={i} key={`f-con-${d}-${i}`}>
             {/* <FeatureBackgroundColor
               key={`f-bg-${d}-${i}`}
@@ -126,7 +118,7 @@ export default props => {
             <FeatureViz>
               <animated.div
                 className="left"
-                style={{ width: spring[d + "-" + i + "viz"] }}
+                style={{ width: spring[d + "-" + f + "viz"] }}
               />
             </FeatureViz>
             <FeatureIconContainer
@@ -155,7 +147,7 @@ export default props => {
                 <p>{FFn.valueTranslater(f, pair[d][i])}</p>
               ) : (
                 <animated.p>
-                  {spring[d + "-" + i].interpolate(x => x.toFixed(0))}
+                  {spring[d + "-" + f].interpolate(x => x.toFixed(0))}
                 </animated.p>
               )}
 
@@ -185,7 +177,7 @@ export default props => {
               <button className="confirm-button" onClick={() => getNewPair()}>
                 Yes, proceed
               </button>
-              <button onClick={() => setPopUp(0)}>No, change my choice </button>
+              <button onClick={() => setPopUp(0)}>No, go back </button>
             </div>
           </Dialog>
         </DarkOverlay>

@@ -1,24 +1,45 @@
+import { randomUniform as runif } from "d3";
+
 export class PairGenerator {
   constructor(props) {
     const defProps = {
       features: ["age", "drinkingHabitPrediagnosis", "dependents"],
       featureOrder: ["age", "drinkingHabitPrediagnosis", "dependents"],
-      featureRanges: [[25, 71], [1, 6], [0, 3]]
+      featureRanges: [[25, 71], [1, 6], [0, 3]],
+      randomOrder: true
     };
-    this.props = defProps;
+    this.props = { ...defProps, ...props };
+    if (this.props.randomOrder) {
+      const { featureOrder } = this.props;
+      let currentIndex = featureOrder.length,
+        tempValue,
+        randomIndex;
+      while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        tempValue = featureOrder[currentIndex];
+        featureOrder[currentIndex] = featureOrder[randomIndex];
+        featureOrder[randomIndex] = tempValue;
+      }
+    }
+    this.PatientGenerator = {};
+    const { features } = this.props;
+    for (let f of features) {
+      const range = this.getRange(f);
+      this.PatientGenerator[f] = runif(range[0], range[1]);
+    }
   }
   getRange(f) {
     return this.props.featureRanges[this.props.features.indexOf(f)];
   }
-  // PatientGenerator = {
-
-  //   age: runif(25, 71),
-  //   drinkingHabitPrediagnosis: runif(1, 6),
-  //   dependents: runif(0, 3)
-  // };
-
-  // randomPatient = (order = forder) =>
-  //   order.map(d => Math.floor(PatientGenerator[d]()));
+  randomPatient() {
+    const out = {};
+    const { features } = this.props;
+    for (let f of features) {
+      out[f] = Math.floor(this.PatientGenerator[f]());
+    }
+    return out;
+  }
 }
 
 export const graphicSelector = feature => {
