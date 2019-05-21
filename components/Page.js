@@ -17,15 +17,15 @@ export const theme = {
   primaryDark: "hsl(222.7, 15.5%, 20%)",
   primaryLight: "hsl(222.7, 55.5%, 35%)",
   secondary: "#f9aa33",
-  grey: "#AEAEAE",
-  darkGrey: "hsl(220, 7.3%, 24.1%)",
+  grey: "hsl(220, 4%, 37%)",
+  darkGrey: "hsl(220, 7.3%, 34.1%)",
   tertiary: "#EDF0F2",
   tertiaryDark: "#D2DBE0",
   tertiaryLight: "rgb(210, 235, 245)",
   black: "#202124",
   breakpoint: {
     w: ["1000px", "750px"],
-    h: ["700px"]
+    h: ["800px"]
   }
 };
 

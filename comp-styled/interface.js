@@ -114,7 +114,7 @@ export const FeatureBackgroundColor = styled.div`
 export const FeatureViz = styled.div`
   grid-row: 1/-1;
   grid-column: 1/-1;
-
+  background: ${props => props.theme.darkGrey};
   .left {
     background: ${props => props.theme.primaryDark};
     height: 100%;
@@ -127,7 +127,7 @@ export const BackgroundFrame = styled.div`
   grid-row: ${props => props.row};
   grid-column: ${props => props.col};
   background: #7b7b7b;
-
+  background: linear-gradient(#7b7b7b 0%, #717171 85%);
   box-shadow: 0 1px 3px rgba(50, 50, 50, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   margin-top: 1rem;
@@ -197,7 +197,7 @@ export const FeatureIconContainer = styled.div`
     font-size: 4.5rem;
   }
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
-    font-size: 5.5rem;
+    font-size: 5rem;
   }
 `;
 
@@ -245,7 +245,7 @@ export const ValueContainer = styled.div`
   }
 
   @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
-    font-size: 5.5rem;
+    font-size: 5rem;
     p {
       margin: auto;
     }

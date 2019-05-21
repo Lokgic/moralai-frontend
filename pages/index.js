@@ -24,7 +24,12 @@ import { randomUniform as runif } from "d3";
 
 const PG = new FFn.PairGenerator();
 
-const attenionCheckAt = Math.floor(runif(2, 4)());
+const attenionCheckAt = [
+  Math.floor(runif(2, 12)()),
+  Math.floor(runif(12, 23)()),
+  Math.floor(runif(23, 34)()),
+  Math.floor(runif(34, 45)())
+];
 console.log(attenionCheckAt);
 const forder = ["age", "drinkingHabitPrediagnosis", "dependents"];
 
@@ -68,7 +73,7 @@ export default props => {
   const getNewPair = selected => {
     setN(n + 1);
     let newPair =
-      n === attenionCheckAt
+      attenionCheckAt.indexOf(n) !== -1
         ? [[25, 1, 3], [0, 5, 0]]
         : [randomPatient(), randomPatient()];
     console.log(n);
@@ -123,7 +128,6 @@ export default props => {
                 className="left"
                 style={{ width: spring[d + "-" + i + "viz"] }}
               />
-              {/* <div /> */}
             </FeatureViz>
             <FeatureIconContainer
               index={i}
