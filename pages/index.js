@@ -8,17 +8,22 @@ import {
   UserIconContainer,
   PatientNameButton,
   FeatureContainer,
-  BackgroundColor,
+  FeatureBackgroundColor,
   FeatureIconContainer,
   ValueContainer,
   PredicateContainer,
   Dialog,
-  DarkOverlay
+  DarkOverlay,
+  FeatureViz
 } from "../comp-styled/interface";
+import { useSpring, animated } from "react-spring";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as FFn from "../components/FeatureHelpers";
 import CF from "../components/CoinFlip";
 import { randomUniform as runif } from "d3";
+
+const PG = new FFn.PairGenerator();
+console.log(PG.getRange("age"));
 
 const attenionCheckAt = Math.floor(runif(2, 4)());
 console.log(attenionCheckAt);
@@ -38,6 +43,16 @@ export default props => {
   const [popUp, setPopUp] = useState(0);
   const [pair, setPair] = useState([randomPatient(), randomPatient()]);
   const [n, setN] = useState(0);
+  let springObject = {};
+  for (let fea in forder) {
+    for (let pat of [0, 1]) {
+      springObject[pat + "-" + fea] = pair[pat][fea];
+    }
+  }
+  springObject.dialog = popUp ? 15 : 0;
+  const spring = useSpring(springObject);
+
+  console.log(spring);
   let data = [];
 
   const handleClick = selected => {
@@ -48,7 +63,7 @@ export default props => {
     setN(n + 1);
     let newPair =
       n === attenionCheckAt
-        ? [[25, 1, 3], [-1, 5, 0]]
+        ? [[25, 1, 3], [0, 5, 0]]
         : [randomPatient(), randomPatient()];
     console.log(n);
     setPair(newPair);
@@ -92,11 +107,18 @@ export default props => {
         </UserIconContainer>,
         ...["age", "drinkingHabitPrediagnosis", "dependents"].map((f, i) => (
           <FeatureContainer side={d} index={i} key={`f-con-${d}-${i}`}>
-            <BackgroundColor
+            {/* <FeatureBackgroundColor
               key={`f-bg-${d}-${i}`}
               row="2 / span 3"
               col="1/-1"
-            />
+            /> */}
+            <FeatureViz
+              l={pair[d][i] / PG.getRange(f)[1]}
+              r={1 - pair[d][i] / PG.getRange(f)[1]}
+            >
+              <div className="left" />
+              <div />
+            </FeatureViz>
             <FeatureIconContainer
               index={i}
               side={d}
@@ -110,7 +132,7 @@ export default props => {
             <PredicateContainer
               index={i}
               key={`key_for_pcon_${d}_${i}_${f}`}
-              dead={f === "age" && pair[d][i] === -1}
+              dead={f === "age" && pair[d][i] === 0}
             >
               <p>{FFn.predicateTranslater(f)}</p>
             </PredicateContainer>
@@ -119,7 +141,15 @@ export default props => {
               key={`key_for_vcon_${d}_${i}_${f}`}
               dead={pair[d][i]}
             >
-              <p>{FFn.valueTranslater(f, pair[d][i])}</p>
+              {f === "age" && pair[d][i] === 0 ? (
+                <p>{FFn.valueTranslater(f, pair[d][i])}</p>
+              ) : (
+                <animated.p>
+                  {spring[d + "-" + i].interpolate(x => x.toFixed(0))}
+                </animated.p>
+              )}
+
+              {/* <p>{FFn.valueTranslater(f, pair[d][i])}</p> */}
             </ValueContainer>
           </FeatureContainer>
         ))
@@ -127,7 +157,7 @@ export default props => {
 
       {popUp ? (
         <DarkOverlay>
-          <Dialog>
+          <Dialog top={popUp ? 15 : 0}>
             <div className="dialog-header">
               <h2>Are you sure?</h2>
             </div>

@@ -103,12 +103,23 @@ export const UserIconContainer = styled(ChoiceContainer)`
   }
 `;
 
-export const BackgroundColor = styled.div`
+export const FeatureBackgroundColor = styled.div`
   /* background: #212121;  */
   border-bottom: 3px solid #212121;
   z-index: -0.5;
   grid-row: ${props => props.row};
   grid-column: ${props => props.col};
+`;
+
+export const FeatureViz = styled.div`
+  display: grid;
+  grid-row: 1/-1;
+  grid-column: 1/-1;
+  transition: all 1s;
+  grid-template-columns: ${({ l, r }) => `${l}fr ${r}fr`};
+  .left {
+    background: ${props => props.theme.primaryDark};
+  }
 `;
 
 export const BackgroundFrame = styled.div`
@@ -130,7 +141,7 @@ export const DecideButton = styled.button`
   font-weight: 500;
   color: ${props => props.theme.offWhite};
   background: ${({ theme }) => theme.contrast};
-  box-shadow: inset 0 0.5rem 0 rgb(183, 53, 100), 0 3px 5px hsla(0, 0%, 0%, 0.2);
+  box-shadow: inset 0 0.3rem 0 rgb(183, 53, 100), 0 3px 5px hsla(0, 0%, 0%, 0.2);
   -webkit-transition: background 600ms cubic-bezier(0.2, 0.965, 0, 1.005);
   transition: background 600ms cubic-bezier(0.2, 0.965, 0, 1.005);
   border-radius: 5px;
@@ -256,7 +267,8 @@ export const DarkOverlay = styled.div`
 `;
 
 export const Dialog = styled.div`
-  margin: 15% auto auto auto;
+  margin: ${props => `${props.top}% auto auto auto}`};
+  -webkit-transition: margin 600ms cubic-bezier(0.2, 0.965, 0, 1.005);
   width: 45rem;
   /* min-height: 10rem; */
   border-radius: 0.125em;
