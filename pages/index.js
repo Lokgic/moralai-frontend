@@ -42,15 +42,17 @@ export default props => {
   const [popUp, setPopUp] = useState(0);
   const [pair, setPair] = useState([randomPatient(), randomPatient()]);
   const [n, setN] = useState(0);
-  let springObject = {};
+  let springObject = { from: {} };
   for (let fea in forder) {
     for (let pat of [0, 1]) {
+      const denominator = forder[fea] === "age" ? 55 : 5;
       springObject[pat + "-" + fea] = pair[pat][fea];
       springObject[pat + "-" + fea + "viz"] =
-        (pair[pat][fea] / PG.getRange(PG.props.features[fea])[1]) * 100 + "%";
-      springObject[pat + "-" + fea + "viz-neg"] =
-        (1 - pair[pat][fea] / PG.getRange(PG.props.features[fea])[1]) * 100 +
-        "%";
+        forder[fea] === "age"
+          ? (Math.max(0, pair[pat][fea] - 20) / denominator) * 100 + "%"
+          : (pair[pat][fea] / denominator) * 100 + "%";
+      springObject.from[pat + "-" + fea] = 0;
+      springObject.from[pat + "-" + fea + "viz"] = 0 + "%";
     }
   }
   springObject.dialog = popUp ? 15 : 0;
@@ -118,11 +120,8 @@ export default props => {
             /> */}
             <FeatureViz>
               <animated.div
-                style={{ height: spring[d + "-" + i + "viz-neg"] }}
-              />
-              <animated.div
                 className="left"
-                style={{ height: spring[d + "-" + i + "viz"] }}
+                style={{ width: spring[d + "-" + i + "viz"] }}
               />
               {/* <div /> */}
             </FeatureViz>
