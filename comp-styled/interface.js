@@ -190,10 +190,10 @@ export const FeatureContainer = styled.div`
     "value"
     "desc";
   @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
-    grid-template-columns: 1fr 1.5fr 2fr;
+    grid-template-columns: 1.5fr 2fr;
     grid-template-rows: 1fr;
 
-    grid-template-areas: "icon value desc";
+    grid-template-areas: "value desc";
   }
 `;
 
@@ -205,7 +205,7 @@ export const FeatureIconContainer = styled.div`
   color: ${props => props.theme.offWhite};
 
   @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
-    display: grid;
+    display: none;
     font-size: 4.5rem;
   }
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
@@ -217,7 +217,7 @@ export const PredicateContainer = styled.div`
   /* grid-row: ${({ index }) => `${6 + index * 2} / span 1`};
   grid-column: 2 / span 1; */
   grid-area:desc;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: 300;
   display: grid;
   text-align: left;
@@ -235,7 +235,7 @@ export const PredicateContainer = styled.div`
     
     p{
       line-height: 3rem;
-      font-size: 2rem;
+      font-size: 2.3rem;
       margin: auto auto auto .1rem ;
     }
     
@@ -257,10 +257,7 @@ export const ValueContainer = styled.div`
   }
 
   @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
-    font-size: 5rem;
-    p {
-      margin: auto;
-    }
+    font-size: 6rem;
   }
 `;
 

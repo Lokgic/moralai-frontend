@@ -18,23 +18,33 @@ import CF from "../components/CoinFlip";
 import { randomUniform as runif } from "d3";
 import { v1 } from "uuid";
 
+const PG = new FFn.PairGenerator();
+// const forder = PG.getRandomOrder();
+
+const order = [
+  ["age", "drinkingHabitPrediagnosis", "dependents"],
+  ["age", "dependents", "drinkingHabitPrediagnosis"],
+  ["drinkingHabitPrediagnosis", "age", "dependents"],
+  ["drinkingHabitPrediagnosis", "dependents", "age"],
+  ["dependents", "drinkingHabitPrediagnosis", "age"],
+  ["dependents", "age", "drinkingHabitPrediagnosis"]
+];
+
 export default () => {
-  const attenionCheckAt = [
+  const [attenionCheckAt] = useState([
     Math.floor(runif(2, 12)()),
     Math.floor(runif(12, 23)()),
     Math.floor(runif(23, 34)()),
     Math.floor(runif(34, 45)())
-  ];
-
-  const PG = new FFn.PairGenerator();
+  ]);
 
   const [userData] = useState({
     trialId: "coinflip1-pretest",
     userId: v1(),
-    forder: PG.getRandomOrder(),
+    forder: Math.floor(6 * Math.random()),
     version: Math.floor(2 * Math.random())
   });
-
+  console.log(userData);
   const { version, userId, trialId, forder } = userData;
 
   const [chosen, setChosen] = useState(-1);
@@ -100,6 +110,7 @@ export default () => {
           Flip a coin
         </CoinFlipButton>
       </CoinFlipContainer>
+
       {[0, 1].map(d => [
         <UserIconContainer side={d} key={`user-iconcon-${d}`}>
           <FontAwesomeIcon
@@ -115,17 +126,19 @@ export default () => {
             Choose {["A", "B"][d]}
           </PatientNameButton>
         </UserIconContainer>,
-        PG.props.features.map((f, i) => (
+
+        order[forder].map((f, i) => (
           <FeatureDisplay
             patient={d}
             feature={f}
             value={pair[d][f]}
-            index={forder.indexOf(f)}
+            index={i}
             key={`fdis-${d + f}`}
             dynamic={version === 1}
           />
         ))
       ])}
+
       {popUp ? (
         <DarkOverlay>
           <Dialog>
