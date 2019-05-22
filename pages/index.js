@@ -103,80 +103,78 @@ export default props => {
           Flip a coin
         </CoinFlipButton>
       </CoinFlipContainer>
-      {[0, 1].map(d =>
-        [
-          <UserIconContainer side={d} key={`user-iconcon-${d}`}>
-            <FontAwesomeIcon
-              icon="user"
-              className="user-icon"
-              key={`user-icon-${d}`}
-            />
+      {[0, 1].map(d => [
+        <UserIconContainer side={d} key={`user-iconcon-${d}`}>
+          <FontAwesomeIcon
+            icon="user"
+            className="user-icon"
+            key={`user-icon-${d}`}
+          />
 
-            <PatientNameButton
-              onClick={() => handleClick(d)}
-              key={`PatientNameButton-${d}`}
-            >
-              Choose {["A", "B"][d]}
-            </PatientNameButton>
-          </UserIconContainer>,
-          forder.map((f, i) => (
-            <FeatureDisplay
-              patient={d}
-              feature={f}
-              value={pair[d][f]}
-              index={i}
-              key={`fdis-${d + f}`}
-            />
-          ))
-          // ...forder.map((f, i) => (
-          //   <FeatureContainer side={d} index={i} key={`f-con-${d}-${i}`}>
-          //     <FeatureBackgroundColor
-          //       key={`f-bg-${d}-${i}`}
-          //       row="2 / span 3"
-          //       col="1/-1"
-          //     />
-          //     <FeatureViz>
-          //       <animated.div
-          //         className="left"
-          //         style={{ width: spring[d + "-" + f + "viz"] }}
-          //       />
-          //     </FeatureViz>
-          //     <FeatureIconContainer
-          //       index={i}
-          //       side={d}
-          //       key={`key_for_fconc_${d}_${i}_${f}`}
-          //     >
-          //       <FontAwesomeIcon
-          //         key={`key_for_fcon_${f}_${i}_${d}`}
-          //         icon={FFn.graphicSelector(f)}
-          //       />
-          //     </FeatureIconContainer>
-          //     <PredicateContainer
-          //       index={i}
-          //       key={`key_for_pcon_${d}_${i}_${f}`}
-          //       dead={f === "age" && pair[d][i] === 0}
-          //     >
-          //       <p>{FFn.predicateTranslater(f)}</p>
-          //     </PredicateContainer>
-          //     <ValueContainer
-          //       index={i}
-          //       key={`key_for_vcon_${d}_${i}_${f}`}
-          //       dead={pair[d][i]}
-          //     >
-          //       {f === "age" && pair[d][i] === 0 ? (
-          //         <p>{FFn.valueTranslater(f, pair[d][i])}</p>
-          //       ) : (
-          //         <animated.p>
-          //           {spring[d + "-" + f].interpolate(x => x.toFixed(0))}
-          //         </animated.p>
-          //       )}
+          <PatientNameButton
+            onClick={() => handleClick(d)}
+            key={`PatientNameButton-${d}`}
+          >
+            Choose {["A", "B"][d]}
+          </PatientNameButton>
+        </UserIconContainer>,
+        forder.map((f, i) => (
+          <FeatureDisplay
+            patient={d}
+            feature={f}
+            value={pair[d][f]}
+            index={i}
+            key={`fdis-${d + f}`}
+          />
+        ))
+        // ...forder.map((f, i) => (
+        //   <FeatureContainer side={d} index={i} key={`f-con-${d}-${i}`}>
+        //     <FeatureBackgroundColor
+        //       key={`f-bg-${d}-${i}`}
+        //       row="2 / span 3"
+        //       col="1/-1"
+        //     />
+        //     <FeatureViz>
+        //       <animated.div
+        //         className="left"
+        //         style={{ width: spring[d + "-" + f + "viz"] }}
+        //       />
+        //     </FeatureViz>
+        //     <FeatureIconContainer
+        //       index={i}
+        //       side={d}
+        //       key={`key_for_fconc_${d}_${i}_${f}`}
+        //     >
+        //       <FontAwesomeIcon
+        //         key={`key_for_fcon_${f}_${i}_${d}`}
+        //         icon={FFn.graphicSelector(f)}
+        //       />
+        //     </FeatureIconContainer>
+        //     <PredicateContainer
+        //       index={i}
+        //       key={`key_for_pcon_${d}_${i}_${f}`}
+        //       dead={f === "age" && pair[d][i] === 0}
+        //     >
+        //       <p>{FFn.predicateTranslater(f)}</p>
+        //     </PredicateContainer>
+        //     <ValueContainer
+        //       index={i}
+        //       key={`key_for_vcon_${d}_${i}_${f}`}
+        //       dead={pair[d][i]}
+        //     >
+        //       {f === "age" && pair[d][i] === 0 ? (
+        //         <p>{FFn.valueTranslater(f, pair[d][i])}</p>
+        //       ) : (
+        //         <animated.p>
+        //           {spring[d + "-" + f].interpolate(x => x.toFixed(0))}
+        //         </animated.p>
+        //       )}
 
-          //       <p>{FFn.valueTranslater(f, pair[d][i])}</p>
-          //     </ValueContainer>
-          //   </FeatureContainer>
-          // ))
-        ].flat()
-      )}
+        //       <p>{FFn.valueTranslater(f, pair[d][i])}</p>
+        //     </ValueContainer>
+        //   </FeatureContainer>
+        // ))
+      ])}
       {forder.map(feature => {})}
       {popUp ? (
         <DarkOverlay>
