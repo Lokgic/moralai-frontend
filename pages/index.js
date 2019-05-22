@@ -19,26 +19,22 @@ import { randomUniform as runif } from "d3";
 import { v1 } from "uuid";
 import { cpus } from "os";
 
-const attenionCheckAt = [
-  Math.floor(runif(2, 12)()),
-  Math.floor(runif(12, 23)()),
-  Math.floor(runif(23, 34)()),
-  Math.floor(runif(34, 45)())
-];
-
-const PG = new FFn.PairGenerator();
-
-console.log(PG.props.featureOrder);
-const userData = {
-  trialId: "coinflip1-pretest",
-  userId: v1(),
-  fOrder: PG.props.featureOrder.join("-"),
-  version: Math.floor(2 * Math.random())
-};
-
 export default () => {
-  const { version, userId, trialId } = userData;
+  const [attenionCheckAt] = useState([
+    Math.floor(runif(2, 12)()),
+    Math.floor(runif(12, 23)()),
+    Math.floor(runif(23, 34)()),
+    Math.floor(runif(34, 45)())
+  ]);
 
+  const [PG] = useState(new FFn.PairGenerator());
+  const [userData] = useState({
+    trialId: "coinflip1-pretest",
+    userId: v1(),
+    fOrder: PG.props.featureOrder.join("-"),
+    version: Math.floor(2 * Math.random())
+  });
+  const { version, userId, trialId } = userData;
   const forder = PG.props.featureOrder;
   const [chosen, setChosen] = useState(-1);
   const [timeStamp, setTS] = useState(Date.now());

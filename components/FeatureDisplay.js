@@ -14,7 +14,6 @@ import {
 } from "../comp-styled/interface";
 
 export default ({ patient, feature, value, index, dynamic }) => {
-  console.log(dynamic);
   const [icon, setIcon] = useState(
     <FontAwesomeIcon icon={FFn.graphicSelector(feature)} />
   );
@@ -40,17 +39,18 @@ export default ({ patient, feature, value, index, dynamic }) => {
   // console.log(obj);
   return (
     <FeatureContainer side={patient} index={index}>
-      {dynamic ? (
-        <FeatureViz>
-          <animated.div className="left" style={{ width: spring.percentage }} />
-        </FeatureViz>
-      ) : null}
+      <FeatureViz>
+        <animated.div
+          className="left"
+          style={{ width: dynamic ? spring.percentage : 0 }}
+        />
+      </FeatureViz>
 
       <FeatureIconContainer index={index} side={patient}>
         <FontAwesomeIcon icon={FFn.graphicSelector(feature)} />
       </FeatureIconContainer>
       <ValueContainer index={index}>
-        {dead ? (
+        {dead || !dynamic ? (
           <p>{FFn.valueTranslater(feature, value)}</p>
         ) : (
           <animated.p>{spring.val.interpolate(x => x.toFixed(0))}</animated.p>
