@@ -1,27 +1,15 @@
-import { randomUniform as runif } from "d3";
+import { randomUniform as runif, shuffle } from "d3";
 
 export class PairGenerator {
   constructor(props) {
     const defProps = {
       features: ["age", "drinkingHabitPrediagnosis", "dependents"],
-      featureOrder: ["age", "drinkingHabitPrediagnosis", "dependents"],
+
       featureRanges: [[25, 71], [1, 6], [0, 3]],
       randomOrder: true
     };
     this.props = { ...defProps, ...props };
-    if (this.props.randomOrder) {
-      const { featureOrder } = this.props;
-      let currentIndex = featureOrder.length,
-        tempValue,
-        randomIndex;
-      while (0 !== currentIndex) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        tempValue = featureOrder[currentIndex];
-        featureOrder[currentIndex] = featureOrder[randomIndex];
-        featureOrder[randomIndex] = tempValue;
-      }
-    }
+
     this.PatientGenerator = {};
     const { features } = this.props;
     for (let f of features) {
@@ -29,6 +17,9 @@ export class PairGenerator {
       this.PatientGenerator[f] = runif(range[0], range[1]);
     }
   }
+  getRandomOrder = () => {
+    return shuffle(this.props.features);
+  };
   getRange(f) {
     return this.props.featureRanges[this.props.features.indexOf(f)];
   }

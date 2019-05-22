@@ -17,25 +17,26 @@ import * as FFn from "../components/FeatureHelpers";
 import CF from "../components/CoinFlip";
 import { randomUniform as runif } from "d3";
 import { v1 } from "uuid";
-import { cpus } from "os";
 
 export default () => {
-  const [attenionCheckAt] = useState([
+  const attenionCheckAt = [
     Math.floor(runif(2, 12)()),
     Math.floor(runif(12, 23)()),
     Math.floor(runif(23, 34)()),
     Math.floor(runif(34, 45)())
-  ]);
+  ];
 
-  const [PG] = useState(new FFn.PairGenerator());
+  const PG = new FFn.PairGenerator();
+
   const [userData] = useState({
     trialId: "coinflip1-pretest",
     userId: v1(),
-    fOrder: PG.props.featureOrder.join("-"),
+    forder: PG.getRandomOrder(),
     version: Math.floor(2 * Math.random())
   });
-  const { version, userId, trialId } = userData;
-  const forder = PG.props.featureOrder;
+
+  const { version, userId, trialId, forder } = userData;
+
   const [chosen, setChosen] = useState(-1);
   const [timeStamp, setTS] = useState(Date.now());
   const [popUp, setPopUp] = useState(0);
