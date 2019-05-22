@@ -20,7 +20,7 @@ export const theme = {
   grey: "hsl(220, 4%, 37%)",
   darkGrey: "hsl(220, 7.3%, 34.1%)",
   tertiary: "#EDF0F2",
-  tertiaryDark: "#D2DBE0",
+  tertiaryDark: "#6795af",
   tertiaryLight: "rgb(210, 235, 245)",
   black: "#202124",
   breakpoint: {

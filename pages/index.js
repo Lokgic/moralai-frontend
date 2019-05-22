@@ -7,14 +7,8 @@ import {
   CoinFlipButton,
   UserIconContainer,
   PatientNameButton,
-  FeatureContainer,
-  FeatureBackgroundColor,
-  FeatureIconContainer,
-  ValueContainer,
-  PredicateContainer,
   Dialog,
-  DarkOverlay,
-  FeatureViz
+  DarkOverlay
 } from "../comp-styled/interface";
 import FeatureDisplay from "../components/FeatureDisplay";
 import { useSpring, animated } from "react-spring";
@@ -22,6 +16,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as FFn from "../components/FeatureHelpers";
 import CF from "../components/CoinFlip";
 import { randomUniform as runif } from "d3";
+import { v1 } from "uuid";
+import { cpus } from "os";
 
 const attenionCheckAt = [
   Math.floor(runif(2, 12)()),
@@ -32,62 +28,66 @@ const attenionCheckAt = [
 
 const PG = new FFn.PairGenerator();
 
-export default props => {
-  let order = [...PG.props.features];
-  let currentIndex = order.length,
-    tempValue,
-    randomIndex;
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    tempValue = order[currentIndex];
-    order[currentIndex] = order[randomIndex];
-    order[randomIndex] = tempValue;
-  }
-  const [forder, setF] = useState(order);
+console.log(PG.props.featureOrder);
+const userData = {
+  trialId: "coinflip1-pretest",
+  userId: v1(),
+  fOrder: PG.props.featureOrder.join("-"),
+  version: Math.floor(2 * Math.random())
+};
+
+export default () => {
+  const { version, userId, trialId } = userData;
+
+  const forder = PG.props.featureOrder;
   const [chosen, setChosen] = useState(-1);
+  const [timeStamp, setTS] = useState(Date.now());
   const [popUp, setPopUp] = useState(0);
   const [pair, setPair] = useState([PG.randomPatient(), PG.randomPatient()]);
-  const [n, setN] = useState(0);
+  const endPoint = 44;
 
-  let springObject = { from: {} };
-  for (let fea of forder) {
-    for (let pat in pair) {
-      const denominator = fea === "age" ? 55 : 5;
-      springObject[pat + "-" + fea] = pair[pat][fea];
-      springObject[pat + "-" + fea + "viz"] =
-        fea === "age"
-          ? (Math.max(0, pair[pat][fea] - 20) / denominator) * 100 + "%"
-          : (pair[pat][fea] / denominator) * 100 + "%";
-      springObject.from[pat + "-" + fea] = 0;
-      springObject.from[pat + "-" + fea + "viz"] = 0 + "%";
-    }
-  }
-
-  springObject.dialog = popUp ? 15 : 0;
+  const [data, setData] = useState([]);
+  let springObject = {
+    prog: Math.min(100, (data.length / endPoint) * 100) + "%",
+    config: { mass: 1, tension: 180, friction: 12 }
+  };
   const spring = useSpring(springObject);
-
-  let data = [];
 
   const handleClick = selected => {
     setChosen(selected);
     setPopUp(1);
   };
   const getNewPair = selected => {
-    setN(n + 1);
+    const newTS = Date.now();
+
+    const time = {
+      start: timeStamp,
+      end: newTS,
+      decisionRank: data.length,
+      delay: newTS - timeStamp
+    };
+
+    const newDP = { pair, chosen, time };
+
     let newPair =
-      attenionCheckAt.indexOf(n) !== -1
+      attenionCheckAt.indexOf(data.length + 1) !== -1
         ? PG.attentionPair()
         : [PG.randomPatient(), PG.randomPatient()];
-    console.log(n);
+    console.log(newDP);
     setPair(newPair);
+    setTS(newTS);
+    setData([...data, newDP]);
     setPopUp(0);
+    console.log(data);
   };
 
   return (
     <InterfaceContainer>
-      <BackgroundFrame col="1/span 2" row="2/6" />
-      <BackgroundFrame col="3/span 2" row="2/6" />
+      <BackgroundFrame col="1/span 2" row="3/ span 4" />
+      <BackgroundFrame col="3/span 2" row="3/ span 4" />
+      <div className="progress">
+        <animated.div className="p-bar" style={{ width: spring.prog }} />
+      </div>
       <div className="about-a about">
         <h4>Patient A</h4>
       </div>
@@ -118,67 +118,20 @@ export default props => {
             Choose {["A", "B"][d]}
           </PatientNameButton>
         </UserIconContainer>,
-        forder.map((f, i) => (
+        PG.props.features.map((f, i) => (
           <FeatureDisplay
             patient={d}
             feature={f}
             value={pair[d][f]}
-            index={i}
+            index={forder.indexOf(f)}
             key={`fdis-${d + f}`}
+            dynamic={version === 1}
           />
         ))
-        // ...forder.map((f, i) => (
-        //   <FeatureContainer side={d} index={i} key={`f-con-${d}-${i}`}>
-        //     <FeatureBackgroundColor
-        //       key={`f-bg-${d}-${i}`}
-        //       row="2 / span 3"
-        //       col="1/-1"
-        //     />
-        //     <FeatureViz>
-        //       <animated.div
-        //         className="left"
-        //         style={{ width: spring[d + "-" + f + "viz"] }}
-        //       />
-        //     </FeatureViz>
-        //     <FeatureIconContainer
-        //       index={i}
-        //       side={d}
-        //       key={`key_for_fconc_${d}_${i}_${f}`}
-        //     >
-        //       <FontAwesomeIcon
-        //         key={`key_for_fcon_${f}_${i}_${d}`}
-        //         icon={FFn.graphicSelector(f)}
-        //       />
-        //     </FeatureIconContainer>
-        //     <PredicateContainer
-        //       index={i}
-        //       key={`key_for_pcon_${d}_${i}_${f}`}
-        //       dead={f === "age" && pair[d][i] === 0}
-        //     >
-        //       <p>{FFn.predicateTranslater(f)}</p>
-        //     </PredicateContainer>
-        //     <ValueContainer
-        //       index={i}
-        //       key={`key_for_vcon_${d}_${i}_${f}`}
-        //       dead={pair[d][i]}
-        //     >
-        //       {f === "age" && pair[d][i] === 0 ? (
-        //         <p>{FFn.valueTranslater(f, pair[d][i])}</p>
-        //       ) : (
-        //         <animated.p>
-        //           {spring[d + "-" + f].interpolate(x => x.toFixed(0))}
-        //         </animated.p>
-        //       )}
-
-        //       <p>{FFn.valueTranslater(f, pair[d][i])}</p>
-        //     </ValueContainer>
-        //   </FeatureContainer>
-        // ))
       ])}
-      {forder.map(feature => {})}
       {popUp ? (
         <DarkOverlay>
-          <Dialog top={popUp ? 15 : 0}>
+          <Dialog>
             <div className="dialog-header">
               <h2>Are you sure?</h2>
             </div>
@@ -197,6 +150,23 @@ export default props => {
                 Yes, proceed
               </button>
               <button onClick={() => setPopUp(0)}>No, go back </button>
+            </div>
+          </Dialog>
+        </DarkOverlay>
+      ) : null}
+      {data.length === endPoint ? (
+        <DarkOverlay>
+          <Dialog>
+            <div className="dialog-header">
+              <h2>Completed</h2>
+            </div>
+            <div className="message">
+              <p>your unique code:</p>
+              <p>{userData.userId}</p>
+              <p>
+                Please enter this code and complete the rest of your Qualtric
+                survey
+              </p>
             </div>
           </Dialog>
         </DarkOverlay>

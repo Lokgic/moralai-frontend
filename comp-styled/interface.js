@@ -9,7 +9,7 @@ export const InterfaceContainer = styled.div`
   padding: 0;
   display: grid;
   grid-template-rows:
-    min-content 8rem repeat(3, minmax(min-content, 1fr))
+    min-content 2rem 8rem repeat(3, minmax(min-content, 1fr))
     1rem;
   grid-template-columns: 2fr 1fr 1fr 2fr;
   grid-column-gap: 0.8rem;
@@ -17,11 +17,23 @@ export const InterfaceContainer = styled.div`
   justify-self: center;
   grid-template-areas:
     "choosea flip flip chooseb"
+    "prog prog prog prog"
     "abouta abouta aboutb aboutb"
     "a0 a0 b0 b0"
     "a1 a1 b1 b1"
     "a2 a2 b2 b2";
 
+  .progress {
+    grid-area: prog;
+    background: ${({ theme }) => theme.offWhite};
+    margin: 0.5rem 0;
+    border-radius: 5rem;
+    .p-bar {
+      height: 100%;
+      border-radius: 5rem;
+      background: ${({ theme }) => theme.tertiaryDark};
+    }
+  }
   .about-a {
     grid-area: abouta;
   }
@@ -130,7 +142,7 @@ export const BackgroundFrame = styled.div`
   background: linear-gradient(#7b7b7b 0%, #717171 85%);
   box-shadow: 0 1px 3px rgba(50, 50, 50, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
 `;
 
 export const DecideButton = styled.button`
@@ -169,7 +181,7 @@ export const PatientNameButton = styled(DecideButton)``;
 export const FeatureContainer = styled.div`
   display: grid;
   grid-column: ${props => `${props.side * 2 + 1} / span 2`};
-  grid-row: ${({ index }) => `${3 + index} / span 1`};
+  grid-row: ${({ index }) => `${4 + index} / span 1`};
   padding: 1rem 2rem 1rem 1rem;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
@@ -266,8 +278,8 @@ export const DarkOverlay = styled.div`
 `;
 
 export const Dialog = styled.div`
-  margin: ${props => `${props.top}% auto auto auto}`};
-  -webkit-transition: margin 600ms cubic-bezier(0.2, 0.965, 0, 1.005);
+  margin: auto auto auto auto;
+  -webkit-transition: all 600ms cubic-bezier(0.2, 0.965, 0, 1.005);
   width: 45rem;
   /* min-height: 10rem; */
   border-radius: 0.125em;
@@ -279,7 +291,10 @@ export const Dialog = styled.div`
   /* padding: 1rem; */
   .message {
     padding: 2rem;
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.8);
+    p {
+      line-height: 2rem;
+    }
     .choice-message {
       color: rgba(0, 0, 0, 1);
       margin-top: 3rem;

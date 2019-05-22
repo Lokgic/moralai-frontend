@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import * as FFn from "../components/FeatureHelpers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
-  InterfaceContainer,
-  BackgroundFrame,
-  CoinFlipContainer,
-  CFSVGContainer,
-  CoinFlipButton,
-  UserIconContainer,
-  PatientNameButton,
   FeatureContainer,
   FeatureBackgroundColor,
   FeatureIconContainer,
   ValueContainer,
   PredicateContainer,
-  Dialog,
-  DarkOverlay,
   FeatureViz
 } from "../comp-styled/interface";
 
-export default ({ patient, feature, value, index }) => {
+export default ({ patient, feature, value, index, dynamic }) => {
+  console.log(dynamic);
   const [icon, setIcon] = useState(
     <FontAwesomeIcon icon={FFn.graphicSelector(feature)} />
   );
@@ -46,12 +40,14 @@ export default ({ patient, feature, value, index }) => {
   // console.log(obj);
   return (
     <FeatureContainer side={patient} index={index}>
-      <FeatureViz>
-        <animated.div className="left" style={{ width: spring.percentage }} />
-      </FeatureViz>
+      {dynamic ? (
+        <FeatureViz>
+          <animated.div className="left" style={{ width: spring.percentage }} />
+        </FeatureViz>
+      ) : null}
+
       <FeatureIconContainer index={index} side={patient}>
-        {/* <FontAwesomeIcon icon={FFn.graphicSelector(feature)} /> */}
-        {icon}
+        <FontAwesomeIcon icon={FFn.graphicSelector(feature)} />
       </FeatureIconContainer>
       <ValueContainer index={index}>
         {dead ? (
