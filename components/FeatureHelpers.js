@@ -32,6 +32,21 @@ export class PairGenerator {
   getRange(f) {
     return this.props.featureRanges[this.props.features.indexOf(f)];
   }
+  attentionPair() {
+    const out = [
+      {
+        age: 25,
+        drinkingHabitPrediagnosis: 1,
+        dependents: 3
+      },
+      {
+        age: 0,
+        drinkingHabitPrediagnosis: 5,
+        dependents: 0
+      }
+    ];
+    return Math.random() > 0.5 ? out : [out[1], out[0]];
+  }
   randomPatient() {
     const out = {};
     const { features } = this.props;
