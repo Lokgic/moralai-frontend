@@ -148,7 +148,7 @@ export default () => {
       start: timeStamp / 1000,
       end: newTS / 1000,
       decisionRank: data.length,
-      delay: (newTS - timeStamp) / 1000
+      delay: newTS - timeStamp
     };
 
     const newDP = { pair, chosen, time };
