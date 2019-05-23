@@ -182,7 +182,7 @@ export const FeatureContainer = styled.div`
   display: grid;
   grid-column: ${props => `${props.side * 2 + 1} / span 2`};
   grid-row: ${({ index }) => `${4 + index} / span 1`};
-  padding: 1rem 2rem 1rem 1rem;
+  padding: 1rem 1rem;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
 
@@ -192,7 +192,7 @@ export const FeatureContainer = styled.div`
   @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
     grid-template-columns: 1.5fr 2fr;
     grid-template-rows: 1fr;
-
+    padding: 2rem 2rem;
     grid-template-areas: "value desc";
   }
 `;

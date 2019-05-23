@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   InterfaceContainer,
   BackgroundFrame,
@@ -17,9 +17,17 @@ import * as FFn from "../components/FeatureHelpers";
 import CF from "../components/CoinFlip";
 import { randomUniform as runif } from "d3";
 import { v1 } from "uuid";
+const postURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000/post-dps"
+    : "https://moral-ai-backend.herokuapp.com/post-dps";
+
+const bdURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000/post-bdp"
+    : "https://moral-ai-backend.herokuapp.com/post-bdp";
 
 const PG = new FFn.PairGenerator();
-// const forder = PG.getRandomOrder();
 
 const order = [
   ["age", "drinkingHabitPrediagnosis", "dependents"],
@@ -39,14 +47,14 @@ export default () => {
   ]);
 
   const [userData] = useState({
-    trialId: "coinflip1-pretest",
+    trialId: 52019,
     userId: v1(),
     forder: Math.floor(6 * Math.random()),
     version: Math.floor(2 * Math.random())
   });
-  console.log(userData);
-  const { version, userId, trialId, forder } = userData;
 
+  const { version, userId, trialId, forder } = userData;
+  const [init, setInit] = useState(0);
   const [chosen, setChosen] = useState(-1);
   const [timeStamp, setTS] = useState(Date.now());
   const [popUp, setPopUp] = useState(0);
@@ -64,14 +72,83 @@ export default () => {
     setChosen(selected);
     setPopUp(1);
   };
+
+  useEffect(() => {
+    const sendBDs = ({ version, forder }) => {
+      setInit(1);
+
+      const bd1 = { trialId, userId, feature: "data-viz", label: version + "" };
+      const bd2 = {
+        trialId,
+        userId,
+        feature: "feature-order",
+        label: forder + ""
+      };
+      return fetch(bdURL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bd1)
+      })
+        .then(res =>
+          fetch(bdURL, {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bd2)
+          })
+        )
+        .then(res => {
+          return res;
+        });
+    };
+    if (init < 1) sendBDs({ version, forder });
+  }, [init]);
+
+  useEffect(() => {
+    const sendDP = async ({ pair, chosen, time }) => {
+      const { trialId, userId } = userData;
+      const payload = {
+        decision: chosen,
+        trialId,
+        userId,
+        ...time
+      };
+      const patients = ["left", "right"];
+      for (let p in pair) {
+        for (let f in PG.props.features) {
+          payload[`${patients[p]}_${parseInt(f) + 1}`] =
+            pair[p][PG.props.features[f]];
+        }
+        for (let d of [4, 5]) {
+          payload[`${patients[p]}_${d}`] = -999;
+        }
+      }
+
+      const rawResponse = await fetch(postURL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const res = await rawResponse;
+    };
+    if (data.length > 0) sendDP(data[data.length - 1]);
+  }, [data]);
   const getNewPair = selected => {
     const newTS = Date.now();
 
     const time = {
-      start: timeStamp,
-      end: newTS,
+      start: timeStamp / 1000,
+      end: newTS / 1000,
       decisionRank: data.length,
-      delay: newTS - timeStamp
+      delay: (newTS - timeStamp) / 1000
     };
 
     const newDP = { pair, chosen, time };
@@ -80,12 +157,11 @@ export default () => {
       attenionCheckAt.indexOf(data.length + 1) !== -1
         ? PG.attentionPair()
         : [PG.randomPatient(), PG.randomPatient()];
-    console.log(newDP);
+
     setPair(newPair);
     setTS(newTS);
     setData([...data, newDP]);
     setPopUp(0);
-    console.log(data);
   };
 
   return (
