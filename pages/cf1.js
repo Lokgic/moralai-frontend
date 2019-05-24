@@ -47,7 +47,7 @@ export default () => {
   ]);
 
   const [userData] = useState({
-    trialId: "mt-pretest",
+    trialId: "cf1",
     userId: v1(),
     forder: Math.floor(6 * Math.random()),
     version: Math.floor(2 * Math.random())
@@ -106,8 +106,8 @@ export default () => {
           return res;
         });
     };
-    if (init < 1) sendBDs({ version, forder });
-  }, [init]);
+    if ((init === 0) & (data.length === 1)) sendBDs({ version, forder });
+  }, [init, data]);
 
   useEffect(() => {
     const sendDP = async ({ pair, chosen, time }) => {

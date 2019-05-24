@@ -106,8 +106,8 @@ export default () => {
           return res;
         });
     };
-    if (init < 1) sendBDs({ version, forder });
-  }, [init]);
+    if ((init === 0) & (data.length === 1)) sendBDs({ version, forder });
+  }, [init, data]);
 
   useEffect(() => {
     const sendDP = async ({ pair, chosen, time }) => {
