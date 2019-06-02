@@ -58,7 +58,6 @@ export class PairGenerator {
       for (let f of features) {
         out[f] = obj[p + "_" + keys[f]];
       }
-      console.log(out);
       return out;
     });
   }

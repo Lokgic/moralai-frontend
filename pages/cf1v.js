@@ -15,7 +15,7 @@ import { useSpring, animated } from "react-spring";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as FFn from "../components/FeatureHelpers";
 import CF from "../components/CoinFlip";
-import { randomUniform as runif } from "d3";
+
 import { v1 } from "uuid";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import seq from "../static/seqv.json";
@@ -49,13 +49,6 @@ const order = [
 ];
 
 export default () => {
-  const [attenionCheckAt] = useState([
-    Math.floor(runif(2, 12)()),
-    Math.floor(runif(12, 23)()),
-    Math.floor(runif(23, 34)()),
-    Math.floor(runif(34, 45)())
-  ]);
-
   const [userData, setUserData] = useState({
     trialId: "cf1v",
     userId: v1(),
@@ -92,9 +85,7 @@ export default () => {
       getSID()
         .then(d => d.json())
         .then(usedSeqIds => {
-          console.log(usedSeqIds);
           const diff = seqIds.filter(x => usedSeqIds.indexOf(x) === -1);
-          console.log(diff);
 
           const draw =
             diff.length > 0
@@ -107,7 +98,7 @@ export default () => {
   useEffect(() => {
     if ((sid !== "") & (init < 1)) {
       const pair = PG.parsePairs(seq[sid][0]);
-      console.log(pair);
+
       setPair(pair);
       setInit(1);
       setUserData({ ...userData, forder: seq[sid][0]["feature_order"] });
