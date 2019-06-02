@@ -18,7 +18,7 @@ import CF from "../components/CoinFlip";
 
 import { v1 } from "uuid";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import seq from "../static/seqv.json";
+import seq from "../static/seqnv.json";
 
 const seqIds = Object.keys(seq);
 
@@ -50,10 +50,10 @@ const order = [
 
 export default () => {
   const [userData, setUserData] = useState({
-    trialId: "cf1v",
+    trialId: "cf1nv",
     userId: v1(),
     forder: 0,
-    version: 1
+    version: 0
   });
 
   const { version, userId, trialId, forder } = userData;
