@@ -46,6 +46,22 @@ export class PairGenerator {
     }
     return out;
   }
+  parsePairs(obj) {
+    const { features } = this.props;
+    const keys = {
+      age: "age",
+      drinkingHabitPrediagnosis: "drinks",
+      dependents: "dependents"
+    };
+    return ["left", "right"].map(p => {
+      let out = {};
+      for (let f of features) {
+        out[f] = obj[p + "_" + keys[f]];
+      }
+      console.log(out);
+      return out;
+    });
+  }
 }
 
 export const graphicSelector = feature => {

@@ -6,12 +6,13 @@ import {
   faUser,
   faBirthdayCake,
   faWineGlassAlt,
-  faChild
+  faChild,
+  faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 
 faLibrary.add(
   faUser,
-
+  faSpinner,
   faBirthdayCake,
 
   faWineGlassAlt,
