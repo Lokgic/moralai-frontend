@@ -50,10 +50,10 @@ const order = [
 
 export default () => {
   const [userData, setUserData] = useState({
-    trialId: "cf1nv",
+    trialId: "cf1nvr",
     userId: v1(),
     forder: 0,
-    version: 0
+    version: 1
   });
 
   const { version, userId, trialId, forder } = userData;
