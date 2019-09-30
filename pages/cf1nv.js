@@ -91,8 +91,7 @@ export default () => {
             diff.length > 0
               ? diff[Math.floor(diff.length * Math.random())]
               : seqIds[Math.floor(seqIds.length * Math.random())];
-          console.log(diff);
-          console.log(draw);
+
           setSid(draw);
         });
     }

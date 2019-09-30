@@ -1,5 +1,77 @@
 import styled from "styled-components";
 
+export const SummaryTable = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(12, 1fr);
+  grid-area: table;
+`;
+
+export const SplitScreenContainer = styled.div`
+  background: ${({ theme }) => theme.primary};
+  width: 100vw;
+  padding: 0;
+  display: grid;
+  grid-template-rows:
+    min-content 2rem 8rem repeat(3, minmax(min-content, 1fr))
+    1rem;
+  grid-template-columns: 2fr 1fr 1fr 2fr 6fr;
+  grid-column-gap: 0.8rem;
+  height: 100%;
+  justify-self: center;
+  grid-template-areas:
+    "choosea choosea chooseb chooseb table"
+    "prog prog prog prog table"
+    "abouta abouta aboutb aboutb table"
+    "a0 a0 b0 b0 table"
+    "a1 a1 b1 b1 table"
+    "a2 a2 b2 b2 table";
+
+  .progress {
+    grid-area: prog;
+    background: ${({ theme }) => theme.offWhite};
+    margin: 0.5rem 0;
+    border-radius: 5rem;
+    .p-bar {
+      height: 100%;
+      border-radius: 5rem;
+      background: ${({ theme }) => theme.tertiaryDark};
+    }
+  }
+  .about-a {
+    grid-area: abouta;
+  }
+  .about-b {
+    grid-area: aboutb;
+  }
+  .about {
+    text-align: center;
+    display: flex;
+    margin-top: 2rem;
+    background: #212121; /* fallback for old browsers */
+
+    h4 {
+      color: ${({ theme }) => theme.milky};
+      font-weight: 300;
+      font-size: 1.8rem;
+      margin: auto;
+    }
+  }
+
+  @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
+    /* grid-template-rows: 0rem 10rem 1fr 0rem;
+    grid-column-gap: 0.8rem;
+    grid-row-gap: 4rem; */
+    grid-column-gap: 2rem;
+    .about {
+      h4 {
+        font-size: 3rem;
+        line-height: 4rem;
+      }
+    }
+  }
+`;
+
 export const InterfaceContainer = styled.div`
   background: ${({ theme }) => theme.primary};
   max-width: none;
@@ -103,6 +175,7 @@ export const CoinFlipContainer = styled(ChoiceContainer)`
 export const UserIconContainer = styled(ChoiceContainer)`
   grid-row: 1 / span 2;
   grid-column: ${props => `${props.side * 3 + 1} / span 1`};
+  grid-area: ${props => (props.area ? props.area : null)};
   font-size: 4.5rem;
   color: ${props => props.theme.offWhite};
 
@@ -224,12 +297,14 @@ export const PredicateContainer = styled.div`
   /* align-items: start; */
   justify-items: left;
   p {
-      display:${({ dead }) => (dead ? "none" : "auto")};
+      display:${({ dead }) => (dead ? "none" : "inline-block")};
     padding-top:0.2rem;
+    padding-right:1rem;
     line-height: 2rem;
     color: ${props => props.theme.offWhite};
     /* padding: 0 1rem; */
     margin: auto ;
+    /* text-align:center; */
   }
   @media (min-width: ${props => props.theme.breakpoint.w[1]}) {
     
@@ -237,6 +312,8 @@ export const PredicateContainer = styled.div`
       line-height: 3rem;
       font-size: 2.3rem;
       margin: auto auto auto .1rem ;
+      /* padding-right:0rem; */
+      /* text-align:center; */
     }
     
   }
@@ -277,8 +354,9 @@ export const DarkOverlay = styled.div`
 export const Dialog = styled.div`
   margin: auto auto auto auto;
   -webkit-transition: all 600ms cubic-bezier(0.2, 0.965, 0, 1.005);
-  width: 45rem;
+  width: ${({ big }) => (big ? `80rem` : `45rem`)};
   /* min-height: 10rem; */
+
   border-radius: 0.125em;
   box-shadow: 0 25px 35px 0 rgba(0, 0, 0, 0.5);
   z-index: 6;
@@ -286,11 +364,45 @@ export const Dialog = styled.div`
   display: grid;
   grid-template-rows: min-content min-content min-content;
   /* padding: 1rem; */
+  .analysis-progress {
+    width: 55rem;
+    height: 2rem;
+    margin: auto auto 2rem auto;
+    max-width: 100%;
+    .anal-bar {
+      background: ${({ theme }) => theme.contrast};
+      border-radius: 0.5rem;
+      height: 100%;
+      transition: width 0.1s;
+    }
+  }
+  @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
+    width: ${({ big }) => (big ? `98vw` : `95vw`)};
+    height: auto;
+    min-width: 25rem;
+    .analysis-progress {
+      width: 70vw;
+    }
+  }
+  .ass-spinner {
+    display: flex;
+    svg {
+      margin: auto;
+    }
+  }
   .message {
     padding: 2rem;
     color: rgba(0, 0, 0, 0.8);
     p {
       line-height: 2rem;
+    }
+    .light {
+      font-weight: 300;
+      font-size: 1.2rem;
+      color: grey;
+    }
+    .centering {
+      text-align: center;
     }
     .choice-message {
       color: rgba(0, 0, 0, 1);
@@ -298,6 +410,7 @@ export const Dialog = styled.div`
       font-size: 3rem;
       font-weight: 300;
       text-align: center;
+      line-height: 3.2rem;
     }
   }
   .dialog-header {
@@ -306,6 +419,7 @@ export const Dialog = styled.div`
     color: ${({ theme }) => theme.offWhite};
     h2 {
       font-weight: 300;
+      line-height: 3rem;
     }
   }
   .buttons {
