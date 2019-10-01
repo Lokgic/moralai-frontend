@@ -373,7 +373,7 @@ export const Dialog = styled.div`
       background: ${({ theme }) => theme.contrast};
       border-radius: 0.5rem;
       height: 100%;
-      transition: width 0.1s;
+      /* transition: width 0.1s; */
     }
   }
   @media (max-width: ${props => props.theme.breakpoint.w[0]}) {

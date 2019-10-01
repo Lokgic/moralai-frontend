@@ -31,7 +31,7 @@ const originaSeq = [...Array(10).keys()].map(i => [
   { exp: 1 + i * 2, dependents: 4, age: 40 },
   { exp: 20, dependents: 0, age: 40 }
 ]);
-const midPoint = 10;
+const midPoint = 3;
 const endPoint = 20;
 
 const seq = [...seqRandomizer(originaSeq), ...seqRandomizer(originaSeq)];
