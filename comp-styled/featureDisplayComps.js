@@ -113,7 +113,7 @@ export const FeatureHeader = styled.div`
 
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
     div {
-      font-size: 1.8rem;
+      font-size: 2.4rem;
     }
   }
 `;

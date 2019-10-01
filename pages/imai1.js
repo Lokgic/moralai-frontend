@@ -239,7 +239,7 @@ export default () => {
                       className="confirm-button"
                       onClick={() => setShowAss(2)}
                     >
-                      Yes, I have taken note of my assessment.
+                      I have taken note of my assessment.
                     </button>
                   </div>
                 ]}
