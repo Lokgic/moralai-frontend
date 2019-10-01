@@ -31,13 +31,13 @@ const originaSeq = [...Array(10).keys()].map(i => [
   { exp: 1 + i * 2, dependents: 4, age: 40 },
   { exp: 20, dependents: 0, age: 40 }
 ]);
-const midPoint = 3;
+const midPoint = 10;
 const endPoint = 20;
 
 const seq = [...seqRandomizer(originaSeq), ...seqRandomizer(originaSeq)];
 // const out = [...Array(55).keys()].map(d=>gen.randomPatient()).join(' ')
 const progInterval = [...Array(midPoint).keys()]
-  .map(d => Math.random())
+  .map(() => Math.random())
   .sort((a, b) => a - b);
 
 export default () => {
