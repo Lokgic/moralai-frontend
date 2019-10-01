@@ -18,15 +18,18 @@ import {
 
 import { v1 } from "uuid";
 const features =
-  Math.random() < 0.5 ? ["exp", "dependents"] : ["dependents", "exp"];
+  Math.random() < 0.5
+    ? ["age", "exp", "dependents"]
+    : ["age", "dependents", "exp"];
 const featuresPredicates = {
-  exp: "Years of Life Expectancy",
+  age: "Age",
+  exp: "Years of Life Expectancy After Transplantation",
   dependents: "Number of Young Dependent(s)"
 };
 
 const originaSeq = [...Array(10).keys()].map(i => [
-  { exp: 1 + i * 2, dependents: 4 },
-  { exp: 20, dependents: 0 }
+  { exp: 1 + i * 2, dependents: 4, age: 40 },
+  { exp: 20, dependents: 0, age: 40 }
 ]);
 const midPoint = 10;
 const endPoint = 20;
@@ -115,7 +118,7 @@ export default () => {
         <animated.div className="p-bar" style={{ width: spring.prog }} />
       </div>
       <div className="about-a about">
-        <h4>Patient A</h4>
+        <h4>Patient A </h4>
       </div>
       <div className="about-b about">
         <h4>Patient B</h4>
@@ -194,14 +197,12 @@ export default () => {
                     <div className="ass-spinner">
                       <FontAwesomeIcon icon="spinner" size="3x" spin />
                     </div>
-                    <p className="centering">
-                      Analyzing your moral judgments, please wait...
-                    </p>
+                    <p className="centering">Please wait...</p>
                     <p className="centering">
                       {Math.round(progInterval[fakeProg] * 100)}%
                     </p>
                     <p className="light">
-                      Analyzing decision {fakeProg + 1}... Patient{" "}
+                      Decision {fakeProg + 1}: Patient{" "}
                       {["A", "B"][data[fakeProg].chosen]} was given a kidney...
                       {/* {features.map(
                         d =>
@@ -220,19 +221,16 @@ export default () => {
                 ]
               : [
                   <div className="message" key="show-ass-msg-1">
-                    <p>
-                      According to our AI model, you place a substantial
-                      importance on
-                    </p>
+                    <p>According to our AI model, you care a lot about</p>
                     <p className="choice-message">
                       {
                         [
-                          "life expectancy of the patient",
-                          "how many dependents the patient has"
+                          "the life expectancy of patients",
+                          "how many dependents patients have"
                         ][ass]
                       }
                     </p>
-                    <p>in your decision making.</p>
+                    <p>when making decisions about who will get a kidney.</p>
                   </div>,
                   <div className="buttons" key="show-ass-butt-1">
                     <button

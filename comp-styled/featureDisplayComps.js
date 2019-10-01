@@ -84,7 +84,7 @@ export const FeatureCell = styled.div`
   display: flex;
   p {
     font-weight: 500;
-    font-size: ${({ valType }) => (valType === "n" ? "5rem" : "2.8rem")};
+    font-size: ${({ valType }) => (valType === "n" ? "4rem" : "2.8rem")};
     margin: auto;
     text-align: center;
     color: ${({ theme }) => theme.primaryDark};
@@ -92,7 +92,7 @@ export const FeatureCell = styled.div`
 
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
     p {
-      font-size: ${({ valType }) => (valType === "n" ? "7rem" : "3rem")};
+      font-size: ${({ valType }) => (valType === "n" ? "6rem" : "3rem")};
     }
   }
 `;
