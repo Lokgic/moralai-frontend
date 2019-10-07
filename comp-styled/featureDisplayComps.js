@@ -47,8 +47,8 @@ export const ComparisonContainer = styled.div`
 
     h4 {
       /* color: ${({ theme }) => theme.primaryDark}; */
-      font-weight: 600;
-      font-size: 2.2rem;
+      font-weight: 400;
+      font-size: 1.5rem;
       margin: auto;
 
     }
@@ -62,7 +62,7 @@ export const ComparisonContainer = styled.div`
     grid-column-gap: 2rem;
     .about {
       h4 {
-        font-size: 4rem;
+        font-size: 2.4rem;
         line-height: 4rem;
       }
     }
@@ -71,7 +71,8 @@ export const ComparisonContainer = styled.div`
 
 export const TextInputForm = styled.div`
   grid-column: 2 / span 2;
-  height: 8rem;
+  align-self: stretch;
+  /* height: 8rem; */
   background: ${({ theme }) => theme.grey};
   display: flex;
   flex-direction: column;
