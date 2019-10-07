@@ -5,7 +5,11 @@ import {
   Dialog,
   DarkOverlay
 } from "../comp-styled/interface";
-import { PredefinedSeq, seqRandomizer } from "../components/FeatureHelpers";
+import {
+  PredefinedSeq,
+  seqRandomizer,
+  arrayRandomizer
+} from "../components/FeatureHelpers";
 import { useSpring, animated } from "react-spring";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,10 +21,10 @@ import {
 } from "../comp-styled/featureDisplayComps";
 
 import { v1 } from "uuid";
-const features =
-  Math.random() < 0.5
-    ? ["age", "exp", "dependents"]
-    : ["age", "dependents", "exp"];
+const features = arrayRandomizer(["age", "exp", "dependents"]);
+// Math.random() < 0.5
+//   ? ["age", "exp", "dependents"]
+//   : ["age", "dependents", "exp"];
 const featuresPredicates = {
   age: "Age",
   exp: "Years of Life Expectancy After Transplantation",

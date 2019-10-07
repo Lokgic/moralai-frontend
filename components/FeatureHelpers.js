@@ -1,5 +1,4 @@
 import { randomUniform as runif, shuffle } from "d3";
-import { get } from "http";
 
 export class GeneralGen {
   constructor(props) {
@@ -7,20 +6,25 @@ export class GeneralGen {
     this.ranges = props.ranges;
     this.instantiateFeature = this.instantiateFeature.bind(this);
     this.randomPatient = this.randomPatient.bind(this);
+    this.getNewPair = this.getNewPair.bind(this);
   }
   instantiateFeature(f) {
     const { ranges } = this;
+
     const range = ranges[f];
     const spread = 1 + range[1] - range[0];
     return Math.floor(Math.random() * spread) + range[0];
   }
   randomPatient() {
     const out = {};
-    const { features, instantiateFeature, ranges } = this;
+    const { features, instantiateFeature } = this;
     for (let f of features) {
       out[f] = instantiateFeature(f);
     }
     return out;
+  }
+  getNewPair() {
+    return [this.randomPatient(), this.randomPatient()];
   }
 }
 
@@ -53,6 +57,15 @@ export const seqRandomizer = seq => {
   let out = [...seq];
   for (let i = out.length - 1; i > 0; i--) {
     if (Math.random() > 0.49) [out[i][0], out[i][1]] = [out[i][1], out[i][0]];
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+};
+
+export const arrayRandomizer = seq => {
+  let out = [...seq];
+  for (let i = out.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [out[i], out[j]] = [out[j], out[i]];
   }

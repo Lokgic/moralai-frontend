@@ -9,7 +9,7 @@ export const ComparisonContainer = styled.div`
   padding: 0;
   display: grid;
   grid-template-rows:
-    min-content 2rem 8rem min-content 1rem;
+    min-content 2rem 5.5rem min-content 1rem;
   grid-template-columns: 2fr 1fr 1fr 2fr;
   /* grid-column-gap: 0.8rem; */
   height: 100%;
@@ -40,18 +40,20 @@ export const ComparisonContainer = styled.div`
   .about {
     text-align: center;
     display: flex;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    /* background: ${({ theme }) => theme.primaryDark}; */
-    color: ${({ theme }) => theme.primaryDark};
+    /* margin-top: 1rem;
+    margin-bottom: 1rem; */
+    background: ${({ theme }) => theme.offWhite};
+    color: black;
 
     h4 {
       /* color: ${({ theme }) => theme.primaryDark}; */
-      font-weight: 400;
-      font-size: 1.8rem;
+      font-weight: 600;
+      font-size: 2.2rem;
       margin: auto;
+
     }
   }
+
 
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
     /* grid-template-rows: 0rem 10rem 1fr 0rem;
@@ -64,6 +66,33 @@ export const ComparisonContainer = styled.div`
         line-height: 4rem;
       }
     }
+  }
+`;
+
+export const TextInputForm = styled.div`
+  grid-column: 2 / span 2;
+  height: 8rem;
+  background: ${({ theme }) => theme.grey};
+  display: flex;
+  flex-direction: column;
+  border-bottom: 3px solid ${({ theme }) => theme.contrast};
+  padding: 1rem;
+  margin: 0 1rem;
+  p {
+    width: 100%;
+    flex-grow: 1;
+    padding: 0;
+    margin: 0;
+    color: ${({ theme }) => theme.contrast};
+    line-height: 2rem;
+    font-size: 1.2rem;
+  }
+  textarea {
+    width: 100%;
+    flex-grow: 2;
+    background: ${({ theme }) => theme.grey};
+    margin: 0;
+    border: none;
   }
 `;
 
@@ -132,4 +161,16 @@ export const BackgroundFrame = styled.div`
 
 export const FeatureList = styled.div`
   display: grid;
+`;
+
+export const ChoiceContainer = styled.div`
+  display: grid;
+  grid-template-rows: min-content min-content;
+
+  grid-template-areas:
+    "icon"
+    "button";
+  div {
+    display: flex;
+  }
 `;
