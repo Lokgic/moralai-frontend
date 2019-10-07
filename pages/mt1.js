@@ -117,9 +117,10 @@ export default () => {
     setData(newData);
 
     setPopUp(0);
-    console.log(data);
+
     if (newData.length === endPoint && showReview < 0) {
       setShowReview(0);
+      setPopUp(2);
       setPair(newData[1].pair);
       setHighLighted(1 - newData[1].chosen);
     } else {
@@ -199,7 +200,7 @@ export default () => {
                 onClick={() => setShowReview(1)}
                 key={`confirm-just-butt`}
               >
-                Confirm Answer
+                Confirm
               </PatientNameButton>
             </UserIconContainer>
           ]}
@@ -220,7 +221,7 @@ export default () => {
           ))
         ])}
       </FeatureTable>
-      {popUp ? (
+      {popUp === 1 ? (
         <DarkOverlay>
           <Dialog>
             <div className="dialog-header">
@@ -241,6 +242,38 @@ export default () => {
                 Yes, proceed
               </button>
               <button onClick={() => setPopUp(0)}>No, go back </button>
+            </div>
+          </Dialog>
+        </DarkOverlay>
+      ) : popUp === 2 ? (
+        <DarkOverlay>
+          <Dialog big>
+            <div className="dialog-header">
+              <h2>Please tell us your thought process behind your decisions</h2>
+            </div>
+            <div className="message">
+              <p>
+                You will be prompted to explain three of your previous
+                decisions.
+              </p>
+              <p>
+                Your original selection will be highlighted, but you may click
+                the “change selection” button to change your selection if you
+                would like.
+              </p>
+              <p>
+                Please write a brief justification for why you chose the patient
+                to receive the kidney that you chose.
+              </p>
+              <p>
+                Once you have finished your response, please confirm your answer
+                to continue.
+              </p>
+            </div>
+            <div className="buttons">
+              <button className="confirm-button" onClick={() => setPopUp(0)}>
+                Proceed
+              </button>
             </div>
           </Dialog>
         </DarkOverlay>
