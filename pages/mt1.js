@@ -212,7 +212,7 @@ export default () => {
             <FeatureCell
               side={p}
               fi={fi}
-              valType={valType[f]}
+              valType="t"
               key={`f-cell--${p}_${fi}`}
             >
               <p>{translate(f, pair[p][f])}</p>
