@@ -14,20 +14,12 @@
     "npm": "^6.9.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-icons": "^3.5.0",
     "react-spring": "^8",
-    "reakit": "^0.15.13",
-    "reakit-theme-default": "^0.1.12",
     "styled-components": "^4.2.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
-    "@storybook/addon-actions": "^4.1.16",
-    "@storybook/addon-knobs": "^4.1.16",
-    "@storybook/addon-links": "^4.1.16",
-    "@storybook/addons": "^4.1.16",
-    "@storybook/react": "^4.1.16",
     "babel-loader": "^8.0.5",
     "babel-plugin-styled-components": "^1.10.0"
   },

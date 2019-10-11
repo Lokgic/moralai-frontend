@@ -20,6 +20,16 @@ import {
   FeatureHeader
 } from "../comp-styled/featureDisplayComps";
 
+const postURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000/post-dps"
+    : "https://moral-ai-backend.herokuapp.com/post-dps";
+
+const bdURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000/post-bdp"
+    : "https://moral-ai-backend.herokuapp.com/post-bdp";
+
 import { v1 } from "uuid";
 const features = arrayRandomizer(["age", "exp", "dependents"]);
 // Math.random() < 0.5
@@ -46,6 +56,7 @@ const progInterval = [...Array(midPoint).keys()]
 
 export default () => {
   const [ass, setAss] = useState(Math.floor(Math.random() * 2));
+  const [init, setInit] = useState(0);
   const [fakeProg, setFakeProg] = useState(0);
   const [showAss, setShowAss] = useState(-1);
   const [pairSeq, setSeq] = useState(
@@ -67,7 +78,7 @@ export default () => {
   const [userData] = useState({
     trialId: "imai1",
     userId: v1(),
-    asse: ass
+    ass
   });
   let springObject = {
     prog: Math.min(100, (data.length / endPoint) * 100) + "%",
@@ -99,6 +110,79 @@ export default () => {
     }
   };
 
+  useEffect(() => {
+    const sendBDs = () => {
+      setInit(1);
+      const { trialId, userId, ass } = userData;
+      const bd1 = {
+        trialId,
+        userId,
+        feature: "assessment",
+        label: ["expectancy", "dependents"][ass]
+      };
+      const bd2 = {
+        trialId,
+        userId,
+        feature: "feature-order",
+        label: features.join("-")
+      };
+      return fetch(bdURL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bd1)
+      })
+        .then(res =>
+          fetch(bdURL, {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bd2)
+          })
+        )
+        .then(res => {
+          return res;
+        });
+    };
+    if ((init === 0) & (data.length === 1)) sendBDs();
+  }, [init, data]);
+  useEffect(() => {
+    const sendDP = async ({ pair, chosen, time }) => {
+      const { trialId, userId } = userData;
+      const payload = {
+        decision: chosen,
+        trialId,
+        userId,
+        ...time
+      };
+      const patients = ["left", "right"];
+      const featureOrdered = ["exp", "dependents", "age"];
+      for (let p in pair) {
+        for (let f in featureOrdered) {
+          payload[`${patients[p]}_${parseInt(f) + 1}`] =
+            pair[p][featureOrdered[f]];
+        }
+        for (let d of [4, 5]) {
+          payload[`${patients[p]}_${d}`] = -999;
+        }
+      }
+
+      const rawResponse = await fetch(postURL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const res = await rawResponse;
+    };
+    if (data.length > 0) sendDP(data[data.length - 1]);
+  }, [data]);
   useEffect(() => {
     if (showAss === 0 && fakeProg < progInterval.length) {
       const totalTime = 10000;
