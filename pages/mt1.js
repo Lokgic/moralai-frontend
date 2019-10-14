@@ -3,14 +3,10 @@ import {
   UserIconContainer,
   PatientNameButton,
   Dialog,
-  DarkOverlay
+  DarkOverlay,
+  StackedButton
 } from "../comp-styled/interface";
-import {
-  PredefinedSeq,
-  seqRandomizer,
-  arrayRandomizer,
-  GeneralGen
-} from "../components/FeatureHelpers";
+import { arrayRandomizer, GeneralGen } from "../components/FeatureHelpers";
 import { useSpring, animated } from "react-spring";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,7 +19,17 @@ import {
 } from "../comp-styled/featureDisplayComps";
 import { theme } from "../components/Page";
 import { v1 } from "uuid";
-const features = arrayRandomizer(["cause", "exp", "drug"]);
+const postURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000/post-dps"
+    : "https://moral-ai-backend.herokuapp.com/post-dps";
+
+const bdURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000/post-bdp"
+    : "https://moral-ai-backend.herokuapp.com/post-bdp";
+const featureOrdered = ["cause", "exp", "drug"];
+const features = arrayRandomizer(featureOrdered);
 // Math.random() < 0.5
 //   ? ["age", "exp", "dependents"]
 //   : ["age", "dependents", "exp"];
@@ -63,28 +69,22 @@ const highLightedColor = { background: theme.tertiaryDark };
 
 const gen = new GeneralGen({ features, ranges });
 
-// const midPoint = 10;
-const endPoint = 3;
+const midPoint = 12;
+const endPoint = midPoint * 2;
 
 // const out = [...Array(55).keys()].map(d=>gen.randomPatient()).join(' ')
 
 export default () => {
-  //   const [ass, setAss] = useState(Math.floor(Math.random() * 2));
-  //   const [fakeProg, setFakeProg] = useState(0);
-  //   const [showAss, setShowAss] = useState(-1);
-  //   const [pairSeq, setSeq] = useState(
-  //     new PredefinedSeq({
-  //       seq,
-  //       features
-  //     })
-  //   );
+  const [init, setInit] = useState(-1);
   const [pair, setPair] = useState([gen.randomPatient(), gen.randomPatient()]);
   const [chosen, setChosen] = useState(-1);
   const [timeStamp, setTS] = useState(Date.now());
   const [data, setData] = useState([]);
   const [popUp, setPopUp] = useState(0);
   const [showReview, setShowReview] = useState(-1);
-  const [highlighted, setHighLighted] = useState(-1);
+  const [reviewSeq, setReviewSeq] = useState([]);
+  const [textInput, setTextInput] = useState("");
+  const [textData, setTextData] = useState([]);
   //   const [justification, setJustification] = useState("enter answer here");
   const handleClick = selected => {
     setChosen(selected);
@@ -92,16 +92,16 @@ export default () => {
   };
 
   const [userData] = useState({
-    trialId: "mg1",
+    trialId: "mt1",
     userId: v1()
   });
   let springObject = {
-    prog: Math.min(100, (data.length / endPoint) * 100) + "%",
+    prog: Math.min(100, (data.length / midPoint) * 100) + "%",
     config: { mass: 1, tension: 180, friction: 12 }
   };
   const spring = useSpring(springObject);
 
-  const getNewPair = selected => {
+  const getNewPair = () => {
     const newTS = Date.now();
 
     const time = {
@@ -115,20 +115,167 @@ export default () => {
     const newData = [...data, { pair, chosen, time }];
 
     setData(newData);
-
+    if (textInput !== "" && showReview > -1) {
+      setTextData([...textData, textInput]);
+      setTextInput("");
+    }
     setPopUp(0);
 
-    if (newData.length === endPoint && showReview < 0) {
+    if (newData.length === midPoint && showReview < 0) {
       setShowReview(0);
       setPopUp(2);
-      setPair(newData[1].pair);
-      setHighLighted(1 - newData[1].chosen);
-    } else {
+      const reviewSeq = arrayRandomizer(
+        newData.map((d, i) => {
+          return {
+            ...d,
+            originalRank: i,
+            chosen: i === 1 || i === 9 ? 1 - d.chosen : d.chosen
+          };
+        })
+      );
+      setReviewSeq(reviewSeq);
+
+      const index = newData.length - midPoint;
+      setPair(reviewSeq[index].pair);
+      setChosen(reviewSeq[index].chosen);
+      setTS(newTS);
+    } else if (
+      newData.length > midPoint &&
+      newData.length < endPoint &&
+      showReview === 0
+    ) {
+      const index = newData.length - midPoint;
+      setPair(reviewSeq[index].pair);
+      setChosen(reviewSeq[index].chosen);
+      setTS(newTS);
+    } else if (newData.length < midPoint && showReview < 0) {
       let newPair = gen.getNewPair();
       setPair(newPair);
       setTS(newTS);
+    } else if (newData.length === endPoint) {
+      setShowReview(1);
     }
   };
+  useEffect(() => {
+    const sendBDs = () => {
+      setInit(1);
+      const { trialId, userId } = userData;
+
+      const bd1 = {
+        trialId,
+        userId,
+        feature: "feature-order",
+        label: features.join("-")
+      };
+      return fetch(bdURL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bd1)
+      }).then(res => {
+        return res;
+      });
+    };
+    if ((init === 0) & (data.length === 1)) sendBDs();
+  }, [init, data]);
+  useEffect(() => {
+    const sendTDs = (index, textContent) => {
+      const { trialId, userId } = userData;
+
+      const bd1 = {
+        trialId,
+        userId,
+        feature: `t_${index}`,
+        label: textContent
+      };
+      return fetch(bdURL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bd1)
+      }).then(res => {
+        return res;
+      });
+    };
+    if ((showReview > -1) & (textData.length > 0)) {
+      sendTDs(textData.length - 1, textData[textData.length - 1]);
+    }
+  }, [textData, showReview]);
+  useEffect(() => {
+    const sendDP = async ({ pair, chosen, time }) => {
+      const { trialId, userId } = userData;
+      const payload = {
+        decision: chosen,
+        trialId,
+        userId,
+        ...time
+      };
+      const patients = ["left", "right"];
+
+      for (let p in pair) {
+        for (let f in featureOrdered) {
+          payload[`${patients[p]}_${parseInt(f) + 1}`] =
+            pair[p][featureOrdered[f]];
+        }
+        for (let d of [4, 5]) {
+          payload[`${patients[p]}_${d}`] = -999;
+        }
+      }
+
+      const rawResponse = await fetch(postURL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const res = await rawResponse;
+    };
+
+    const sendMTDP = async ({ pair, chosen, time }, originalRank) => {
+      const { trialId, userId } = userData;
+      const payload = {
+        decision: chosen,
+        trialId,
+        userId,
+        ...time
+      };
+      const patients = ["left", "right"];
+      for (let p in pair) {
+        for (let f in featureOrdered) {
+          payload[`${patients[p]}_${parseInt(f) + 1}`] =
+            pair[p][featureOrdered[f]];
+        }
+
+        payload[`${patients[p]}_4`] = originalRank;
+        payload[`${patients[p]}_5`] = -999;
+      }
+
+      const rawResponse = await fetch(postURL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const res = await rawResponse;
+    };
+
+    if (data.length > 0 && data.length <= midPoint) {
+      sendDP(data[data.length - 1]);
+    } else if (data.length > midPoint) {
+      sendMTDP(
+        data[data.length - 1],
+        reviewSeq[data.length - midPoint - 1].originalRank
+      );
+    }
+  }, [data]);
 
   return (
     <ComparisonContainer>
@@ -141,13 +288,13 @@ export default () => {
 
       <div
         className="about-a about"
-        style={highlighted === 0 ? highLightedColor : {}}
+        style={chosen === 0 && showReview === 0 ? highLightedColor : {}}
       >
         <h4>Patient A </h4>
       </div>
       <div
         className="about-b about"
-        style={highlighted === 1 ? highLightedColor : {}}
+        style={chosen === 1 && showReview === 0 ? highLightedColor : {}}
       >
         <h4>Patient B</h4>
       </div>
@@ -173,35 +320,31 @@ export default () => {
             </UserIconContainer>
           ])
         : [
-            <UserIconContainer area="choosea">
-              <FontAwesomeIcon
-                icon="user-friends"
-                className="user-icon"
-                key={`changeanswer`}
+            <TextInputForm key="textinput">
+              <p>
+                I chose the patient highlighted in <span>blue</span> because...
+              </p>
+              <textarea
+                placeholder="type answer here"
+                value={textInput}
+                onChange={e => setTextInput(e.target.value)}
               />
-              <PatientNameButton
-                onClick={() => setHighLighted(1 - highlighted)}
+            </TextInputForm>,
+            <UserIconContainer area="chooseb" key="icon-area-review">
+              <StackedButton
+                onClick={() => setChosen(1 - chosen)}
                 key={`change-ans-butt`}
+                style={{ gridRow: 1, background: "#999", boxShadow: "none" }}
               >
                 Change Selection
-              </PatientNameButton>
-            </UserIconContainer>,
-            <TextInputForm>
-              <p>I chose this patient because...</p>
-              <textarea placeholder="type answer here" />
-            </TextInputForm>,
-            <UserIconContainer area="chooseb">
-              <FontAwesomeIcon
-                icon="arrow-alt-circle-right"
-                className="user-icon"
-                key={`confirm-just`}
-              />
-              <PatientNameButton
-                onClick={() => setShowReview(1)}
+              </StackedButton>
+              <StackedButton
+                onClick={textInput === "" ? null : () => getNewPair()}
                 key={`confirm-just-butt`}
+                style={textInput === "" ? { cursor: "not-allowed" } : null}
               >
                 Confirm
-              </PatientNameButton>
+              </StackedButton>
             </UserIconContainer>
           ]}
       <FeatureTable n={features.length}>
@@ -252,10 +395,7 @@ export default () => {
               <h2>Please tell us your thought process behind your decisions</h2>
             </div>
             <div className="message">
-              <p>
-                You will be prompted to explain three of your previous
-                decisions.
-              </p>
+              <p>You will be prompted to explain your previous decisions.</p>
               <p>
                 Your original selection will be highlighted, but you may click
                 the “change selection” button to change your selection if you
@@ -278,7 +418,34 @@ export default () => {
           </Dialog>
         </DarkOverlay>
       ) : null}
-
+      {init === -1 ? (
+        <DarkOverlay>
+          <Dialog>
+            <div className="dialog-header">
+              <h2>Keep in mind</h2>
+            </div>
+            <div className="message">
+              <p>As you are deciding on who should get the kidney, remember:</p>
+              <p>All patients are 40 years old.</p>
+              <p>
+                Patients are expected to live less than a year if they do not
+                receive the transplant.
+              </p>
+            </div>
+            <div className="buttons">
+              <button
+                className="confirm-button"
+                onClick={() => {
+                  setPopUp(0);
+                  setInit(0);
+                }}
+              >
+                Proceed
+              </button>
+            </div>
+          </Dialog>
+        </DarkOverlay>
+      ) : null}
       {showReview === 1 ? (
         <DarkOverlay>
           <Dialog>

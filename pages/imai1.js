@@ -56,7 +56,7 @@ const progInterval = [...Array(midPoint).keys()]
 
 export default () => {
   const [ass, setAss] = useState(Math.floor(Math.random() * 2));
-  const [init, setInit] = useState(0);
+  const [init, setInit] = useState(-1);
   const [fakeProg, setFakeProg] = useState(0);
   const [showAss, setShowAss] = useState(-1);
   const [pairSeq, setSeq] = useState(
@@ -345,6 +345,33 @@ export default () => {
                 Please enter this code and complete the rest of your Qualtric
                 survey
               </p>
+            </div>
+          </Dialog>
+        </DarkOverlay>
+      ) : null}
+      {init === -1 ? (
+        <DarkOverlay>
+          <Dialog>
+            <div className="dialog-header">
+              <h2>Keep in mind</h2>
+            </div>
+            <div className="message">
+              <p>As you are deciding on who should get the kidney, remember:</p>
+              <p>
+                Patients are expected to live less than a year if they do not
+                receive the transplant.
+              </p>
+            </div>
+            <div className="buttons">
+              <button
+                className="confirm-button"
+                onClick={() => {
+                  setPopUp(0);
+                  setInit(0);
+                }}
+              >
+                Proceed
+              </button>
             </div>
           </Dialog>
         </DarkOverlay>

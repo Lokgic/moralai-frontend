@@ -70,7 +70,7 @@ export const ComparisonContainer = styled.div`
 `;
 
 export const TextInputForm = styled.div`
-  grid-column: 2 / span 2;
+  grid-column: 1 / span 3;
   align-self: stretch;
   /* height: 8rem; */
   background: ${({ theme }) => theme.grey};
@@ -78,7 +78,7 @@ export const TextInputForm = styled.div`
   flex-direction: column;
   border-bottom: 3px solid ${({ theme }) => theme.contrast};
   padding: 1rem;
-  margin: 0 1rem;
+  margin: 0 1rem 0 0;
   p {
     width: 100%;
     flex-grow: 1;
@@ -86,7 +86,10 @@ export const TextInputForm = styled.div`
     margin: 0;
     color: ${({ theme }) => theme.contrast};
     line-height: 2rem;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
+    span {
+      color: ${({ theme }) => theme.tertiaryDark};
+    }
   }
   textarea {
     width: 100%;
@@ -94,6 +97,7 @@ export const TextInputForm = styled.div`
     background: ${({ theme }) => theme.grey};
     margin: 0;
     border: none;
+    font-size: 1.4rem;
   }
 `;
 

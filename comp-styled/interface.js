@@ -251,6 +251,17 @@ export const CoinFlipButton = styled(DecideButton)``;
 
 export const PatientNameButton = styled(DecideButton)``;
 
+export const StackedButton = styled(DecideButton)`
+  margin: 0.5rem 0rem 0.5rem auto;
+  width: 80%;
+  font-size: 1.5rem;
+  line-height: 2em;
+  @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
+    font-size: 2.5rem;
+    margin: 1rem 0.2rem 1rem auto;
+  }
+`;
+
 export const FeatureContainer = styled.div`
   display: grid;
   grid-column: ${props => `${props.side * 2 + 1} / span 2`};
