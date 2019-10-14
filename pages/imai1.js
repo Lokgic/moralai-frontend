@@ -49,6 +49,7 @@ const midPoint = 10;
 const endPoint = 20;
 
 const seq = [...seqRandomizer(originaSeq), ...seqRandomizer(originaSeq)];
+
 // const out = [...Array(55).keys()].map(d=>gen.randomPatient()).join(' ')
 const progInterval = [...Array(midPoint).keys()]
   .map(() => Math.random())

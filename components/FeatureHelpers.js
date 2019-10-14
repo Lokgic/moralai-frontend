@@ -56,11 +56,11 @@ export class PredefinedSeq {
 export const seqRandomizer = seq => {
   let out = [...seq];
   for (let i = out.length - 1; i > 0; i--) {
-    if (Math.random() > 0.49) [out[i][0], out[i][1]] = [out[i][1], out[i][0]];
     const j = Math.floor(Math.random() * (i + 1));
     [out[i], out[j]] = [out[j], out[i]];
   }
-  return out;
+
+  return out.map(d => (Math.random() > 0.5 ? [d[1], d[0]] : d));
 };
 
 export const arrayRandomizer = seq => {
