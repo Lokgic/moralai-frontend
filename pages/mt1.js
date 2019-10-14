@@ -92,7 +92,7 @@ export default () => {
   };
 
   const [userData] = useState({
-    trialId: "mt1",
+    trialId: Math.random() <= 0.5 ? "mt1" : "mt1c",
     userId: v1()
   });
   let springObject = {
@@ -100,7 +100,7 @@ export default () => {
     config: { mass: 1, tension: 180, friction: 12 }
   };
   const spring = useSpring(springObject);
-
+  console.log(userData.trialId);
   const getNewPair = () => {
     const newTS = Date.now();
 
@@ -129,7 +129,10 @@ export default () => {
           return {
             ...d,
             originalRank: i,
-            chosen: i === 1 || i === 9 ? 1 - d.chosen : d.chosen
+            chosen:
+              (i === 1 || i === 9) && userData.trialId === "mt1"
+                ? 1 - d.chosen
+                : d.chosen
           };
         })
       );
