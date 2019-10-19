@@ -35,13 +35,13 @@ const features = arrayRandomizer(featureOrdered);
 //   : ["age", "dependents", "exp"];
 const featuresPredicates = {
   drug: "Drug Use",
-  exp: "Years of Life Expectancy After Transplantation",
+  exp: "Life Expectancy After Transplantation",
   cause: "Primary Cause of Kidney Failure"
 };
 
 const ranges = {
   drug: [0, 2],
-  exp: [2, 25],
+  exp: [0, 2],
   cause: [0, 1]
 };
 
@@ -54,7 +54,7 @@ const valType = {
 const translate = (feature, value) => {
   switch (feature) {
     case "exp":
-      return value;
+      return ["Low", "Medium", "High"][value];
       break;
     case "drug":
       return ["None", "Light", "Heavy"][value];
@@ -433,6 +433,11 @@ export default () => {
               <p>
                 Patients are expected to live less than a year if they do not
                 receive the transplant.
+              </p>
+              <p>
+                Low life expectancy means patient will live 2 to 5 years after
+                organ transplant. For medium life expectancy, it's 6 to 15. For
+                high life expectancy, it's 15 or more.
               </p>
             </div>
             <div className="buttons">
