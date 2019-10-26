@@ -458,3 +458,33 @@ export const Dialog = styled.div`
     }
   }
 `;
+
+export const LikertScale = styled.div`
+  display: flex;
+  flex-direction: row;
+  .likert-item {
+    display: flex;
+    margin: 1rem auto;
+    flex-direction: column;
+
+    p {
+      margin: 1rem auto;
+      text-align: center;
+      font-size: 1.5rem;
+      max-width: 6rem;
+      text-transform: capitalize;
+    }
+  }
+`;
+
+export const LikertOption = styled.div`
+  margin: 1rem auto;
+  width: 3rem;
+  height: 3rem;
+  border: 0.5rem black solid;
+  background: ${props => (props.active ? "black" : "none")};
+  cursor: pointer;
+  :hover {
+    background: grey;
+  }
+`;
