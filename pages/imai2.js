@@ -86,8 +86,8 @@ const preQuestions = [
 
   "past contribution to society",
   "projected contribution to society",
-  "political beliefs",
-  "religious beliefs"
+  "political belief",
+  "religious belief"
 ];
 
 const originaSeq = [
