@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "next/router";
 import {
   UserIconContainer,
   PatientNameButton,
@@ -132,7 +133,8 @@ const progInterval = [...Array(preQuestions.length).keys()]
   .map(() => Math.random())
   .sort((a, b) => a - b);
 
-export default () => {
+export default withRouter(props => {
+  const [controlGroup] = useState(props.router.query.grp === "c");
   const [ass, setAss] = useState(-2);
   const [assResponse, setAssResponse] = useState(-1);
   const [stage, setStage] = useState(0);
@@ -204,9 +206,11 @@ export default () => {
 
     setTS(newTS);
     setChosen(-1);
-    if (newPredata.length === preQuestions.length) {
+    if (newPredata.length === preQuestions.length && !controlGroup) {
       setStage(2);
       setShowAss(0);
+    } else if (newPredata.length === preQuestions.length && controlGroup) {
+      setStage(3);
     }
   };
   // track ass response
@@ -245,13 +249,29 @@ export default () => {
 
   // fetch assessment at the beginning
   useEffect(() => {
+    const { trialId, userId } = userData;
+    const sendBDs = async postObject => {
+      const response = await fetch(bdURL, postObject);
+      return response;
+    };
     const fetchAss = async () => {
       const randass = await fetch(samplingURL);
       return randass.json();
     };
-    fetchAss().then(res => setAss(res));
+    if (controlGroup) {
+      const payload = makePostObject({
+        trialId,
+        userId,
+        feature: "group",
+        label: -1
+      });
+      sendBDs(payload);
+    } else {
+      fetchAss().then(res => setAss(res));
+    }
+
     setStage(1);
-  }, []);
+  }, [controlGroup]);
 
   // data sender
   useEffect(() => {
@@ -308,7 +328,6 @@ export default () => {
     const { trialId, userId } = userData;
     const sendBDs = async postObject => {
       const response = await fetch(bdURL, postObject);
-      // console.log(response);
       return response;
     };
 
@@ -562,6 +581,11 @@ export default () => {
               <h2>Keep in mind</h2>
             </div>
             <div className="message">
+              {controlGroup ? (
+                <p className="choice-message">
+                  Our AI is analyzing your previous responses.
+                </p>
+              ) : null}
               <p>
                 Now, we are interested in your judgment on which particular
                 patient should get a kidney. As you are deciding on who should
@@ -588,4 +612,4 @@ export default () => {
       ) : null}
     </ComparisonContainer>
   );
-};
+});
