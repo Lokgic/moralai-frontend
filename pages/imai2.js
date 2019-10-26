@@ -22,6 +22,17 @@ import {
   FeatureHeader
 } from "../comp-styled/featureDisplayComps";
 
+const makePostObject = payload => {
+  return {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  };
+};
+
 const postURL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:5000/post-dps"
@@ -55,9 +66,7 @@ const dataTemplate = {
 };
 
 const features = arrayRandomizer(featuresOrdered);
-// Math.random() < 0.5
-//   ? ["age", "exp", "dependents"]
-//   : ["age", "dependents", "exp"];
+
 const featuresPredicates = {
   age: "Age",
   exp: "Years of Life Expectancy After Transplantation",
@@ -79,16 +88,16 @@ const preQuestions = [
   "occupation",
   "wealth",
   "current mental health",
-
   "whether a patient has previously donated a kidney",
   "whether a patient has previously received a kidney donation",
   "quality of life if given the transplant",
-
   "past contribution to society",
   "projected contribution to society",
   "political belief",
   "religious belief"
 ];
+
+const totalTime = 10000;
 
 const originaSeq = [
   [{ exp: 20, dependents: 1, age: 40 }, { exp: 10, dependents: 4, age: 40 }],
@@ -114,7 +123,6 @@ const originaSeq = [
   [{ exp: 20, dependents: 0, age: 40 }, { exp: 1, dependents: 0, age: 40 }]
 ];
 
-const midPoint = 10;
 const endPoint = originaSeq.length;
 
 const seq = [...seqRandomizer(originaSeq)];
@@ -126,7 +134,8 @@ const progInterval = [...Array(preQuestions.length).keys()]
 
 export default () => {
   const [ass, setAss] = useState(-2);
-  const [stage, setStage] = useState(1);
+  const [assResponse, setAssResponse] = useState(-1);
+  const [stage, setStage] = useState(0);
   const [fakeProg, setFakeProg] = useState(0);
   const [showAss, setShowAss] = useState(-1);
   const [pairSeq, setSeq] = useState(
@@ -200,11 +209,26 @@ export default () => {
       setShowAss(0);
     }
   };
+  // track ass response
+  useEffect(() => {
+    if (assResponse > -1 && stage === 2) {
+      const { trialId, userId } = userData;
+      const postObject = makePostObject({
+        trialId,
+        userId,
+        feature: "response",
+        label: assResponse
+      });
+
+      fetch(bdURL, postObject);
+      // move to decision phase
+      setStage(3);
+    }
+  }, [assResponse, stage]);
 
   // fakeprog effect
   useEffect(() => {
     if (showAss === 0 && fakeProg < progInterval.length) {
-      const totalTime = 10000;
       const timeLine = progInterval.map((d, i) =>
         i === 0 ? d * totalTime : (d - progInterval[i - 1]) * totalTime
       );
@@ -219,106 +243,94 @@ export default () => {
     }
   }, [showAss, fakeProg, ass]);
 
+  // fetch assessment at the beginning
   useEffect(() => {
     const fetchAss = async () => {
       const randass = await fetch(samplingURL);
       return randass.json();
     };
     fetchAss().then(res => setAss(res));
+    setStage(1);
   }, []);
 
   // data sender
-
   useEffect(() => {
     const { trialId, userId } = userData;
-    const sendBDs = async ({ feature, label }) => {
-      const bd1 = {
-        trialId,
-        userId,
-        feature,
-        label
-      };
-      const response = await fetch(bdURL, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(bd1)
-      });
-      // console.log(response);
-      return response;
-    };
-    const sendDP = async payload => {
-      const rawResponse = await fetch(postURL, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-
+    const sendDP = async postObject => {
+      const rawResponse = await fetch(postURL, postObject);
       // console.log(rawResponse);
       return rawResponse;
     };
 
-    switch (stage) {
-      case 0: {
-        break;
-      }
-      case 1:
-      case 2:
-      case 3: {
-        if (predata.length <= preQuestions.length && predata.length > 0) {
-          const left_5 = predata.length - 1;
-          const { decision, time } = predata[left_5];
-          const payload = {
-            ...dataTemplate,
-            left_5,
-            decision,
-            userId,
-            trialId,
-            ...time
-          };
-          sendDP(payload);
+    if (data.length > 0) {
+      const { pair, chosen, time } = data[data.length - 1];
+      const payload = {
+        ...dataTemplate,
+        decision: chosen,
+        trialId,
+        userId,
+        ...time
+      };
+      const patients = ["left", "right"];
+      for (let p in pair) {
+        for (let f in featuresOrdered) {
+          payload[`${patients[p]}_${parseInt(f) + 1}`] =
+            pair[p][featuresOrdered[f]];
         }
-        if (predata.length === 1) {
-          sendBDs({
-            feature: "assessment",
-            label: ["expectancy", "dependents"][ass]
-          });
-          sendBDs({
-            feature: "feature-order",
-            label: features.join("-")
-          });
-        }
-        break;
       }
-      case 4: {
-        if (data.length > 0) {
-          const { pair, chosen, time } = data[data.length - 1];
-          const payload = {
-            ...dataTemplate,
-            decision: chosen,
-            trialId,
-            userId,
-            ...time
-          };
-          const patients = ["left", "right"];
-          for (let p in pair) {
-            for (let f in featuresOrdered) {
-              payload[`${patients[p]}_${parseInt(f) + 1}`] =
-                pair[p][featuresOrdered[f]];
-            }
-          }
-          sendDP(payload);
-        }
-
-        break;
-      }
+      sendDP(makePostObject(payload));
     }
-  }, [stage, predata, data]);
+  }, [data]);
+
+  useEffect(() => {
+    const { trialId, userId } = userData;
+    const sendDP = async postObject => {
+      const rawResponse = await fetch(postURL, postObject);
+      // console.log(rawResponse);
+      return rawResponse;
+    };
+    if (predata.length > 0) {
+      const left_5 = predata.length - 1;
+      const { decision, time } = predata[left_5];
+      const payload = {
+        ...dataTemplate,
+        left_5,
+        decision,
+        userId,
+        trialId,
+        ...time
+      };
+      sendDP(makePostObject(payload));
+    }
+  }, [predata]);
+  // track stage to stager sending behavioral data
+  useEffect(() => {
+    const { trialId, userId } = userData;
+    const sendBDs = async postObject => {
+      const response = await fetch(bdURL, postObject);
+      // console.log(response);
+      return response;
+    };
+
+    if (stage === 2) {
+      const payload = makePostObject({
+        trialId,
+        userId,
+        feature: "group",
+        label: ass
+      });
+      sendBDs(payload);
+    }
+    if (stage === 3) {
+      const payload = makePostObject({
+        trialId,
+        userId,
+        feature: "feature-order",
+        label: features.join("-")
+      });
+      sendBDs(payload);
+    }
+  }, [stage]);
 
   return (
     <ComparisonContainer>
@@ -428,11 +440,9 @@ export default () => {
               </p>
               <p className="choice-message">
                 I feel that{" "}
-                <span style={{ fontWeight: 700 }}>
-                  {preQuestions[predata.length]}
-                </span>{" "}
-                is important in determining which patient should receive a
-                donated kidney
+                <span className="emph">{preQuestions[predata.length]}</span> is
+                important in determining which patient should receive a donated
+                kidney
               </p>
 
               <LikertScale>
@@ -463,7 +473,7 @@ export default () => {
         <DarkOverlay>
           <Dialog big>
             <div className="dialog-header">
-              <h2>Moral Judgment Assessment</h2>
+              <h2>AI Moral Personality Assessment Result</h2>
             </div>
             {showAss === 0
               ? [
@@ -493,24 +503,53 @@ export default () => {
                 ]
               : [
                   <div className="message" key="show-ass-msg-1">
-                    <p>According to our AI model, you care a lot about</p>
-                    <p className="choice-message">
-                      {
-                        [
-                          "the life expectancy of patients",
-                          "how many dependents patients have"
-                        ][ass]
-                      }
-                    </p>
+                    <p>According to our AI model, you care</p>
+
+                    {
+                      [
+                        <p key="exp-msg" className="choice-message">
+                          <span className="emph">
+                            more about the life expectancy of the patients
+                          </span>{" "}
+                          than how many dependents they have
+                        </p>,
+                        <p key="dep-msg" className="choice-message">
+                          <span className="emph">
+                            more about how many dependents patients have
+                          </span>{" "}
+                          than their life expectancy"
+                        </p>
+                      ][ass === 0 || ass === 2 ? 0 : 1]
+                    }
+
                     <p>when making decisions about who will get a kidney.</p>
                   </div>,
                   <div className="buttons" key="show-ass-butt-1">
-                    <button
-                      className="confirm-button"
-                      onClick={() => setStage(3)}
-                    >
-                      I have taken note of my assessment.
-                    </button>
+                    {ass < 2 ? (
+                      <button
+                        className="confirm-button"
+                        onClick={() => setStage(3)}
+                      >
+                        I have taken note of my assessment.
+                      </button>
+                    ) : (
+                      [
+                        <button
+                          key="disagree-button-key"
+                          className="disagree-button"
+                          onClick={() => setAssResponse(0)}
+                        >
+                          I DISAGREE with the AI assessment.
+                        </button>,
+                        <button
+                          key="agree-button-key"
+                          className="agree-button"
+                          onClick={() => setAssResponse(1)}
+                        >
+                          I AGREE with the AI assessment
+                        </button>
+                      ]
+                    )}
                   </div>
                 ]}
           </Dialog>

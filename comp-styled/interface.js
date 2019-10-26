@@ -418,10 +418,13 @@ export const Dialog = styled.div`
     .choice-message {
       color: rgba(0, 0, 0, 1);
       margin-top: 3rem;
-      font-size: 3rem;
+      font-size: 2.4rem;
       font-weight: 300;
       text-align: center;
-      line-height: 3.2rem;
+      line-height: 2.7rem;
+      .emph {
+        font-weight: 700;
+      }
     }
   }
   .dialog-header {
@@ -449,12 +452,23 @@ export const Dialog = styled.div`
       -webkit-transition: background 600ms cubic-bezier(0.2, 0.965, 0, 1.005);
       transition: background 600ms cubic-bezier(0.2, 0.965, 0, 1.005);
       padding: 0.5rem;
+      cursor: pointer;
       &:hover {
         background: rgba(200, 200, 200, 0.7);
       }
     }
     .confirm-button {
       color: ${({ theme }) => theme.blue};
+    }
+    .agree-button {
+      color: ${({ theme }) => theme.blue};
+      text-transform: none;
+      margin: auto;
+    }
+    .disagree-button {
+      color: ${({ theme }) => theme.contrast};
+      text-transform: none;
+      margin: auto;
     }
   }
 `;
