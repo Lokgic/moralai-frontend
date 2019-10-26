@@ -83,22 +83,22 @@ const LikertScaleTexts = [
 ];
 const preQuestions = [
   "record of violent crime",
-  // "record of non-violent crime",
-  // "sex/gender",
-  // "race",
-  // "occupation",
-  // "wealth",
-  // "current mental health",
-  // "whether a patient has previously donated a kidney",
-  // "whether a patient has previously received a kidney donation",
-  // "quality of life if given the transplant",
-  // "past contribution to society",
-  // "projected contribution to society",
-  // "political belief",
+  "record of non-violent crime",
+  "sex/gender",
+  "race",
+  "occupation",
+  "wealth",
+  "current mental health",
+  "whether a patient has previously donated a kidney",
+  "whether a patient has previously received a kidney donation",
+  "quality of life if given the transplant",
+  "past contribution to society",
+  "projected contribution to society",
+  "political belief",
   "religious belief"
 ];
 
-const totalTime = 1000;
+const totalTime = 10000;
 
 const originaSeq = [
   [{ exp: 20, dependents: 1, age: 40 }, { exp: 10, dependents: 4, age: 40 }],
