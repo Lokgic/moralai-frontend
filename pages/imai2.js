@@ -83,22 +83,22 @@ const LikertScaleTexts = [
 ];
 const preQuestions = [
   "record of violent crime",
-  "record of non-violent crime",
-  "sex/gender",
-  "race",
-  "occupation",
-  "wealth",
-  "current mental health",
-  "whether a patient has previously donated a kidney",
-  "whether a patient has previously received a kidney donation",
-  "quality of life if given the transplant",
-  "past contribution to society",
-  "projected contribution to society",
-  "political belief",
+  // "record of non-violent crime",
+  // "sex/gender",
+  // "race",
+  // "occupation",
+  // "wealth",
+  // "current mental health",
+  // "whether a patient has previously donated a kidney",
+  // "whether a patient has previously received a kidney donation",
+  // "quality of life if given the transplant",
+  // "past contribution to society",
+  // "projected contribution to society",
+  // "political belief",
   "religious belief"
 ];
 
-const totalTime = 10000;
+const totalTime = 1000;
 
 const originaSeq = [
   [{ exp: 20, dependents: 1, age: 40 }, { exp: 10, dependents: 4, age: 40 }],
@@ -133,8 +133,8 @@ const progInterval = [...Array(preQuestions.length).keys()]
   .map(() => Math.random())
   .sort((a, b) => a - b);
 
-export default withRouter(props => {
-  const [controlGroup] = useState(props.router.query.grp === "c");
+export default props => {
+  const [controlGroup] = useState(props.control === true);
   const [ass, setAss] = useState(-2);
   const [assResponse, setAssResponse] = useState(-1);
   const [stage, setStage] = useState(0);
@@ -612,4 +612,4 @@ export default withRouter(props => {
       ) : null}
     </ComparisonContainer>
   );
-});
+};
