@@ -267,10 +267,11 @@ export default props => {
       return randass.json();
     };
     if (ass === -2) {
-      fetchAss().then(res => setAss(res));
+      fetchAss().then(res => {
+        setAss(res);
+        setStage(0);
+      });
     }
-
-    setStage(0);
   }, [ass]);
 
   // data sender
