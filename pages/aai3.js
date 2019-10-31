@@ -46,8 +46,8 @@ const bdURL =
 
 const samplingURL =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:5000/mt2g"
-    : "https://moral-ai-backend.herokuapp.com/mt2g";
+    ? "http://localhost:5000/aai3group"
+    : "https://moral-ai-backend.herokuapp.com/aai3group";
 
 import { v1 } from "uuid";
 
@@ -82,18 +82,18 @@ const LikertScaleTexts = [
   "strongly agree"
 ];
 const preQuestions = [
-  // "record of violent crime",
-  // "record of non-violent crime",
-  // "sex/gender",
-  // "race",
-  // "occupation",
-  // "wealth",
-  // "current mental health",
-  // "whether a patient has previously donated a kidney",
-  // "whether a patient has previously received a kidney donation",
-  // "quality of life if given the transplant",
-  // "past contribution to society",
-  // "projected contribution to society",
+  "record of violent crime",
+  "record of non-violent crime",
+  "sex/gender",
+  "race",
+  "occupation",
+  "wealth",
+  "current mental health",
+  "whether a patient has previously donated a kidney",
+  "whether a patient has previously received a kidney donation",
+  "quality of life if given the transplant",
+  "past contribution to society",
+  "projected contribution to society",
   "political belief",
   "religious belief"
 ];
@@ -331,7 +331,7 @@ export default props => {
       return response;
     };
 
-    if (stage === 2) {
+    if (stage === 3) {
       const payload = makePostObject({
         trialId,
         userId,
