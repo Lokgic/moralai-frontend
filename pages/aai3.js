@@ -638,8 +638,9 @@ export default props => {
                 </p>
               ) : ass === 3 || ass === 4 ? (
                 <p className="choice-message">
-                  Our expert psychologists are interested in your judgment on
-                  which particular patient should get a kidney.
+                  Our expert psychologists will study your judgment on which
+                  particular patient should get a kidney to improve the
+                  psychological test they are developing.
                 </p>
               ) : (
                 <p className="choice-message">
@@ -647,7 +648,11 @@ export default props => {
                   should get a kidney.
                 </p>
               )}
-              <p>As you are deciding on who should get the kidney, remember:</p>
+              <p>
+                You will be asked to select one of the patients to receive a
+                kidney. As you are deciding on who should get the kidney,
+                remember:
+              </p>
               <p>
                 Patients are expected to live less than a year if they do not
                 receive the transplant.
