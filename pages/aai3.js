@@ -406,9 +406,13 @@ export default props => {
                 </p>
               ) : ass === 3 || ass === 4 ? (
                 <p className="choice-message">
-                  A <span className="emph">psychological test</span> will be
-                  used to analyze your responses to these questions to predict
-                  how you will make decisions in the next part of the activity.
+                  A{" "}
+                  <span className="emph">
+                    psychological tests developed by expert psychologists
+                  </span>{" "}
+                  will be used to analyze your responses to these questions to
+                  predict how you will make decisions in the next part of the
+                  activity.
                 </p>
               ) : null}
             </div>
@@ -628,8 +632,9 @@ export default props => {
             <div className="message">
               {ass === 1 || ass == 2 ? (
                 <p className="choice-message">
-                  Our AI model will now analyze your judgment on which
-                  particular patient should get a kidney.
+                  our AI model will be trained on how you make decisions about
+                  who should receive kidneys based on your responses to the next
+                  questions.
                 </p>
               ) : ass === 3 || ass === 4 ? (
                 <p className="choice-message">
