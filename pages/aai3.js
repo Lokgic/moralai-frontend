@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "next/router";
+
 import {
   UserIconContainer,
   PatientNameButton,
@@ -82,18 +82,18 @@ const LikertScaleTexts = [
   "strongly agree"
 ];
 const preQuestions = [
-  "record of violent crime",
-  "record of non-violent crime",
-  "sex/gender",
-  "race",
-  "occupation",
-  "wealth",
-  "current mental health",
-  "whether a patient has previously donated a kidney",
-  "whether a patient has previously received a kidney donation",
-  "quality of life if given the transplant",
-  "past contribution to society",
-  "projected contribution to society",
+  // "record of violent crime",
+  // "record of non-violent crime",
+  // "sex/gender",
+  // "race",
+  // "occupation",
+  // "wealth",
+  // "current mental health",
+  // "whether a patient has previously donated a kidney",
+  // "whether a patient has previously received a kidney donation",
+  // "quality of life if given the transplant",
+  // "past contribution to society",
+  // "projected contribution to society",
   "political belief",
   "religious belief"
 ];
@@ -134,11 +134,11 @@ const progInterval = [...Array(preQuestions.length).keys()]
   .sort((a, b) => a - b);
 
 export default props => {
-  const [controlGroup] = useState(props.control === true);
-  const [ass, setAss] = props.forcedState
-    ? useState(props.forcedState)
-    : useState(-2);
-  const [assResponse, setAssResponse] = useState(-1);
+  // const [controlGroup] = useState(props.control === true);
+  const [ass, setAss] =
+    props.forcedState >= 0 ? useState(props.forcedState) : useState(-2);
+  // const ass = 1;
+  console.log(ass);
   const [stage, setStage] = useState(0);
   const [fakeProg, setFakeProg] = useState(0);
   const [showAss, setShowAss] = useState(-1);
@@ -160,7 +160,7 @@ export default props => {
   };
 
   const [userData] = useState({
-    trialId: "imai2",
+    trialId: "aai3",
     userId: v1(),
     ass
   });
@@ -208,29 +208,35 @@ export default props => {
 
     setTS(newTS);
     setChosen(-1);
-    if (newPredata.length === preQuestions.length && !controlGroup) {
+    if (newPredata.length === preQuestions.length && (ass === 1 || ass == 2)) {
       setStage(2);
       setShowAss(0);
-    } else if (newPredata.length === preQuestions.length && controlGroup) {
+    } else if (
+      newPredata.length === preQuestions.length &&
+      (ass === 3 || ass == 4)
+    ) {
+      setStage(2);
+      setShowAss(1);
+    } else if (newPredata.length === preQuestions.length && ass === 0) {
       setStage(3);
     }
   };
   // track ass response
-  useEffect(() => {
-    if (assResponse > -1 && stage === 2) {
-      const { trialId, userId } = userData;
-      const postObject = makePostObject({
-        trialId,
-        userId,
-        feature: "response",
-        label: assResponse
-      });
+  // useEffect(() => {
+  //   if (assResponse > -1 && stage === 2) {
+  //     const { trialId, userId } = userData;
+  //     const postObject = makePostObject({
+  //       trialId,
+  //       userId,
+  //       feature: "response",
+  //       label: assResponse
+  //     });
 
-      fetch(bdURL, postObject);
-      // move to decision phase
-      setStage(3);
-    }
-  }, [assResponse, stage]);
+  //     fetch(bdURL, postObject);
+  //     // move to decision phase
+  //     setStage(3);
+  //   }
+  // }, [assResponse, stage]);
 
   // fakeprog effect
   useEffect(() => {
@@ -251,29 +257,21 @@ export default props => {
 
   // fetch assessment at the beginning
   useEffect(() => {
-    const { trialId, userId } = userData;
-    const sendBDs = async postObject => {
-      const response = await fetch(bdURL, postObject);
-      return response;
-    };
+    // const { trialId, userId } = userData;
+    // const sendBDs = async postObject => {
+    //   const response = await fetch(bdURL, postObject);
+    //   return response;
+    // };
     const fetchAss = async () => {
       const randass = await fetch(samplingURL);
       return randass.json();
     };
-    if (controlGroup) {
-      const payload = makePostObject({
-        trialId,
-        userId,
-        feature: "group",
-        label: -1
-      });
-      sendBDs(payload);
-    } else if (ass === -2) {
+    if (ass === -2) {
       fetchAss().then(res => setAss(res));
     }
 
     setStage(1);
-  }, [controlGroup, ass]);
+  }, [ass]);
 
   // data sender
   useEffect(() => {
@@ -342,15 +340,15 @@ export default props => {
       });
       sendBDs(payload);
     }
-    if (stage === 3) {
-      const payload = makePostObject({
-        trialId,
-        userId,
-        feature: "feature-order",
-        label: features.join("-")
-      });
-      sendBDs(payload);
-    }
+    // if (stage === 3) {
+    //   const payload = makePostObject({
+    //     trialId,
+    //     userId,
+    //     feature: "feature-order",
+    //     label: features.join("-")
+    //   });
+    //   sendBDs(payload);
+    // }
   }, [stage]);
 
   return (
@@ -452,7 +450,13 @@ export default props => {
         <DarkOverlay>
           <Dialog big>
             <div className="dialog-header">
-              <h2>Moral Personality Assessment</h2>
+              <h2>
+                {ass === 0
+                  ? "Moral Personality Assessment"
+                  : ass > 0 && ass < 3
+                  ? "AI Moral Personality Assessment"
+                  : "Psychological Moral Personality Assessment"}
+              </h2>
             </div>
             <div className="message">
               <p>
@@ -494,7 +498,11 @@ export default props => {
         <DarkOverlay>
           <Dialog big>
             <div className="dialog-header">
-              <h2>AI Moral Personality Assessment Result</h2>
+              <h2>
+                {ass > 0 && ass < 3
+                  ? "AI Moral Personality Assessment Result"
+                  : "Psychological Assessment Result"}
+              </h2>
             </div>
             {showAss === 0
               ? [
@@ -524,7 +532,11 @@ export default props => {
                 ]
               : [
                   <div className="message" key="show-ass-msg-1">
-                    <p>According to our AI model, you care</p>
+                    <p>
+                      According to our{" "}
+                      {ass > 0 && ass < 3 ? "AI Model" : "expert psychologists"}
+                      , you care
+                    </p>
 
                     {
                       [
@@ -540,37 +552,22 @@ export default props => {
                           </span>{" "}
                           than their life expectancy"
                         </p>
-                      ][ass === 0 || ass === 2 ? 0 : 1]
+                      ][ass === 1 || ass === 3 ? 0 : 1]
                     }
 
                     <p>when making decisions about who will get a kidney.</p>
                   </div>,
                   <div className="buttons" key="show-ass-butt-1">
-                    {ass < 2 ? (
+                    {ass > 0 ? (
                       <button
                         className="confirm-button"
                         onClick={() => setStage(3)}
                       >
-                        I have taken note of my assessment.
+                        I have taken note of{" "}
+                        {ass > 0 && ass < 3 ? "the AI" : "psychological"}{" "}
+                        assessment.
                       </button>
-                    ) : (
-                      [
-                        <button
-                          key="disagree-button-key"
-                          className="disagree-button"
-                          onClick={() => setAssResponse(0)}
-                        >
-                          I DISAGREE with the AI assessment.
-                        </button>,
-                        <button
-                          key="agree-button-key"
-                          className="agree-button"
-                          onClick={() => setAssResponse(1)}
-                        >
-                          I AGREE with the AI assessment
-                        </button>
-                      ]
-                    )}
+                    ) : null}
                   </div>
                 ]}
           </Dialog>
@@ -580,19 +577,26 @@ export default props => {
         <DarkOverlay>
           <Dialog>
             <div className="dialog-header">
-              <h2>Keep in mind</h2>
+              <h2>Next Step</h2>
             </div>
             <div className="message">
-              {controlGroup ? (
+              {ass === 1 || ass == 2 ? (
                 <p className="choice-message">
-                  Our AI is analyzing your previous responses.
+                  Our AI model will now analyze your judgment on which
+                  particular patient should get a kidney.
                 </p>
-              ) : null}
-              <p>
-                Now, we are interested in your judgment on which particular
-                patient should get a kidney. As you are deciding on who should
-                get the kidney, remember:
-              </p>
+              ) : ass === 3 || ass === 4 ? (
+                <p className="choice-message">
+                  Our expert psychologists are interested in your judgment on
+                  which particular patient should get a kidney.
+                </p>
+              ) : (
+                <p className="choice-message">
+                  We are interested in your judgment on which particular patient
+                  should get a kidney.
+                </p>
+              )}
+              <p>As you are deciding on who should get the kidney, remember:</p>
               <p>
                 Patients are expected to live less than a year if they do not
                 receive the transplant.
