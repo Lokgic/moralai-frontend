@@ -398,10 +398,7 @@ export default props => {
               </p>
               {ass === 1 || ass == 2 ? (
                 <p className="choice-message">
-                  An{" "}
-                  <span className="emph">
-                    artificially intelligent(AI) agent
-                  </span>{" "}
+                  An <span className="emph">artificial intelligence (AI)</span>{" "}
                   will use your responses to these questions to predict how you
                   will make decisions in the next part of the activity.
                 </p>
@@ -409,7 +406,7 @@ export default props => {
                 <p className="choice-message">
                   A{" "}
                   <span className="emph">
-                    psychological tests developed by expert psychologists
+                    psychological test developed by expert psychologists
                   </span>{" "}
                   will be used to analyze your responses to these questions to
                   predict how you will make decisions in the next part of the
@@ -425,7 +422,7 @@ export default props => {
                 }}
               >
                 {ass === 1 || ass == 2
-                  ? "I understand that my response will be evaluated by an AI agent"
+                  ? "I understand that my response will be evaluated by an AI"
                   : ass === 3 || ass === 4
                   ? "I understand that my response will be evaluated by a psychological test"
                   : "Proceed"}
@@ -585,7 +582,9 @@ export default props => {
                   <div className="message" key="show-ass-msg-1">
                     <p>
                       According to our{" "}
-                      {ass > 0 && ass < 3 ? "AI Model" : "expert psychologists"}
+                      {ass > 0 && ass < 3
+                        ? "artificial intelligence"
+                        : "expert psychologists"}
                       , you care
                     </p>
 
@@ -633,8 +632,8 @@ export default props => {
             <div className="message">
               {ass === 1 || ass == 2 ? (
                 <p className="choice-message">
-                  our AI model will be trained on how you make decisions about
-                  who should receive kidneys based on your responses to the next
+                  our AI will be trained on how you make decisions about who
+                  should receive kidneys based on your responses to the next
                   questions.
                 </p>
               ) : ass === 3 || ass === 4 ? (
