@@ -86,7 +86,7 @@ class Header extends Component {
         {SLogo}
 
         <MenuLink href="http://moralai.cs.duke.edu/about.html" target="_blank">
-          <Emphasis>Duke</Emphasis> moral AI Lab
+          <Emphasis>Duke</Emphasis> Lab
         </MenuLink>
       </StyHeader>
     );

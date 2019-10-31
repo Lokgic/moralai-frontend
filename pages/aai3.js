@@ -139,7 +139,7 @@ export default props => {
     props.forcedState >= 0 ? useState(props.forcedState) : useState(-2);
   // const ass = 1;
   console.log(ass);
-  const [stage, setStage] = useState(0);
+  const [stage, setStage] = useState(-1);
   const [fakeProg, setFakeProg] = useState(0);
   const [showAss, setShowAss] = useState(-1);
   const [pairSeq, setSeq] = useState(
@@ -270,7 +270,7 @@ export default props => {
       fetchAss().then(res => setAss(res));
     }
 
-    setStage(1);
+    setStage(0);
   }, [ass]);
 
   // data sender
@@ -383,6 +383,52 @@ export default props => {
           </PatientNameButton>
         </UserIconContainer>
       ])}
+      {stage === 0 ? (
+        <DarkOverlay>
+          <Dialog big>
+            <div className="dialog-header">
+              <h2>Introduction</h2>
+            </div>
+            <div className="message">
+              <p>
+                In this activity, we will ask you about how important you think
+                some features of patients should be when deciding who should
+                receive a kidney when there are not enough to go around.
+              </p>
+              {ass === 1 || ass == 2 ? (
+                <p className="choice-message">
+                  An{" "}
+                  <span className="emph">
+                    artificially intelligent(AI) agent
+                  </span>{" "}
+                  will use your responses to these questions to predict how you
+                  will make decisions in the next part of the activity.
+                </p>
+              ) : ass === 3 || ass === 4 ? (
+                <p className="choice-message">
+                  A <span className="emph">psychological test</span> will be
+                  used to analyze your responses to these questions to predict
+                  how you will make decisions in the next part of the activity.
+                </p>
+              ) : null}
+            </div>
+            <div className="buttons">
+              <button
+                className="confirm-button"
+                onClick={() => {
+                  setStage(1);
+                }}
+              >
+                {ass === 1 || ass == 2
+                  ? "I understand that my response will be evaluated by an AI agent"
+                  : ass === 3 || ass === 4
+                  ? "I understand that my response will be evaluated by a psychological test"
+                  : "Proceed"}
+              </button>
+            </div>
+          </Dialog>
+        </DarkOverlay>
+      ) : null}
       {stage === 4 ? (
         <FeatureTable n={features.length}>
           {features.map((f, fi) => [
@@ -563,8 +609,8 @@ export default props => {
                         className="confirm-button"
                         onClick={() => setStage(3)}
                       >
-                        I have taken note of{" "}
-                        {ass > 0 && ass < 3 ? "the AI" : "psychological"}{" "}
+                        I have taken note of my{" "}
+                        {ass > 0 && ass < 3 ? "AI" : "psychological"}{" "}
                         assessment.
                       </button>
                     ) : null}
