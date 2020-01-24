@@ -18,7 +18,7 @@ import CF from "../components/CoinFlip";
 
 import { v1 } from "uuid";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import seq from "../static/seqnv.json";
+import seq from "../data/seqnv.json";
 
 const seqIds = Object.keys(seq);
 
