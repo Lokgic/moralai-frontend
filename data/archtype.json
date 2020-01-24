@@ -1,0 +1,69 @@
+{
+  "blank": {
+    "age": 0,
+    "additionalHealthIssues": 0,
+    "drinkingHabitPrediagnosis": 0,
+    "criminalRecord": 0,
+    "dependents": 0
+  },
+  "base": {
+    "age": 1,
+    "additionalHealthIssues": 0,
+    "drinkingHabitPrediagnosis": 0,
+    "criminalRecord": 0,
+    "dependents": 0
+  },
+  "young": {
+    "age": 0
+  },
+  "adult": {
+    "age": 1
+  },
+  "middleage": {
+    "age": 2
+  },
+  "elderly": {
+    "age": 4
+  },
+  "drinker": {
+    "drinkingHabitPrediagnosis": 2
+  },
+  "lightdrinker": {
+    "drinkingHabitPrediagnosis": 1
+  },
+  "criminal": {
+    "criminalRecord": 2
+  },
+  "parentOne": {
+    "dependents": 1
+  },
+  "parent": {
+    "dependents": 2
+  },
+  "sick": {
+    "additionalHealthIssues": 2
+  },
+  "olddrunk": {
+    "age": 2,
+    "drinkingHabitPrediagnosis": 2
+  },
+  "youngfelon": {
+    "age": 0,
+    "criminalRecord": 2
+  },
+  "sickdrunk": {
+    "drinkingHabitPrediagnosis": 2,
+    "additionalHealthIssues": 2
+  },
+  "sickparent": {
+    "dependents": 2,
+    "additionalHealthIssues": 2
+  },
+  "median": {
+    "age": 2,
+    "additionalHealthIssues": 1,
+    "drinkingHabitPrediagnosis": 1,
+    "criminalRecord": 1,
+    "dependents": 1
+  }
+}

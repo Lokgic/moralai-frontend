@@ -1,0 +1,17 @@
+{
+    "R.A.":{
+        "age": 29,
+        "additionalHealthIssues":0,
+        "drinkingHabitPrediagnosis":0,
+        "criminalRecord": 0,
+        "dependents": 0
+    },
+    "C.E.":{
+        "age": 66,
+        "additionalHealthIssues":1,
+        "drinkingHabitPrediagnosis":1,
+        "criminalRecord": 1,
+        "dependents": 1
+    }
+
+}
