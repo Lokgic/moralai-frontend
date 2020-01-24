@@ -26,13 +26,11 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <Container>
-        <Page>
-          {/* <ContextProvider> */}
-          <Component {...pageProps} />
-          {/* </ContextProvider> */}
-        </Page>
-      </Container>
+      <Page>
+        {/* <ContextProvider> */}
+        <Component {...pageProps} />
+        {/* </ContextProvider> */}
+      </Page>
     );
   }
 }
