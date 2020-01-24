@@ -1,4 +1,5 @@
 import App, { Container } from "next/app";
+import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the CSS
 // import ContextProvider from "../ContextProvider";
 import Page from "../components/Page";
 import { library as faLibrary } from "@fortawesome/fontawesome-svg-core";
