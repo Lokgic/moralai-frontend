@@ -1,0 +1,16 @@
+{
+  "distraction": [
+    {
+      "q": "About how many kidney transplants were performed in the US in 2018?",
+      "a": ["21,000", "12,000", "43,000", "64,000"]
+    },
+    {
+      "q": "What type of organ transplant is the most common in the US?",
+      "a": ["kidney", "liver", "heart", "lung"]
+    },
+    {
+      "q": "What is the average amount of time patients spend on the waiting list before receiving a kidney transplant?",
+      "a": ["1 year", "3.5 years", "7.5 years", "10 years"]
+    }
+  ]
+}

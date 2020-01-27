@@ -44,15 +44,23 @@ export const ComparisonContainer = styled.div`
     margin-bottom: 1rem; */
     background: ${({ theme }) => theme.offWhite};
     color: black;
+    
 
     h4 {
       /* color: ${({ theme }) => theme.primaryDark}; */
       font-weight: 400;
       font-size: 1.5rem;
       margin: auto;
-
+      
     }
+    
   }
+  .patient-button{
+      cursor: pointer;
+      :hover{
+        background:#ccc;
+      }
+    }
 
 
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
@@ -88,7 +96,7 @@ export const TextInputForm = styled.div`
     line-height: 2rem;
     font-size: 1.6rem;
     span {
-      color: ${({ theme }) => theme.tertiaryDark};
+      color: tomato;
     }
   }
   textarea {
@@ -119,9 +127,11 @@ export const FeatureCell = styled.div`
   p {
     font-weight: 500;
     font-size: ${({ valType }) => (valType === "n" ? "4rem" : "2.8rem")};
+    line-height: ${({ valType }) => (valType === "n" ? "4rem" : "3.2rem")};
     margin: auto;
     text-align: center;
     color: ${({ theme }) => theme.primaryDark};
+    padding: 1rem 0;
   }
 
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {

@@ -253,7 +253,7 @@ export const PatientNameButton = styled(DecideButton)``;
 
 export const StackedButton = styled(DecideButton)`
   margin: 0.5rem 0rem 0.5rem auto;
-  width: 80%;
+  width: 90%;
   font-size: 1.5rem;
   line-height: 2em;
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
@@ -501,4 +501,41 @@ export const LikertOption = styled.div`
   :hover {
     background: grey;
   }
+`;
+
+export const MCQuestion = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const MCItem = styled.div`
+  display: flex;
+  margin: 1rem auto 1rem 1rem;
+  flex-direction: row;
+
+  p {
+    margin: auto auto auto 3rem;
+    text-align: center;
+    font-size: 1.6rem;
+    cursor: pointer;
+    line-height: 1.5rem;
+    text-transform: capitalize;
+  }
+  .click-box {
+    margin: auto auto auto 3rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 0.2rem black solid;
+    background: ${props => (props.active ? "black" : "none")};
+    cursor: pointer;
+    :hover {
+      background: grey;
+    }
+  }
+`;
+
+export const PatientEmphasis = styled.div`
+  grid-row: 3/6;
+  grid-column: ${({ side }) => (side === 0 ? "1/3" : "3/5")};
+  border: tomato 1rem solid;
+  z-index: 3;
 `;
