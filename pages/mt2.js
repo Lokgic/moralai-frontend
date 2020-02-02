@@ -21,75 +21,10 @@ import {
 import { useReducer, useEffect } from "react";
 import SequenceLogic from "../components/SequenceLogic";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { arrayRandomizer } from "../components/FeatureHelpers";
 
 import mats from "../data/mt2.json";
-
-const prePairs = [
-  [
-    { exp: 20, dependents: 0, cause: "drug" },
-    { exp: 12, dependents: 0, cause: "hereditary" }
-  ],
-  [
-    { exp: 16, dependents: 0, cause: "alcohol" },
-    { exp: 11, dependents: 0, cause: "hereditary" }
-  ],
-  [
-    { income: "110,000", gender: "female", smoking: "never smoker" },
-    { income: "40,000", gender: "male", smoking: "smoker" }
-  ],
-  [
-    { income: "30,000", gender: "female", smoking: "heavy smoker" },
-    { income: "90,000", gender: "male", smoking: "heavy smoker" }
-  ],
-  [
-    { age: 24, criminal: "violent crime", health: "excellent" },
-    { age: 45, criminal: "none", health: "fair" }
-  ],
-  [
-    { age: 31, criminal: "non-violent crime", health: "good" },
-    { age: 40, criminal: "violent crime", health: "fair" }
-  ]
-  // [
-  //   { race: "black", occupation: "high school teacher", activity: "active" },
-  //   {
-  //     race: "asian",
-  //     occupation: "office adminstrator",
-  //     activity: "very active"
-  //   }
-  // ],
-  // [
-  //   {
-  //     race: "native amercian",
-  //     occupation: "corporate lawyer",
-  //     activity: "moderate"
-  //   },
-  //   { race: "white", occupation: "dentist", activity: "sedentary" }
-  // ],
-  // [
-  //   {
-  //     education: "bachelor's degree",
-  //     citizenship: "green card",
-  //     religion: "christian-non catholic"
-  //   },
-  //   {
-  //     education: "master's degree",
-  //     citizenship: "non-citizen",
-  //     religion: "jewish"
-  //   }
-  // ],
-  // [
-  //   {
-  //     education: "high school graduate",
-  //     citizenship: "non-citizen",
-  //     religion: "christian-catholic"
-  //   },
-  //   {
-  //     education: "high school graduate",
-  //     citizenship: "us citizen",
-  //     religion: "muslim"
-  //   }
-  // ]
-];
+const dFeatureKeys = Object.keys(mats.dFeatures);
 
 const postPairs = [
   [
@@ -142,6 +77,49 @@ const postPairs = [
   ]
 ];
 
+const distractPairs = [...Array(8).keys()].map(d => {
+  const df = arrayRandomizer(dFeatureKeys).slice(0, 5);
+  const fVal = df.map(d => [
+    mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)],
+    mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)]
+  ]);
+
+  return [0, 1].map(i => {
+    return {
+      [df[0]]: fVal[0][i],
+      [df[1]]: fVal[1][i],
+      [df[2]]: fVal[2][i],
+      [df[3]]: fVal[3][i]
+    };
+  });
+});
+
+const preBasePairs = [
+  [
+    { exp: 20, cause: "drug" },
+    { exp: 12, cause: "hereditary" }
+  ],
+  [
+    { exp: 16, cause: "alcohol" },
+    { exp: 11, cause: "hereditary" }
+  ]
+].map(d => {
+  const df = arrayRandomizer(dFeatureKeys).slice(0, 2);
+  const fVal = df.map(
+    d => mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)]
+  );
+
+  return d.map(patient => {
+    return {
+      ...patient,
+      [df[0]]: fVal[0],
+      [df[1]]: fVal[1]
+    };
+  });
+});
+
+const prePairs = [...preBasePairs, ...distractPairs];
+console.log(prePairs);
 const featureDict = {
   dependents: "Dependents",
   exp: "Life Expectancy After Transplantation",
@@ -158,7 +136,7 @@ const featureDict = {
   education: "Education",
   citizenship: "Citizenship",
   religion: "Religion",
-  tatoos: "Number of Tattoos",
+  tattoos: "Number of Tattoos",
   political: "Political Affliation",
   weight: "Weight"
 };
@@ -174,7 +152,7 @@ const valueTranslator = (fkey, value) => {
         ? value
         : value === "alcohol"
         ? "heavy alcohol use"
-        : "heavy smoking";
+        : "heavy drug use";
     default:
       return value;
   }
@@ -205,7 +183,8 @@ const initialState = {
   data: [],
   distractionData: [],
   interventionData: [],
-  textInput: ""
+  textInput: "",
+  fKeysRandomized: arrayRandomizer(sl.getFeatureKeys())
 };
 
 const reducer = (state, action) => {
@@ -229,19 +208,27 @@ const reducer = (state, action) => {
       };
       const newData = [
         ...data,
-        { pair: state.pair, chosen: state.chosen, time }
+        {
+          pair: state.pair,
+          chosen: state.chosen,
+          time,
+          fKeysRandomized: state.fKeysRandomized
+        }
       ];
 
       // const newDialogState =
-      // newData.length === prePairs.length ? "distraction-intro" : "off";
+      //   newData.length === prePairs.length ? "distraction-intro" : "off";
       const newDialogState = newData.length === 4 ? "distraction-intro" : "off";
+      const newPair = pairSeq.getNext();
+      const newFkey = arrayRandomizer(pairSeq.getFeatureKeys());
       return {
         ...state,
         data: newData,
         timeStamp: newTS,
         dialogState: newDialogState,
         pairSeq: pairSeq,
-        pair: pairSeq.getNext(),
+        pair: newPair,
+        fKeysRandomized: newFkey,
         chosen: null
       };
     }
@@ -260,7 +247,9 @@ const reducer = (state, action) => {
             distractionData: dData,
             dialogState: "intervention-intro",
             decisionState: "intervention",
-            chosen: data[0].chosen
+            chosen: data[0].chosen,
+            fKeysRandomized: data[0].fKeysRandomized,
+            pair: data[0].pair
           };
         } else {
           return {
@@ -297,6 +286,7 @@ const reducer = (state, action) => {
       } else {
         newOut.pair = state.data[newIData.length].pair;
         newOut.chosen = state.data[newIData.length].chosen;
+        newOut.fKeysRandomized = state.data[newIData.length].fKeysRandomized;
       }
 
       return newOut;
@@ -352,14 +342,14 @@ export default () => {
   console.log(state);
   useEffect(() => {}, [state.decisionScreen]);
   let dialog, decisionScreen;
-  const { pair, pairSeq, chosen, textInput } = state;
+  const { pair, pairSeq, chosen, textInput, fKeysRandomized } = state;
 
   // Decision Screen Logic
   switch (state.decisionState) {
-    case "pre":
+    case "pre": {
       decisionScreen = (
-        <FeatureTable n={pairSeq.getFeatureKeys().length}>
-          {pairSeq.getFeatureKeys().map((f, fi) => [
+        <FeatureTable n={fKeysRandomized.length}>
+          {fKeysRandomized.map((f, fi) => [
             <FeatureHeader key={`fcell_${f}`} fi={fi}>
               <div>{pairSeq.translateFeature(f)}</div>
             </FeatureHeader>,
@@ -377,10 +367,11 @@ export default () => {
         </FeatureTable>
       );
       break;
-    case "intervention":
+    }
+    case "intervention": {
       decisionScreen = (
-        <FeatureTable n={Object.keys(pair[0]).length}>
-          {Object.keys(pair[0]).map((f, fi) => [
+        <FeatureTable n={fKeysRandomized.length}>
+          {fKeysRandomized.map((f, fi) => [
             <FeatureHeader key={`fcell_${f}`} fi={fi}>
               <div>{pairSeq.translateFeature(f)}</div>
             </FeatureHeader>,
@@ -398,6 +389,7 @@ export default () => {
         </FeatureTable>
       );
       break;
+    }
     case "post":
     default:
       decisionScreen = null;

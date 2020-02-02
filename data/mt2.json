@@ -12,5 +12,76 @@
       "q": "What is the average amount of time patients spend on the waiting list before receiving a kidney transplant?",
       "a": ["1 year", "3.5 years", "7.5 years", "10 years"]
     }
-  ]
+  ],
+  "dFeatures": {
+    "income": [
+      "10,000",
+      "20,000",
+      "30,000",
+      "40,000",
+      "50,000",
+      "60,000",
+      "70,000",
+      "80,000",
+      "90,000",
+      "100,000",
+      "150,000",
+      "200,000",
+      "500,000"
+    ],
+    "gender": ["male", "female"],
+    "smoking": [
+      "never smoker",
+      "light smoker",
+      "moderate smoker",
+      "heavy smoker"
+    ],
+    "criminal": ["none", "non-violent crime history", "violent crime history"],
+    "health": ["poor", "fair", "good", "excellent"],
+    "race": ["black", "white", "asian", "pacific islander", "native american"],
+    "occupation": [
+      "nurse",
+      "cashier",
+      "office clerk",
+      "plumber",
+      "high school teacher",
+      "lawyer",
+      "artist",
+      "athlete",
+      "doctor",
+      "mechanic",
+      "accountant",
+      "receptionist",
+      "construction worker",
+      "medical researcher",
+      "police officer",
+      "company ceo",
+      "unemployed",
+      "student"
+    ],
+    "activity": ["sedentary", "slightly active", "active", "very active"],
+    "education": [
+      "some high school",
+      "high school diploma",
+      "some college",
+      "associate's degree",
+      "bachelor's degree",
+      "master's degree",
+      "professional degree",
+      "doctoral degree"
+    ],
+    "citizenship": ["non-citizen", "permanent us resident", "us citizen"],
+    "religion": [
+      "christian - catholic",
+      "christian - non-catholic",
+      "jewish",
+      "muslim",
+      "buddhist",
+      "hindu",
+      "non-religious"
+    ],
+    "tattoos": ["0", "1", "2", "6", "11", "23"],
+    "political": ["far left", "left", "moderate", "right", "far right"],
+    "weight": ["underweight", "healthy weight", "overweight", "obese"]
+  }
 }
