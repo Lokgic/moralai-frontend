@@ -1,7 +1,7 @@
 {
   "exitSurvey": [
     {
-      "q": "If you revised any of your selections during the text input, what was the reason? Choose as many as apply. [multiple answers possible]",
+      "q": "If you revised any of your selections during the text input, what was the reason? Choose as many as apply.",
       "a": [
         "I changed my mind",
         "I misread the features at first",
@@ -16,7 +16,7 @@
       "a": ["Yes, I was the recipient", "Yes, I was the donor", "No"]
     },
     {
-      "q": "Have you ever been part of a non-kidey organ transplant?",
+      "q": "Have you ever been part of a non-kidney organ transplant?",
       "a": ["Yes, I was the recipient", "Yes, I was the donor", "No"]
     },
     {
@@ -24,7 +24,7 @@
       "a": ["Female", "Male", "Other", "None/Prefer not to answer"]
     },
     {
-      "q": "What is your race/ethnicity? [multiple answers possible]",
+      "q": "What is your race/ethnicity? Choose as many as apply.",
       "a": [
         "Asian",
         "Black/African American",

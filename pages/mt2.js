@@ -708,18 +708,16 @@ export default () => {
 
             <div className="message">
               <p className="choice-message">
-                Please tell us your thought process behind your decisions
+                Next, you will be prompted to explain your previous decisions.
               </p>
-              <p>You will be prompted to explain your previous decisions.</p>
               <p>
                 Your original selection will be highlighted. Please write a
                 brief justification for why you chose the patient to receive the
                 kidney that you chose.
               </p>
               <p>
-                {" "}
-                If need, click on the patient idenifer ("Patient A" or "Patient
-                B") to change your selection.
+                You can click on the patient identifier (“Patient A” or “Patient
+                B”) to change your selection, if needed.
               </p>
               <p>
                 Once you have finished your response, please confirm your answer
