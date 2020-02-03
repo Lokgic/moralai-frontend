@@ -22,60 +22,129 @@ import { useReducer, useEffect } from "react";
 import SequenceLogic from "../components/SequenceLogic";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { arrayRandomizer } from "../components/FeatureHelpers";
-
+import { v1 } from "uuid";
 import mats from "../data/mt2.json";
 const dFeatureKeys = Object.keys(mats.dFeatures);
 
+const featureDict = {
+  dependents: "Dependents",
+  exp: "Life Expectancy After Transplantation",
+  cause: "Primary Cause of Kidney Failure",
+  income: "Income",
+  gender: "Gender",
+  smoking: "Smoking Habits",
+  age: "Age",
+  criminal: "Criminal History",
+  health: "Physical Health",
+  race: "Race",
+  occupation: "Occupation",
+  activity: "Activity Level",
+  education: "Education",
+  citizenship: "Citizenship",
+  religion: "Religion",
+  tattoos: "Number of Tattoos",
+  political: "Political Affliation",
+  weight: "Weight",
+  previouslyReceived: "Previously Received an Organ Transplant",
+  pastContribution: "past contributions to hospital",
+  mentalHealth: "current mental health"
+};
+
+const targetEdDistractionFeature = [
+  "income",
+  "race",
+  "education",
+  "tattoos",
+  "political",
+  "religion",
+  "citizenship"
+];
+
+const valueTranslator = (fkey, value) => {
+  switch (fkey) {
+    case "exp":
+      return `${value} years`;
+    case "dependents":
+      return value === 0 ? "none" : value;
+    case "cause":
+      return value === "hereditary"
+        ? value
+        : value === "alcohol"
+        ? "heavy alcohol use"
+        : "heavy drug use";
+    default:
+      return value;
+  }
+};
+
 const postPairs = [
   [
-    { exp: 25, dependents: 0, cause: "drug" },
-    { exp: 18, dependents: 0, cause: "hereditary" }
+    { exp: 25, cause: "drug" },
+    { exp: 18, cause: "hereditary" }
   ],
   [
-    { exp: 16, dependents: 0, cause: "alcohol" },
-    { exp: 11, dependents: 0, cause: "hereditary" }
+    { exp: 16, cause: "alcohol" },
+    { exp: 11, cause: "hereditary" }
   ],
   [
-    { exp: 9, dependents: 1, cause: "drug" },
-    { exp: 4, dependents: 1, cause: "obesity" }
+    { exp: 9, cause: "drug" },
+    { exp: 4, cause: "obesity" }
   ],
   [
-    { exp: 12, dependents: 1, cause: "drug" },
-    { exp: 10, dependents: 1, cause: "hereditary" }
+    { exp: 12, cause: "drug" },
+    { exp: 10, cause: "hereditary" }
   ],
   [
-    { exp: 5, dependents: 0, cause: "obesity" },
-    { exp: 2, dependents: 0, cause: "hereditary" }
+    { exp: 5, cause: "obesity" },
+    { exp: 2, cause: "hereditary" }
   ],
   [
-    { exp: 16, dependents: 0, cause: "alcohol" },
-    { exp: 11, dependents: 0, cause: "hereditary" }
+    { exp: 16, cause: "alcohol" },
+    { exp: 11, cause: "hereditary" }
   ],
   [
-    { exp: 20, dependents: 0, cause: "drugs" },
-    { exp: 12, dependents: 0, cause: "hereditary" }
+    { exp: 20, cause: "drugs" },
+    { exp: 12, cause: "hereditary" }
   ],
   [
-    { exp: 16, dependents: 0, cause: "alcohol" },
-    { exp: 11, dependents: 0, cause: "hereditary" }
+    { exp: 16, cause: "alcohol" },
+    { exp: 11, cause: "hereditary" }
   ],
   [
-    { exp: 20, dependents: 0, cause: "drugs" },
-    { exp: 12, dependents: 0, cause: "hereditary" }
+    { exp: 20, cause: "drugs" },
+    { exp: 12, cause: "hereditary" }
   ],
   [
-    { exp: 16, dependents: 0, cause: "alcohol" },
-    { exp: 11, dependents: 0, cause: "hereditary" }
+    { exp: 16, cause: "alcohol" },
+    { exp: 11, cause: "hereditary" }
   ],
   [
-    { exp: 20, dependents: 0, cause: "drugs" },
-    { exp: 12, dependents: 0, cause: "hereditary" }
+    { exp: 20, cause: "drugs" },
+    { exp: 12, cause: "hereditary" }
   ],
   [
-    { exp: 16, dependents: 0, cause: "alcohol" },
-    { exp: 11, dependents: 0, cause: "hereditary" }
+    { exp: 16, cause: "alcohol" },
+    { exp: 11, cause: "hereditary" }
   ]
 ];
+
+const addDistraction = arr => {
+  return [...arr].map(d => {
+    const df = arrayRandomizer(targetEdDistractionFeature).slice(0, 2);
+    const fVal = df.map(
+      d =>
+        mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)]
+    );
+
+    return d.map(patient => {
+      return {
+        ...patient,
+        [df[0]]: fVal[0],
+        [df[1]]: fVal[1]
+      };
+    });
+  });
+};
 
 const distractPairs = [...Array(8).keys()].map(d => {
   const df = arrayRandomizer(dFeatureKeys).slice(0, 5);
@@ -103,76 +172,28 @@ const preBasePairs = [
     { exp: 16, cause: "alcohol" },
     { exp: 11, cause: "hereditary" }
   ]
-].map(d => {
-  const df = arrayRandomizer(dFeatureKeys).slice(0, 2);
-  const fVal = df.map(
-    d => mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)]
-  );
+];
 
-  return d.map(patient => {
-    return {
-      ...patient,
-      [df[0]]: fVal[0],
-      [df[1]]: fVal[1]
-    };
-  });
-});
-
-const prePairs = [...preBasePairs, ...distractPairs];
-console.log(prePairs);
-const featureDict = {
-  dependents: "Dependents",
-  exp: "Life Expectancy After Transplantation",
-  cause: "Primary Cause of Kidney Failure",
-  income: "Income",
-  gender: "Gender",
-  smoking: "Smoking Habits",
-  age: "Age",
-  criminal: "Criminal History",
-  health: "Physical Health",
-  race: "Race",
-  occupation: "Occupation",
-  activity: "Activity Level",
-  education: "Education",
-  citizenship: "Citizenship",
-  religion: "Religion",
-  tattoos: "Number of Tattoos",
-  political: "Political Affliation",
-  weight: "Weight"
-};
-
-const valueTranslator = (fkey, value) => {
-  switch (fkey) {
-    case "exp":
-      return `${value} years`;
-    case "dependents":
-      return value === 0 ? "none" : value;
-    case "cause":
-      return value === "hereditary"
-        ? value
-        : value === "alcohol"
-        ? "heavy alcohol use"
-        : "heavy drug use";
-    default:
-      return value;
-  }
-};
-
+const prePairs = [...addDistraction(preBasePairs), ...distractPairs];
+const postPairD = [...addDistraction(postPairs)];
 const sl = new SequenceLogic({
   seq: prePairs,
-  randomized: false,
+  randomized: true,
   featureDict,
   valueTranslator
 });
 
 const sl2 = new SequenceLogic({
-  seq: postPairs,
-  randomized: false,
+  seq: postPairD,
+  randomized: true,
   featureDict,
   valueTranslator
 });
 
 const initialState = {
+  userId: v1(),
+  trialId: "mt2",
+  condition: "control",
   decisionState: "pre",
   dialogState: "intro",
   pairSeq: sl,
@@ -183,6 +204,8 @@ const initialState = {
   data: [],
   distractionData: [],
   interventionData: [],
+  postData: [],
+  surveyData: [],
   textInput: "",
   fKeysRandomized: arrayRandomizer(sl.getFeatureKeys())
 };
@@ -191,6 +214,8 @@ const reducer = (state, action) => {
   const { data, timeStamp, pairSeq } = state;
   const newTS = Date.now();
   const { payload } = action;
+  console.log(action.type);
+  console.log(payload);
   switch (action.type) {
     case "CLOSE_DIALOG":
       const newState = {
@@ -206,33 +231,76 @@ const reducer = (state, action) => {
         decisionRank: data.length,
         delay: newTS - timeStamp
       };
-      const newData = [
-        ...data,
-        {
-          pair: state.pair,
-          chosen: state.chosen,
-          time,
-          fKeysRandomized: state.fKeysRandomized
-        }
-      ];
+      const newData =
+        state.decisionState === "pre"
+          ? [
+              ...data,
+              {
+                pair: state.pair,
+                chosen: state.chosen,
+                time,
+                fKeysRandomized: state.fKeysRandomized
+              }
+            ]
+          : [
+              ...state.postData,
+              {
+                pair: state.pair,
+                chosen: state.chosen,
+                time,
+                fKeysRandomized: state.fKeysRandomized
+              }
+            ];
 
-      // const newDialogState =
-      //   newData.length === prePairs.length ? "distraction-intro" : "off";
-      const newDialogState = newData.length === 4 ? "distraction-intro" : "off";
       const newPair = pairSeq.getNext();
       const newFkey = arrayRandomizer(pairSeq.getFeatureKeys());
-      return {
+      const out = {
         ...state,
-        data: newData,
         timeStamp: newTS,
-        dialogState: newDialogState,
+
         pairSeq: pairSeq,
         pair: newPair,
         fKeysRandomized: newFkey,
         chosen: null
       };
+      if (state.decisionState === "pre") {
+        out.data = newData;
+        // out.dialogState =
+        //   newData.length === prePairs.length ? "distraction-intro" : "off";
+        out.dialogState = newData.length === 2 ? "distraction-intro" : "off";
+      } else {
+        // out.dialogState =
+        //   newData.length === postPairs.length ? "exit-survey" : "off";
+        out.dialogState = newData.length === 2 ? "exit-survey" : "off";
+        out.postData = newData;
+      }
+      return out;
     }
     case "DIALOG_CLICK":
+      if (action.subtype === "inclusive") {
+        if (
+          typeof state.dialogChosen === "number" ||
+          state.dialogChosen === null
+        ) {
+          return {
+            ...state,
+            dialogChosen: [action.payload]
+          };
+        } else {
+          const indexOfPayload = state.dialogChosen.indexOf(action.payload);
+          let newDialogChosen;
+          if (indexOfPayload === -1) {
+            newDialogChosen = [...state.dialogChosen, action.payload];
+          } else {
+            newDialogChosen = [...state.dialogChosen];
+            newDialogChosen.splice(indexOfPayload, 1);
+          }
+          return {
+            ...state,
+            dialogChosen: newDialogChosen
+          };
+        }
+      }
       return {
         ...state,
         dialogChosen: action.payload
@@ -258,7 +326,25 @@ const reducer = (state, action) => {
             distractionData: dData
           };
         }
+      } else if (state.dialogState === "exit-survey") {
+        const sData = [...state.surveyData, state.dialogChosen];
+
+        if (sData.length === mats.exitSurvey.length) {
+          return {
+            ...state,
+            dialogChosen: null,
+            surveyData: sData,
+            dialogState: "outro"
+          };
+        } else {
+          return {
+            ...state,
+            dialogChosen: null,
+            surveyData: sData
+          };
+        }
       }
+      break;
     case "INTERVENTION_CONFIRM": {
       const time = {
         start: timeStamp / 1000,
@@ -283,6 +369,11 @@ const reducer = (state, action) => {
       };
       if (data.length <= newIData.length) {
         newOut.decisionState = "post";
+        newOut.pairSeq = sl2;
+        newOut.pair = sl2.getCurrent();
+        newOut.chosen = null;
+        newOut.fKeysRandomized = arrayRandomizer(sl2.getFeatureKeys());
+        newOut.dialogState = "post-intro";
       } else {
         newOut.pair = state.data[newIData.length].pair;
         newOut.chosen = state.data[newIData.length].chosen;
@@ -342,10 +433,18 @@ export default () => {
   console.log(state);
   useEffect(() => {}, [state.decisionScreen]);
   let dialog, decisionScreen;
-  const { pair, pairSeq, chosen, textInput, fKeysRandomized } = state;
+  const {
+    pair,
+    pairSeq,
+    chosen,
+    textInput,
+    fKeysRandomized,
+    dialogChosen
+  } = state;
 
   // Decision Screen Logic
   switch (state.decisionState) {
+    case "post":
     case "pre": {
       decisionScreen = (
         <FeatureTable n={fKeysRandomized.length}>
@@ -390,7 +489,7 @@ export default () => {
       );
       break;
     }
-    case "post":
+
     default:
       decisionScreen = null;
   }
@@ -414,6 +513,61 @@ export default () => {
                 You will be asked to select one of the patients to receive a
                 kidney. As you are deciding on who should get the kidney,
                 remember:
+              </p>
+              <p>
+                Patients are expected to live less than a year if they do not
+                receive the transplant.
+              </p>
+            </div>
+            <div className="buttons">
+              <button
+                className="confirm-button"
+                onClick={() => {
+                  dispatch({ type: "CLOSE_DIALOG" });
+                }}
+              >
+                Proceed
+              </button>
+            </div>
+          </Dialog>
+        </DarkOverlay>
+      );
+      break;
+    case "outro":
+      dialog = (
+        <DarkOverlay>
+          <Dialog>
+            <div className="dialog-header">
+              <h2>Completed</h2>
+            </div>
+            <div className="message">
+              <p>your unique code:</p>
+              <p>{state.userId}</p>
+              <p>
+                Please enter this code and complete the rest of your Qualtric
+                survey
+              </p>
+            </div>
+          </Dialog>
+        </DarkOverlay>
+      );
+      break;
+    case "post-intro":
+      dialog = (
+        <DarkOverlay>
+          <Dialog>
+            <div className="dialog-header">
+              <h2>Activity 4</h2>
+            </div>
+            <div className="message">
+              <p className="choice-message">
+                We are interested in your judgment on which particular patient
+                should get a kidney, based on the reasoning you articulated.
+              </p>
+              <p>
+                Again, you will be asked to select one of the patients to
+                receive a kidney. As you are deciding on who should get the
+                kidney, remember:
               </p>
               <p>
                 Patients are expected to live less than a year if they do not
@@ -561,13 +715,14 @@ export default () => {
             <MCQuestion>
               {mats.distraction[state.distractionData.length].a.map((a, ai) => (
                 <MCItem
+                  key={`mcitem_${a}_${ai}`}
                   onClick={() => {
                     dispatch({
                       type: "DIALOG_CLICK",
                       payload: ai
                     });
                   }}
-                  active={state.dialogChosen === ai}
+                  active={dialogChosen === ai}
                 >
                   <div className="click-box" />
                   <p>{a}</p>
@@ -576,7 +731,62 @@ export default () => {
             </MCQuestion>
 
             <div className="buttons">
-              {state.dialogChosen != null ? (
+              {dialogChosen != null ? (
+                <button
+                  className="confirm-button"
+                  onClick={() => {
+                    dispatch({
+                      type: "DIALOG_CONFIRM"
+                    });
+                  }}
+                >
+                  Continue
+                </button>
+              ) : null}
+            </div>
+          </Dialog>
+        </DarkOverlay>
+      );
+      break;
+    case "exit-survey":
+      dialog = (
+        <DarkOverlay>
+          <Dialog big>
+            <div className="dialog-header">
+              <h2>Exit Survery</h2>
+            </div>
+            <div className="message">
+              <p className="choice-message">
+                {mats.exitSurvey[state.surveyData.length].q}
+              </p>
+            </div>
+            <MCQuestion>
+              {mats.exitSurvey[state.surveyData.length].a.map((a, ai) => (
+                <MCItem
+                  key={`mcitem_${a}_${ai}`}
+                  onClick={() => {
+                    dispatch({
+                      type: "DIALOG_CLICK",
+                      payload: ai,
+                      subtype: mats.exitSurvey[state.surveyData.length].subtype
+                    });
+                  }}
+                  active={
+                    dialogChosen !== null
+                      ? typeof dialogChosen === "object"
+                        ? dialogChosen.indexOf(ai) > -1
+                        : dialogChosen === ai
+                      : false
+                  }
+                >
+                  <div className="click-box" />
+                  <p>{a}</p>
+                </MCItem>
+              ))}
+            </MCQuestion>
+
+            <div className="buttons">
+              {dialogChosen != null ? (
                 <button
                   className="confirm-button"
                   onClick={() => {
@@ -652,11 +862,13 @@ export default () => {
               onClick={() =>
                 dispatch({ type: "INTERVENTION_SWITCH", payload: 0 })
               }
+              key="about-a-int"
             >
               <h4>Patient A </h4>
             </div>,
             <div
               className="about-b about patient-button"
+              key="about-b-int"
               onClick={() =>
                 dispatch({ type: "INTERVENTION_SWITCH", payload: 1 })
               }
@@ -686,15 +898,6 @@ export default () => {
               />
             </TextInputForm>,
             <UserIconContainer area="chooseb" key="icon-area-review">
-              {/* <StackedButton
-                onClick={() =>
-                  dispatch({ type: "SET_CHOSEN", payload: 1 - state.chosen })
-                }
-                key={`change-ans-butt`}
-                style={{ gridRow: 1, background: "#999", boxShadow: "none" }}
-              >
-                Change Selection
-              </StackedButton> */}
               <StackedButton
                 onClick={
                   textInput === ""
@@ -716,13 +919,16 @@ export default () => {
                 Confirm
               </StackedButton>
             </UserIconContainer>,
-            <PatientEmphasis side={state.chosen} />
+            <PatientEmphasis
+              key={"patient-emphasis" + state.chosen}
+              side={state.chosen}
+            />
           ]
         : [
-            <div className="about-a about">
+            <div className="about-a about" key="about-a">
               <h4>Patient A </h4>
             </div>,
-            <div className="about-b about">
+            <div className="about-b about" key="about-b">
               <h4>Patient B</h4>
             </div>,
             [0, 1].map(d => [

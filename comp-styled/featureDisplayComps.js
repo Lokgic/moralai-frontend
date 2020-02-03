@@ -126,8 +126,8 @@ export const FeatureCell = styled.div`
   display: flex;
   p {
     font-weight: 500;
-    font-size: ${({ valType }) => (valType === "n" ? "4rem" : "2.8rem")};
-    line-height: ${({ valType }) => (valType === "n" ? "4rem" : "3.2rem")};
+    font-size: 1.8rem;
+    line-height: 2rem;
     margin: auto;
     text-align: center;
     color: ${({ theme }) => theme.primaryDark};
@@ -136,7 +136,7 @@ export const FeatureCell = styled.div`
 
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
     p {
-      font-size: ${({ valType }) => (valType === "n" ? "6rem" : "3rem")};
+      font-size: 2.4rem;
     }
   }
 `;
@@ -149,15 +149,16 @@ export const FeatureHeader = styled.div`
 
   div {
     font-size: 1.5rem;
+    line-height: 1.8rem;
     text-align: center;
     font-weight: 400;
     margin: auto;
-    line-height: 2rem;
   }
 
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
     div {
-      font-size: 2.4rem;
+      font-size: 2rem;
+      line-height: 2.1rem;
     }
   }
 `;

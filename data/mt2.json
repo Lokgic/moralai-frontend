@@ -1,4 +1,66 @@
 {
+  "exitSurvey": [
+    {
+      "q": "If you revised any of your selections during the text input, what was the reason? Choose as many as apply. [multiple answers possible]",
+      "a": [
+        "I changed my mind",
+        "I misread the features at first",
+        "I thought the platform recorded my response incorrectly",
+        "Another reason",
+        "I did not revise any of my selection"
+      ],
+      "subtype": "inclusive"
+    },
+    {
+      "q": "Have you ever been part of a kidney transplant?",
+      "a": ["Yes, I was the recipient", "Yes, I was the donor", "no"]
+    },
+    {
+      "q": "Have you ever been part of a non-kidey organ transplant?",
+      "a": ["Yes, I was the recipient", "Yes, I was the donor", "no"]
+    },
+    {
+      "q": "What is your gender?",
+      "a": ["Female", "Male", "Other", "None/Prefer not to answer"]
+    },
+    {
+      "q": "What is your race/ethnicity? [multiple answers possible]",
+      "a": [
+        "Asian",
+        "Black/African American",
+        "Hispanic/Latinx",
+        "Native American",
+        "White/Caucasian",
+        "Other"
+      ],
+      "subtype": "inclusive"
+    },
+    {
+      "q": "What is your current age?",
+      "a": ["18-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80 or older"]
+    },
+    {
+      "q": "What is your social political orientation",
+      "a": [
+        "Very liberal",
+        "Slightly liberal",
+        "Moderate",
+        "Slightly conservative",
+        "Very conservative"
+      ]
+    },
+    {
+      "q": "What is your economic and fiscal political orientation",
+      "a": [
+        "Very liberal",
+        "Slightly liberal",
+        "Moderate",
+        "Slightly conservative",
+        "Very conservative"
+      ]
+    }
+  ],
+
   "distraction": [
     {
       "q": "About how many kidney transplants were performed in the US in 2018?",
@@ -39,26 +101,6 @@
     "criminal": ["none", "non-violent crime history", "violent crime history"],
     "health": ["poor", "fair", "good", "excellent"],
     "race": ["black", "white", "asian", "pacific islander", "native american"],
-    "occupation": [
-      "nurse",
-      "cashier",
-      "office clerk",
-      "plumber",
-      "high school teacher",
-      "lawyer",
-      "artist",
-      "athlete",
-      "doctor",
-      "mechanic",
-      "accountant",
-      "receptionist",
-      "construction worker",
-      "medical researcher",
-      "police officer",
-      "company ceo",
-      "unemployed",
-      "student"
-    ],
     "activity": ["sedentary", "slightly active", "active", "very active"],
     "education": [
       "some high school",
@@ -81,7 +123,28 @@
       "non-religious"
     ],
     "tattoos": ["0", "1", "2", "6", "11", "23"],
-    "political": ["far left", "left", "moderate", "right", "far right"],
-    "weight": ["underweight", "healthy weight", "overweight", "obese"]
+    "political": [
+      "very liberal",
+      "slightly liberal",
+      "moderate",
+      "slightly conservative",
+      "very conservative"
+    ],
+    "weight": ["underweight", "healthy weight", "overweight", "obese"],
+    "previouslyReceived": ["yes", "no"],
+    "pastContribution": [
+      "recurring money donations",
+      "one-time money donation",
+      "previously donated an organ",
+      "volunteer work",
+      "none"
+    ],
+    "mentalHealth": [
+      "significant mental illness",
+      "minor mental illness",
+      "significant mental disability",
+      "minor mental disability",
+      "none"
+    ]
   }
 }
