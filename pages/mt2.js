@@ -46,7 +46,7 @@ const featureDict = {
   political: "Political Affliation",
   weight: "Weight",
   previouslyReceived: "Previously Received an Organ Transplant",
-  pastContribution: "past contributions to hospital",
+  pastContribution: "Past contributions to hospital",
   mentalHealth: "current mental health"
 };
 
@@ -165,12 +165,12 @@ const distractPairs = [...Array(8).keys()].map(d => {
 
 const preBasePairs = [
   [
-    { exp: 20, cause: "drug" },
-    { exp: 12, cause: "hereditary" }
+    { exp: 19, cause: "drug" },
+    { exp: 15, cause: "hereditary" }
   ],
   [
-    { exp: 16, cause: "alcohol" },
-    { exp: 11, cause: "hereditary" }
+    { exp: 9, cause: "alcohol" },
+    { exp: 6, cause: "hereditary" }
   ]
 ];
 
@@ -193,7 +193,7 @@ const sl2 = new SequenceLogic({
 const initialState = {
   userId: v1(),
   trialId: "mt2",
-  condition: "control",
+  condition: "exp",
   decisionState: "pre",
   dialogState: "intro",
   pairSeq: sl,
@@ -210,12 +210,17 @@ const initialState = {
   fKeysRandomized: arrayRandomizer(sl.getFeatureKeys())
 };
 
+const magicTrick = ({ pair, direction }) => {
+  const expPatient = pair[0].exp > pair[1].exp ? 0 : 1;
+  return direction === "exp" ? expPatient : 1 - expPatient;
+};
+
 const reducer = (state, action) => {
   const { data, timeStamp, pairSeq } = state;
   const newTS = Date.now();
   const { payload } = action;
-  console.log(action.type);
-  console.log(payload);
+  console.log("ACTION TYPE: " + action.type + ", PAYLOAD: " + payload);
+
   switch (action.type) {
     case "CLOSE_DIALOG":
       const newState = {
@@ -231,13 +236,27 @@ const reducer = (state, action) => {
         decisionRank: data.length,
         delay: newTS - timeStamp
       };
+      let newChosen;
+      if (
+        state.condition === "control" ||
+        state.fKeysRandomized.indexOf("exp") === -1 ||
+        state.decisionState !== "pre"
+      ) {
+        newChosen = state.chosen;
+      } else {
+        newChosen = magicTrick({
+          pair: state.pair,
+          direction: state.condition
+        });
+      }
+
       const newData =
         state.decisionState === "pre"
           ? [
               ...data,
               {
                 pair: state.pair,
-                chosen: state.chosen,
+                chosen: newChosen,
                 time,
                 fKeysRandomized: state.fKeysRandomized
               }
@@ -246,7 +265,7 @@ const reducer = (state, action) => {
               ...state.postData,
               {
                 pair: state.pair,
-                chosen: state.chosen,
+                chosen: newChosen,
                 time,
                 fKeysRandomized: state.fKeysRandomized
               }
@@ -309,13 +328,25 @@ const reducer = (state, action) => {
       if (state.dialogState === "distraction") {
         const dData = [...state.distractionData, state.dialogChosen];
         if (dData.length === mats.distraction.length) {
+          const newChosen = data[0].chosen;
+          // if (
+          //   state.condition === "control" ||
+          //   data[0].fKeysRandomized.indexOf("exp") === -1
+          // )
+          //   newChosen = data[0].chosen;
+          // else
+          //   newChosen = magicTrick({
+          //     data: data[0],
+          //     direction: state.condition
+          //   });
+
           return {
             ...state,
             dialogChosen: null,
             distractionData: dData,
             dialogState: "intervention-intro",
             decisionState: "intervention",
-            chosen: data[0].chosen,
+            chosen: newChosen,
             fKeysRandomized: data[0].fKeysRandomized,
             pair: data[0].pair
           };
@@ -375,9 +406,21 @@ const reducer = (state, action) => {
         newOut.fKeysRandomized = arrayRandomizer(sl2.getFeatureKeys());
         newOut.dialogState = "post-intro";
       } else {
-        newOut.pair = state.data[newIData.length].pair;
-        newOut.chosen = state.data[newIData.length].chosen;
-        newOut.fKeysRandomized = state.data[newIData.length].fKeysRandomized;
+        const nextI = newIData.length;
+        // if (
+        //   state.condition === "control" ||
+        //   data[nextI].fKeysRandomized.indexOf("exp") === -1
+        // )
+        //   newChosen = data[nextI].chosen;
+        // else
+        //   newChosen = magicTrick({
+        //     data: data[nextI],
+        //     direction: state.condition
+        //   });
+        const newChosen = data[nextI].chosen;
+        newOut.pair = state.data[nextI].pair;
+        newOut.chosen = newChosen;
+        newOut.fKeysRandomized = state.data[nextI].fKeysRandomized;
       }
 
       return newOut;

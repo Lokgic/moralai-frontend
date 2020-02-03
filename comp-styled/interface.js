@@ -518,7 +518,7 @@ export const MCItem = styled.div`
     font-size: 1.6rem;
     cursor: pointer;
     line-height: 1.5rem;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
   }
   .click-box {
     margin: auto auto auto 3rem;

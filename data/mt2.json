@@ -112,7 +112,7 @@
       "professional degree",
       "doctoral degree"
     ],
-    "citizenship": ["non-citizen", "permanent us resident", "us citizen"],
+    "citizenship": ["non-citizen", "permanent US resident", "US citizen"],
     "religion": [
       "christian - catholic",
       "christian - non-catholic",

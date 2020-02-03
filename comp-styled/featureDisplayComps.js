@@ -132,6 +132,7 @@ export const FeatureCell = styled.div`
     text-align: center;
     color: ${({ theme }) => theme.primaryDark};
     padding: 1rem 0;
+    text-transform: capitalize;
   }
 
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
@@ -148,6 +149,7 @@ export const FeatureHeader = styled.div`
   display: flex;
 
   div {
+    text-transform: capitalize;
     font-size: 1.5rem;
     line-height: 1.8rem;
     text-align: center;
