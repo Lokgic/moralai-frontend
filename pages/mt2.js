@@ -265,14 +265,14 @@ const reducer = (state, action) => {
       };
       if (state.decisionState === "pre") {
         out.data = newData;
-        // out.dialogState =
-        //   newData.length === prePairs.length ? "distraction-intro" : "off";
-        out.dialogState = newData.length === 2 ? "distraction-intro" : "off";
+        out.dialogState =
+          newData.length === prePairs.length ? "distraction-intro" : "off";
+        // out.dialogState = newData.length === 2 ? "distraction-intro" : "off";
       } else {
-        // out.dialogState =
-        //   newData.length === postPairs.length ? "exit-survey" : "off";
-        out.dialogState = newData.length === 2 ? "exit-survey" : "off";
         out.postData = newData;
+        out.dialogState =
+          newData.length === postPairs.length ? "exit-survey" : "off";
+        // out.dialogState = newData.length === 2 ? "exit-survey" : "off";
       }
       return out;
     }
