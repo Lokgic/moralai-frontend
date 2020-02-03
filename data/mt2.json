@@ -13,11 +13,11 @@
     },
     {
       "q": "Have you ever been part of a kidney transplant?",
-      "a": ["Yes, I was the recipient", "Yes, I was the donor", "no"]
+      "a": ["Yes, I was the recipient", "Yes, I was the donor", "No"]
     },
     {
       "q": "Have you ever been part of a non-kidey organ transplant?",
-      "a": ["Yes, I was the recipient", "Yes, I was the donor", "no"]
+      "a": ["Yes, I was the recipient", "Yes, I was the donor", "No"]
     },
     {
       "q": "What is your gender?",
@@ -40,7 +40,7 @@
       "a": ["18-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80 or older"]
     },
     {
-      "q": "What is your social political orientation",
+      "q": "What is your social political orientation?",
       "a": [
         "Very liberal",
         "Slightly liberal",
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "q": "What is your economic and fiscal political orientation",
+      "q": "What is your economic and fiscal political orientation?",
       "a": [
         "Very liberal",
         "Slightly liberal",
