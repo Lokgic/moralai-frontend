@@ -228,10 +228,12 @@ const reducer = (state, action) => {
       };
       return newState;
     case "DECISION_INPUT": {
+      const new_decision_rank =
+        state.decisionState === "pre" ? data.length : postData.length;
       const time = {
         start: new Date(timeStamp).toISOString(),
         end: new Date(newTS).toISOString(),
-        decision_rank: data.length,
+        decision_rank: new_decision_rank,
         delay: newTS - timeStamp
       };
 
@@ -624,7 +626,7 @@ export default () => {
       (distractionData.length + surveyData.length > 0)
     ) {
       const bodyArr = [...distractionData, ...surveyData];
-      const body = { user_id, trial_id, survey_id: "intevention_input" };
+      const body = { user_id, trial_id, survey_id: "distract_exit_survey" };
       for (let i = 0; (i < 20) & (i < bodyArr.length); i++) {
         const j = i + 1;
         body["input_" + j] =
