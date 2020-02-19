@@ -61,79 +61,74 @@ const targetEdDistractionFeature = [
 ];
 
 const valueTranslator = (fkey, value) => {
+  const valueDictionary = {
+    ...mats.dFeatures,
+    cause: ["hereditary", "heavy alcohol use", "heavy drug use"]
+  };
   switch (fkey) {
     case "exp":
       return `${value} years`;
     case "dependents":
       return value === 0 ? "none" : value;
-    case "cause":
-      return value === "hereditary"
-        ? value
-        : value === "alcohol"
-        ? "heavy alcohol use"
-        : "heavy drug use";
+    // case "cause":
+    //   return value === "hereditary"
+    //     ? value
+    //     : value === "alcohol"
+    //     ? "heavy alcohol use"
+    //     : "heavy drug use";
     default:
-      return value;
+      return valueDictionary[fkey][value];
   }
 };
 
 const postPairs = [
   [
-    { exp: 25, cause: "drug" },
-    { exp: 18, cause: "hereditary" }
+    { exp: 27, cause: 2 },
+    { exp: 21, cause: 0 }
   ],
   [
-    { exp: 16, cause: "alcohol" },
-    { exp: 11, cause: "hereditary" }
+    { exp: 16, cause: 1 },
+    { exp: 11, cause: 0 }
   ],
   [
-    { exp: 9, cause: "drug" },
-    { exp: 4, cause: "obesity" }
+    { exp: 9, cause: 2 },
+    { exp: 4, cause: 0 }
   ],
   [
-    { exp: 12, cause: "drug" },
-    { exp: 10, cause: "hereditary" }
+    { exp: 20, cause: 2 },
+    { exp: 10, cause: 0 }
   ],
   [
-    { exp: 5, cause: "obesity" },
-    { exp: 2, cause: "hereditary" }
+    { exp: 5, cause: 2 },
+    { exp: 2, cause: 0 }
   ],
   [
-    { exp: 16, cause: "alcohol" },
-    { exp: 11, cause: "hereditary" }
+    { exp: 25, cause: 1 },
+    { exp: 19, cause: 0 }
   ],
   [
-    { exp: 20, cause: "drugs" },
-    { exp: 12, cause: "hereditary" }
+    { exp: 19, cause: 2 },
+    { exp: 14, cause: 0 }
   ],
   [
-    { exp: 16, cause: "alcohol" },
-    { exp: 11, cause: "hereditary" }
+    { exp: 10, cause: 2 },
+    { exp: 5, cause: 0 }
   ],
   [
-    { exp: 20, cause: "drugs" },
-    { exp: 12, cause: "hereditary" }
+    { exp: 17, cause: 1 },
+    { exp: 14, cause: 0 }
   ],
   [
-    { exp: 16, cause: "alcohol" },
-    { exp: 11, cause: "hereditary" }
-  ],
-  [
-    { exp: 20, cause: "drugs" },
-    { exp: 12, cause: "hereditary" }
-  ],
-  [
-    { exp: 16, cause: "alcohol" },
-    { exp: 11, cause: "hereditary" }
+    { exp: 13, cause: 1 },
+    { exp: 10, cause: 0 }
   ]
 ];
 
 const addDistraction = arr => {
   return [...arr].map(d => {
     const df = arrayRandomizer(targetEdDistractionFeature).slice(0, 2);
-    const fVal = df.map(
-      d =>
-        mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)]
+    const fVal = df.map(d =>
+      Math.floor(Math.random() * mats.dFeatures[d].length)
     );
 
     return d.map(patient => {
@@ -146,11 +141,13 @@ const addDistraction = arr => {
   });
 };
 
-const distractPairs = [...Array(8).keys()].map(d => {
+const distractPairs = [...Array(1).keys()].map(d => {
   const df = arrayRandomizer(dFeatureKeys).slice(0, 5);
   const fVal = df.map(d => [
-    mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)],
-    mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)]
+    // mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)],
+    // mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)]
+    Math.floor(Math.random() * mats.dFeatures[d].length),
+    Math.floor(Math.random() * mats.dFeatures[d].length)
   ]);
 
   return [0, 1].map(i => {
@@ -165,12 +162,12 @@ const distractPairs = [...Array(8).keys()].map(d => {
 
 const preBasePairs = [
   [
-    { exp: 19, cause: "drug" },
-    { exp: 15, cause: "hereditary" }
+    { exp: 19, cause: 2 },
+    { exp: 1, cause: 0 }
   ],
   [
-    { exp: 9, cause: "alcohol" },
-    { exp: 6, cause: "hereditary" }
+    { exp: 16, cause: 1 },
+    { exp: 11, cause: 0 }
   ]
 ];
 
@@ -191,11 +188,12 @@ const sl2 = new SequenceLogic({
 });
 
 const initialState = {
-  userId: v1(),
-  trialId: "mt2",
-  condition: "exp",
+  user_id: v1(),
+  trial_id: "mt2",
+  groupId: "exp",
+  sampleId: 323,
   decisionState: "pre",
-  dialogState: "intro",
+  dialogState: "off",
   pairSeq: sl,
   pair: sl.getCurrent(),
   timeStamp: Date.now(),
@@ -203,11 +201,13 @@ const initialState = {
   dialogChosen: null,
   data: [],
   distractionData: [],
-  interventionData: [],
+  interventionSeq: [],
+  interventionData: { text: [], decision: [] },
   postData: [],
   surveyData: [],
   textInput: "",
-  fKeysRandomized: arrayRandomizer(sl.getFeatureKeys())
+  fKeysRandomized: arrayRandomizer(sl.getFeatureKeys()),
+  mtData: []
 };
 
 const magicTrick = ({ pair, direction }) => {
@@ -216,7 +216,7 @@ const magicTrick = ({ pair, direction }) => {
 };
 
 const reducer = (state, action) => {
-  const { data, timeStamp, pairSeq } = state;
+  const { data, timeStamp, pairSeq, pair, user_id } = state;
   const newTS = Date.now();
   const { payload } = action;
   console.log("ACTION TYPE: " + action.type + ", PAYLOAD: " + payload);
@@ -231,45 +231,36 @@ const reducer = (state, action) => {
       return newState;
     case "DECISION_INPUT": {
       const time = {
-        start: timeStamp / 1000,
-        end: newTS / 1000,
-        decisionRank: data.length,
+        start: new Date(timeStamp).toISOString(),
+        end: new Date(newTS).toISOString(),
+        decision_rank: data.length,
         delay: newTS - timeStamp
       };
-      let newChosen;
+
+      // let newChosen;
+      const newDP = {
+        pair,
+        time,
+        fKeysRandomized: state.fKeysRandomized
+      };
       if (
-        state.condition === "control" ||
+        state.groupId === "control" ||
         state.fKeysRandomized.indexOf("exp") === -1 ||
         state.decisionState !== "pre"
       ) {
-        newChosen = state.chosen;
+        newDP.chosen = state.chosen;
       } else {
-        newChosen = magicTrick({
-          pair: state.pair,
-          direction: state.condition
+        newDP.chosen = magicTrick({
+          pair,
+          direction: state.groupId
         });
+        newDP.realChosen = state.chosen;
       }
 
       const newData =
         state.decisionState === "pre"
-          ? [
-              ...data,
-              {
-                pair: state.pair,
-                chosen: newChosen,
-                time,
-                fKeysRandomized: state.fKeysRandomized
-              }
-            ]
-          : [
-              ...state.postData,
-              {
-                pair: state.pair,
-                chosen: newChosen,
-                time,
-                fKeysRandomized: state.fKeysRandomized
-              }
-            ];
+          ? [...data, newDP]
+          : [...state.postData, newDP];
 
       const newPair = pairSeq.getNext();
       const newFkey = arrayRandomizer(pairSeq.getFeatureKeys());
@@ -328,7 +319,9 @@ const reducer = (state, action) => {
       if (state.dialogState === "distraction") {
         const dData = [...state.distractionData, state.dialogChosen];
         if (dData.length === mats.distraction.length) {
-          const newChosen = data[0].chosen;
+          const newISeq = arrayRandomizer([...data]);
+          const newChosen = newISeq[0].chosen;
+
           // if (
           //   state.condition === "control" ||
           //   data[0].fKeysRandomized.indexOf("exp") === -1
@@ -347,8 +340,9 @@ const reducer = (state, action) => {
             dialogState: "intervention-intro",
             decisionState: "intervention",
             chosen: newChosen,
-            fKeysRandomized: data[0].fKeysRandomized,
-            pair: data[0].pair
+            fKeysRandomized: arrayRandomizer(newISeq[0].fKeysRandomized),
+            pair: newISeq[0].pair,
+            interventionSeq: newISeq
           };
         } else {
           return {
@@ -377,28 +371,30 @@ const reducer = (state, action) => {
       }
       break;
     case "INTERVENTION_CONFIRM": {
-      const time = {
-        start: timeStamp / 1000,
-        end: newTS / 1000,
-        decisionRank: state.interventionData.length,
-        delay: newTS - timeStamp
-      };
-      const newIData = [
-        ...state.interventionData,
-        {
-          pair: state.pair,
-          chosen: state.chosen,
-          time,
-          text: state.textInput
-        }
+      // const time = {
+      //   start: timeStamp / 1000,
+      //   end: newTS / 1000,
+      //   decision_rank: state.interventionData.length,
+      //   delay: newTS - timeStamp
+      // };
+      const dRank = state.interventionData.text.length;
+      const oRank = state.interventionSeq[dRank].time.decision_rank;
+      const text = [
+        ...state.interventionData.text,
+        `decision_rank_${oRank}: ${state.textInput}`
       ];
+      const decision = [
+        ...state.interventionData.decision,
+        `decision_rank_${oRank}: ${state.chosen}`
+      ];
+      const newIData = { text, decision };
       const newOut = {
         ...state,
         textInput: "",
         interventionData: newIData,
         timeStamp: newTS
       };
-      if (data.length <= newIData.length) {
+      if (state.interventionSeq.length <= newIData.text.length) {
         newOut.decisionState = "post";
         newOut.pairSeq = sl2;
         newOut.pair = sl2.getCurrent();
@@ -406,7 +402,7 @@ const reducer = (state, action) => {
         newOut.fKeysRandomized = arrayRandomizer(sl2.getFeatureKeys());
         newOut.dialogState = "post-intro";
       } else {
-        const nextI = newIData.length;
+        const nextI = newIData.text.length;
         // if (
         //   state.condition === "control" ||
         //   data[nextI].fKeysRandomized.indexOf("exp") === -1
@@ -417,10 +413,37 @@ const reducer = (state, action) => {
         //     data: data[nextI],
         //     direction: state.condition
         //   });
-        const newChosen = data[nextI].chosen;
-        newOut.pair = state.data[nextI].pair;
-        newOut.chosen = newChosen;
-        newOut.fKeysRandomized = state.data[nextI].fKeysRandomized;
+        // const newChosen =
+        newOut.pair = state.interventionSeq[nextI].pair;
+        newOut.chosen = state.interventionSeq[nextI].chosen;
+        newOut.fKeysRandomized = arrayRandomizer(
+          state.interventionSeq[nextI].fKeysRandomized
+        );
+      }
+      if (
+        state.interventionSeq[newIData.text.length - 1].fKeysRandomized.indexOf(
+          "exp"
+        ) !== -1
+      ) {
+        // const targetedPair = state.interventionSeq[newIData.text.length - 1];
+        const { realChosen, pair, time } = state.interventionSeq[
+          newIData.text.length - 1
+        ];
+        const { chosen } = state;
+        const expPatient = pair[0].exp > pair[1].exp ? 0 : 1;
+        const expfavor_original = expPatient === realChosen ? 1 : 0;
+        const group = state.groupId;
+        const expfavor_final = expPatient === chosen ? 1 : 0;
+        const newMTPoint = {
+          user_id,
+          expfavor_original,
+          group,
+          expfavor_final,
+          text: state.textInput,
+          original_rank: time.decision_rank,
+          mt_rank: newIData.text.length - 1
+        };
+        newOut.mtData = [...state.mtData, newMTPoint];
       }
 
       return newOut;
@@ -470,68 +493,192 @@ const reducer = (state, action) => {
   }
 };
 
+const pdURL = "http://localhost:5000/add-ppt";
+const ddURL = "http://localhost:5000/add-comparison";
+const mtdURL = "http://localhost:5000/add-mt";
+const sdURL = "http://localhost:5000/add-survey";
 export default () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  // const [, setTextInput] = useState("");
-  console.log(state);
-  useEffect(() => {}, [state.decisionScreen]);
+
   let dialog, decisionScreen;
   const {
+    dialogState,
     pair,
     pairSeq,
     chosen,
     textInput,
     fKeysRandomized,
-    dialogChosen
+    dialogChosen,
+    decisionState,
+    data,
+    postData,
+    trial_id,
+    user_id,
+    interventionData,
+    distractionData,
+    surveyData
   } = state;
 
+  console.log(state);
+  const sendPost = async ({ body, url }) => {
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }).then(res => {
+      return res;
+    });
+  };
+  // effect hook tracks change of decision state
+  useEffect(() => {
+    if (decisionState === "pre") {
+      const body = {
+        user_id,
+        trial_id,
+        group_id: state.groupId,
+        sample_id: state.sampleId
+      };
+      sendPost({ body, url: pdURL });
+    }
+  }, [decisionState]);
+  // track data
+  useEffect(() => {
+    if ((decisionState === "pre") & (data.length > 0)) {
+      const dp = data[data.length - 1];
+      const body = { ...dp.time };
+      for (let i = 0; i < dp.fKeysRandomized.length; i++) {
+        const feature = dp.fKeysRandomized[i];
+        body[`name_${i + 1}`] = feature;
+        body[`left_${i + 1}`] = dp.pair[0][feature];
+        body[`right_${i + 1}`] = dp.pair[1][feature];
+      }
+      body["left_5"] = -999;
+      body["right_5"] = -999;
+      body["user_id"] = state.user_id;
+      body["chosen"] = dp.chosen;
+
+      sendPost({ body, url: ddURL });
+    }
+  }, [data, decisionState]);
+
+  // magic trick data effect
+  useEffect(() => {
+    if (state.mtData.length !== 0) {
+      sendPost({ body: state.mtData[state.mtData.length - 1], url: mtdURL });
+    }
+  }, [state.mtData]);
+
+  // track-postdata
+  useEffect(() => {
+    if ((decisionState === "post") & (postData.length > 0)) {
+      const dp = postData[postData.length - 1];
+      const body = { ...dp.time };
+      const order = dp.fKeysRandomized.reduce(
+        (arr, d) => {
+          console.log(arr);
+          return arr.indexOf(d) !== -1 ? arr : [...arr, d];
+        },
+        ["cause", "exp"]
+      );
+      console.log(dp);
+      for (let i = 0; i < order.length; i++) {
+        const feature = order[i];
+        body[`name_${i + 1}`] = feature;
+        body[`left_${i + 1}`] = dp.pair[0][feature];
+        body[`right_${i + 1}`] = dp.pair[1][feature];
+      }
+      body["name_5"] = "";
+      body["left_5"] = -999;
+      body["right_5"] = -999;
+      body["user_id"] = state.user_id;
+      body["chosen"] = dp.chosen;
+
+      console.log(body);
+      sendPost({ body, url: ddURL });
+    }
+  }, [postData, decisionState]);
+
+  // intervention survey
+  useEffect(() => {
+    if ((decisionState === "post") & (interventionData.text.length > 0)) {
+      const bodyArr = [...interventionData.text, ...interventionData.decision];
+      const body = { user_id, trial_id, survey_id: "intevention_input" };
+      for (let i = 0; i < 20; i++) {
+        const j = i + 1;
+        body["input_" + j] = bodyArr[i];
+      }
+      console.log(body);
+      sendPost({ body, url: sdURL });
+    }
+  }, [interventionData, decisionState]);
+
+  // distraction + after survey
+  useEffect(() => {
+    if (
+      (dialogState === "outro") &
+      (distractionData.length + surveyData.length > 0)
+    ) {
+      const bodyArr = [...distractionData, ...surveyData];
+      const body = { user_id, trial_id, survey_id: "intevention_input" };
+      for (let i = 0; (i < 20) & (i < bodyArr.length); i++) {
+        const j = i + 1;
+        body["input_" + j] =
+          typeof bodyArr[i] === "object"
+            ? bodyArr[i].toString()
+            : bodyArr[i] + "";
+      }
+      console.log(body);
+      sendPost({ body, url: sdURL });
+    }
+  }, [distractionData, surveyData, dialogState]);
+
   // Decision Screen Logic
-  switch (state.decisionState) {
+  switch (decisionState) {
     case "post":
+    case "intervention":
     case "pre": {
       decisionScreen = (
-        <FeatureTable n={fKeysRandomized.length}>
+        <FeatureTable>
           {fKeysRandomized.map((f, fi) => [
-            <FeatureHeader key={`fcell_${f}`} fi={fi}>
-              <div>{pairSeq.translateFeature(f)}</div>
-            </FeatureHeader>,
             [0, 1].map(p => (
-              <FeatureCell
-                side={p}
-                fi={fi}
-                valType={f === "age" ? "n" : "na"}
+              <div
+                className={p === 0 ? "f-cell left" : "f-cell right"}
                 key={`f-cell--${p}_${fi}`}
               >
-                <p>{pairSeq.translateValue(f, pair[p][f])}</p>
-              </FeatureCell>
+                <h3>{pairSeq.translateFeature(f)}</h3>
+                <h2>{pairSeq.translateValue(f, pair[p][f])}</h2>
+              </div>
             ))
           ])}
         </FeatureTable>
       );
       break;
     }
-    case "intervention": {
-      decisionScreen = (
-        <FeatureTable n={fKeysRandomized.length}>
-          {fKeysRandomized.map((f, fi) => [
-            <FeatureHeader key={`fcell_${f}`} fi={fi}>
-              <div>{pairSeq.translateFeature(f)}</div>
-            </FeatureHeader>,
-            [0, 1].map(p => (
-              <FeatureCell
-                side={p}
-                fi={fi}
-                valType={f === "age" ? "n" : "na"}
-                key={`f-cell--${p}_${fi}`}
-              >
-                <p>{pairSeq.translateValue(f, pair[p][f])}</p>
-              </FeatureCell>
-            ))
-          ])}
-        </FeatureTable>
-      );
-      break;
-    }
+    // case "intervention": {
+    //   decisionScreen = (
+    //     <FeatureTable n={fKeysRandomized.length}>
+    //       {fKeysRandomized.map((f, fi) => [
+    //         <FeatureHeader key={`fcell_${f}`} fi={fi}>
+    //           <div>{pairSeq.translateFeature(f)}</div>
+    //         </FeatureHeader>,
+    //         [0, 1].map(p => (
+    //           <FeatureCell
+    //             side={p}
+    //             fi={fi}
+    //             valType={f === "age" ? "n" : "na"}
+    //             key={`f-cell--${p}_${fi}`}
+    //           >
+    //             <p>{pairSeq.translateValue(f, pair[p][f])}</p>
+    //           </FeatureCell>
+    //         ))
+    //       ])}
+    //     </FeatureTable>
+    //   );
+    //   break;
+    // }
 
     default:
       decisionScreen = null;
@@ -539,7 +686,7 @@ export default () => {
 
   // Dialog logic
 
-  switch (state.dialogState) {
+  switch (dialogState) {
     case "intro":
       dialog = (
         <DarkOverlay>
@@ -567,6 +714,7 @@ export default () => {
                 className="confirm-button"
                 onClick={() => {
                   dispatch({ type: "CLOSE_DIALOG" });
+                  dispatch({ type: "SET_DECISION_STATE", payload: "pre" });
                 }}
               >
                 Proceed
@@ -585,7 +733,7 @@ export default () => {
             </div>
             <div className="message">
               <p>your unique code:</p>
-              <p>{state.userId}</p>
+              <p>{state.user_id}</p>
               <p>
                 Please enter this code and complete the rest of your Qualtric
                 survey
@@ -861,7 +1009,8 @@ export default () => {
               <button
                 className={
                   state.chosen ===
-                  state.data[state.interventionData.length].chosen
+                  state.interventionSeq[state.interventionData.text.length]
+                    .chosen
                     ? "confirm-button"
                     : ""
                 }
@@ -872,7 +1021,8 @@ export default () => {
               <button
                 className={
                   state.chosen ===
-                  state.data[state.interventionData.length].chosen
+                  state.interventionSeq[state.interventionData.text.length]
+                    .chosen
                     ? ""
                     : "confirm-button"
                 }
@@ -896,7 +1046,7 @@ export default () => {
     <ComparisonContainer>
       <BackgroundFrame col="1/-1" row="3/-1" />
 
-      {state.decisionState === "intervention"
+      {decisionState === "intervention"
         ? [
             <div
               className="about-a about patient-button"
@@ -905,7 +1055,10 @@ export default () => {
               }
               key="about-a-int"
             >
-              <h4>Patient A </h4>
+              <h4>
+                Patient A{" "}
+                {chosen === 1 ? <FontAwesomeIcon icon="exchange-alt" /> : null}
+              </h4>
             </div>,
             <div
               className="about-b about patient-button"
@@ -914,11 +1067,15 @@ export default () => {
                 dispatch({ type: "INTERVENTION_SWITCH", payload: 1 })
               }
             >
-              <h4>Patient B</h4>
+              <h4>
+                Patient B{" "}
+                {chosen === 0 ? <FontAwesomeIcon icon="exchange-alt" /> : null}
+              </h4>
             </div>,
             <TextInputForm key="textinput">
               {state.chosen ===
-              state.data[state.interventionData.length].chosen ? (
+              state.interventionSeq[state.interventionData.decision.length]
+                .chosen ? (
                 <p>
                   I chose the patient highlighted in <span>orange</span>{" "}
                   because...

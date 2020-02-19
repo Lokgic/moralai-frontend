@@ -10,7 +10,8 @@ import {
   faChild,
   faSpinner,
   faUserFriends,
-  faArrowAltCircleRight
+  faArrowAltCircleRight,
+  faExchangeAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 faLibrary.add(
@@ -20,7 +21,8 @@ faLibrary.add(
   faUserFriends,
   faWineGlassAlt,
   faArrowAltCircleRight,
-  faChild
+  faChild,
+  faExchangeAlt
 );
 
 class MyApp extends App {

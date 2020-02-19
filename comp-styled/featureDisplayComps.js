@@ -9,7 +9,7 @@ export const ComparisonContainer = styled.div`
   padding: 0;
   display: grid;
   grid-template-rows:
-    min-content 2rem 5.5rem min-content 1rem;
+    min-content 2rem min-content min-content 1rem;
   grid-template-columns: 2fr 1fr 1fr 2fr;
   /* grid-column-gap: 0.8rem; */
   height: 100%;
@@ -42,15 +42,17 @@ export const ComparisonContainer = styled.div`
     display: flex;
     /* margin-top: 1rem;
     margin-bottom: 1rem; */
-    background: ${({ theme }) => theme.offWhite};
+    background: ${({ theme }) => theme.grey};
     color: black;
     
 
     h4 {
       /* color: ${({ theme }) => theme.primaryDark}; */
-      font-weight: 400;
+      font-weight: 700;
       font-size: 1.5rem;
       margin: auto;
+      padding:1.5rem 0;
+     
       
     }
     
@@ -64,14 +66,12 @@ export const ComparisonContainer = styled.div`
 
 
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
-    /* grid-template-rows: 0rem 10rem 1fr 0rem;
-    grid-column-gap: 0.8rem;
-    grid-row-gap: 4rem; */
-    grid-column-gap: 2rem;
+
     .about {
       h4 {
         font-size: 2.4rem;
-        line-height: 4rem;
+        padding:3rem 0;
+        /* line-height: 4rem; */
       }
     }
   }
@@ -114,10 +114,55 @@ export const FeatureTable = styled.div`
   display: grid;
   width: 100%;
   min-height: 450px;
-  color: ${({ theme }) => theme.offWhite};
+  /* color: ${({ theme }) => theme.offWhite}; */
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: ${({ n }) =>
-    n ? `repeat(${n},5rem minmax(min-content,2fr))` : `repeat(2,5rem 2fr)`};
+  /* grid-template-rows: ${({ n }) =>
+    n ? `repeat(${n},5rem minmax(min-content,2fr))` : `repeat(2,5rem 2fr)`}; */
+
+  grid-auto-rows: min-content;
+  .left{
+      border-right: 1px grey solid;
+    }
+  .f-cell{
+    padding:1rem 1rem 1rem 1.5rem;
+    
+    h2{
+      font-size:2rem;
+      line-height:2rem;
+       font-weight: 300;
+       /* text-align:center; */
+       padding: .5rem 0 1rem 0;
+       margin:0 0 1rem 0;
+       text-transform:capitalize;
+    }
+    h3 {
+      text-transform:capitalize;
+      font-size:1.3rem;
+      line-height:1.3rem;
+      margin-bottom:1.5rem;
+    }
+
+    
+  }
+  @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
+    grid-auto-rows: 1fr;
+    .f-cell{
+    padding:2rem 0 2rem 5rem;
+    
+    h2{
+      font-size:2.8rem;
+       font-weight: 300;
+       /* text-align:center; */
+       padding: 1rem 0 2rem 0;
+    }
+    h3 {
+      font-size:1.8rem;
+      line-height:1.8rem;
+    }
+
+    
+  }
+  }
 `;
 
 export const FeatureCell = styled.div`
@@ -145,8 +190,9 @@ export const FeatureCell = styled.div`
 export const FeatureHeader = styled.div`
   grid-row: ${({ fi }) => `${1 + fi * 2}/span 1`};
   grid-column: 1/-1;
-  background: ${({ theme }) => theme.darkGrey};
+  border-bottom: ${({ theme }) => `1px solid ${theme.darkGrey}`};
   display: flex;
+  /* padding-top: 3rem; */
 
   div {
     text-transform: capitalize;
