@@ -11,8 +11,6 @@ import {
   PatientNameButton,
   Dialog,
   DarkOverlay,
-  LikertScale,
-  LikertOption,
   MCQuestion,
   MCItem,
   StackedButton,
@@ -141,7 +139,7 @@ const addDistraction = arr => {
   });
 };
 
-const distractPairs = [...Array(1).keys()].map(d => {
+const distractPairs = [...Array(8).keys()].map(d => {
   const df = arrayRandomizer(dFeatureKeys).slice(0, 5);
   const fVal = df.map(d => [
     // mats.dFeatures[d][Math.floor(Math.random() * mats.dFeatures[d].length)],
@@ -192,8 +190,8 @@ const initialState = {
   trial_id: "mt2",
   groupId: "exp",
   sampleId: 323,
-  decisionState: "pre",
-  dialogState: "off",
+  decisionState: "init",
+  dialogState: "intro",
   pairSeq: sl,
   pair: sl.getCurrent(),
   timeStamp: Date.now(),
@@ -493,10 +491,14 @@ const reducer = (state, action) => {
   }
 };
 
-const pdURL = "http://localhost:5000/add-ppt";
-const ddURL = "http://localhost:5000/add-comparison";
-const mtdURL = "http://localhost:5000/add-mt";
-const sdURL = "http://localhost:5000/add-survey";
+const baseURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000/"
+    : "https://moral-ai-backend.herokuapp.com/";
+const pdURL = baseURL + "add-ppt";
+const ddURL = baseURL + "add-comparison";
+const mtdURL = baseURL + "add-mt";
+const sdURL = baseURL + "add-survey";
 export default () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
