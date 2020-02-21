@@ -50,7 +50,7 @@ export default () => {
     trialId: "index",
     userId: v1(),
     forder: Math.floor(6 * Math.random()),
-    version: Math.floor(2 * Math.random())
+    version: 0
   });
 
   const { version, userId, trialId, forder } = userData;

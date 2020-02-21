@@ -1,9 +1,7 @@
 import {
   ComparisonContainer,
   BackgroundFrame,
-  FeatureCell,
   FeatureTable,
-  FeatureHeader,
   TextInputForm
 } from "../comp-styled/featureDisplayComps";
 import {
@@ -161,7 +159,7 @@ const distractPairs = [...Array(8).keys()].map(d => {
 const preBasePairs = [
   [
     { exp: 19, cause: 2 },
-    { exp: 1, cause: 0 }
+    { exp: 14, cause: 0 }
   ],
   [
     { exp: 16, cause: 1 },
@@ -190,8 +188,8 @@ const initialState = {
   trial_id: "mt2",
   groupId: "exp",
   sampleId: 323,
-  decisionState: "init",
-  dialogState: "intro",
+  decisionState: "pre",
+  dialogState: "off",
   pairSeq: sl,
   pair: sl.getCurrent(),
   timeStamp: Date.now(),
@@ -661,28 +659,6 @@ export default () => {
       );
       break;
     }
-    // case "intervention": {
-    //   decisionScreen = (
-    //     <FeatureTable n={fKeysRandomized.length}>
-    //       {fKeysRandomized.map((f, fi) => [
-    //         <FeatureHeader key={`fcell_${f}`} fi={fi}>
-    //           <div>{pairSeq.translateFeature(f)}</div>
-    //         </FeatureHeader>,
-    //         [0, 1].map(p => (
-    //           <FeatureCell
-    //             side={p}
-    //             fi={fi}
-    //             valType={f === "age" ? "n" : "na"}
-    //             key={`f-cell--${p}_${fi}`}
-    //           >
-    //             <p>{pairSeq.translateValue(f, pair[p][f])}</p>
-    //           </FeatureCell>
-    //         ))
-    //       ])}
-    //     </FeatureTable>
-    //   );
-    //   break;
-    // }
 
     default:
       decisionScreen = null;
@@ -1139,12 +1115,6 @@ export default () => {
                 key={`user-iconcon-${d}`}
                 area={d === 0 ? "choosea" : "chooseb"}
               >
-                <FontAwesomeIcon
-                  icon="user"
-                  className="user-icon"
-                  key={`user-icon-${d}`}
-                />
-
                 <PatientNameButton
                   onClick={() =>
                     dispatch({ type: "DECISION_CLICK", chosen: d })

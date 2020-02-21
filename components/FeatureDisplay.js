@@ -41,12 +41,12 @@ export default ({ patient, feature, value, index, dynamic }) => {
   // console.log(obj);
   return (
     <FeatureContainer side={patient} index={index}>
-      <FeatureViz>
-        <animated.div
+      {/* <FeatureViz> */}
+      {/* <animated.div
           className="left"
           style={{ width: dynamic ? spring.percentage : 0 }}
-        />
-      </FeatureViz>
+        /> */}
+      {/* </FeatureViz> */}
 
       {/* <FeatureIconContainer index={index} side={patient}>
         <FontAwesomeIcon icon={FFn.graphicSelector(feature)} />

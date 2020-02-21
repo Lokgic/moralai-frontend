@@ -5,11 +5,13 @@ export const ComparisonContainer = styled.div`
   max-width: none;
   width: 100vw;
   max-width: 990px;
-  max-height: 990px;
+  max-height: 800px;
+  min-height:450px;
+  height:90vh;
   padding: 0;
   display: grid;
   grid-template-rows:
-    min-content 2rem min-content min-content 1rem;
+    min-content 2rem min-content 1fr 1rem;
   grid-template-columns: 2fr 1fr 1fr 2fr;
   /* grid-column-gap: 0.8rem; */
   height: 100%;
@@ -113,55 +115,51 @@ export const FeatureTable = styled.div`
   grid-area: ftable;
   display: grid;
   width: 100%;
-  min-height: 450px;
-  /* color: ${({ theme }) => theme.offWhite}; */
+  /* min-height: 450px; */
+  height: 100%;
   grid-template-columns: 1fr 1fr;
-  /* grid-template-rows: ${({ n }) =>
-    n ? `repeat(${n},5rem minmax(min-content,2fr))` : `repeat(2,5rem 2fr)`}; */
-
-  grid-auto-rows: min-content;
-  .left{
-      border-right: 1px grey solid;
-    }
-  .f-cell{
-    padding:1rem 1rem 1rem 1.5rem;
-    
-    h2{
-      font-size:2rem;
-      line-height:2rem;
-       font-weight: 300;
-       /* text-align:center; */
-       padding: .5rem 0 1rem 0;
-       margin:0 0 1rem 0;
-       text-transform:capitalize;
+  grid-auto-rows: 1fr;
+  .left {
+    border-right: 1px grey solid;
+  }
+  .f-cell {
+    /* padding: 1rem 1rem 1rem 1.5rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h2 {
+      font-size: 2rem;
+      line-height: 2rem;
+      font-weight: 300;
+      margin: 1rem auto auto 2rem;
+      /* padding: 0.5rem 0 1rem 0; */
+      /* margin: 0 0 1rem 0; */
+      text-transform: capitalize;
     }
     h3 {
-      text-transform:capitalize;
-      font-size:1.3rem;
-      line-height:1.3rem;
-      margin-bottom:1.5rem;
+      text-transform: capitalize;
+      font-size: 1.3rem;
+      line-height: 1.3rem;
+      /* margin-bottom: 1.5rem; */
+      margin: auto auto 1rem 2rem;
     }
-
-    
   }
   @media (min-width: ${props => props.theme.breakpoint.w[0]}) {
-    grid-auto-rows: 1fr;
-    .f-cell{
-    padding:2rem 0 2rem 5rem;
-    
-    h2{
-      font-size:2.8rem;
-       font-weight: 300;
-       /* text-align:center; */
-       padding: 1rem 0 2rem 0;
-    }
-    h3 {
-      font-size:1.8rem;
-      line-height:1.8rem;
-    }
+    .f-cell {
+      /* padding: 2rem 0 2rem 5rem; */
 
-    
-  }
+      h2 {
+        font-size: 2.8rem;
+        font-weight: 300;
+        margin-left: 5rem;
+        /* padding: 1rem 0 2rem 0; */
+      }
+      h3 {
+        font-size: 1.8rem;
+        line-height: 1.8rem;
+        margin-left: 5rem;
+      }
+    }
   }
 `;
 
