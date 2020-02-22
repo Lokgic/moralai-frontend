@@ -188,8 +188,8 @@ const initialState = {
   trial_id: "mt2",
   groupId: "exp",
   sampleId: 323,
-  decisionState: "pre",
-  dialogState: "off",
+  decisionState: "init",
+  dialogState: "intro",
   pairSeq: sl,
   pair: sl.getCurrent(),
   timeStamp: Date.now(),
@@ -285,7 +285,7 @@ const reducer = (state, action) => {
       return out;
     }
     case "DIALOG_CLICK":
-      if (action.subtype === "inclusive") {
+      if (action.qType === "inclusive") {
         if (
           typeof state.dialogChosen === "number" ||
           state.dialogChosen === null
@@ -319,17 +319,6 @@ const reducer = (state, action) => {
         if (dData.length === mats.distraction.length) {
           const newISeq = arrayRandomizer([...data]);
           const newChosen = newISeq[0].chosen;
-
-          // if (
-          //   state.condition === "control" ||
-          //   data[0].fKeysRandomized.indexOf("exp") === -1
-          // )
-          //   newChosen = data[0].chosen;
-          // else
-          //   newChosen = magicTrick({
-          //     data: data[0],
-          //     direction: state.condition
-          //   });
 
           return {
             ...state,
@@ -401,17 +390,7 @@ const reducer = (state, action) => {
         newOut.dialogState = "post-intro";
       } else {
         const nextI = newIData.text.length;
-        // if (
-        //   state.condition === "control" ||
-        //   data[nextI].fKeysRandomized.indexOf("exp") === -1
-        // )
-        //   newChosen = data[nextI].chosen;
-        // else
-        //   newChosen = magicTrick({
-        //     data: data[nextI],
-        //     direction: state.condition
-        //   });
-        // const newChosen =
+
         newOut.pair = state.interventionSeq[nextI].pair;
         newOut.chosen = state.interventionSeq[nextI].chosen;
         newOut.fKeysRandomized = arrayRandomizer(
@@ -423,7 +402,6 @@ const reducer = (state, action) => {
           "exp"
         ) !== -1
       ) {
-        // const targetedPair = state.interventionSeq[newIData.text.length - 1];
         const { realChosen, pair, time } = state.interventionSeq[
           newIData.text.length - 1
         ];
@@ -937,7 +915,7 @@ export default () => {
                     dispatch({
                       type: "DIALOG_CLICK",
                       payload: ai,
-                      subtype: mats.exitSurvey[state.surveyData.length].subtype
+                      qType: mats.exitSurvey[state.surveyData.length].qType
                     });
                   }}
                   active={

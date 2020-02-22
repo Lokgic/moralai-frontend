@@ -33,7 +33,7 @@
         "White/Caucasian",
         "Other"
       ],
-      "subtype": "inclusive"
+      "qType": "inclusive"
     },
     {
       "q": "What is your current age?",
@@ -58,6 +58,10 @@
         "Slightly conservative",
         "Very conservative"
       ]
+    },
+    {
+      "q": "Do you think kidney allocation should take into account whether or not someone is responsible for his or her own kidney disease??",
+      "a": ["Yes", "No"]
     }
   ],
 
@@ -106,10 +110,9 @@
       "some high school",
       "high school diploma",
       "some college",
-      "associate's degree",
+      "associate degree",
       "bachelor's degree",
       "master's degree",
-      "professional degree",
       "doctoral degree"
     ],
     "citizenship": ["non-citizen", "permanent US resident", "US citizen"],
@@ -133,18 +136,18 @@
     "weight": ["underweight", "healthy weight", "overweight", "obese"],
     "previouslyReceived": ["yes", "no"],
     "pastContribution": [
-      "recurring money donations",
-      "one-time money donation",
-      "previously donated an organ",
+      "none",
       "volunteer work",
-      "none"
+      "one-time money donation",
+      "recurring money donations",
+      "previously donated an organ"
     ],
     "mentalHealth": [
+      "none",
       "significant mental illness",
       "minor mental illness",
       "significant mental disability",
-      "minor mental disability",
-      "none"
+      "minor mental disability"
     ]
   }
 }
