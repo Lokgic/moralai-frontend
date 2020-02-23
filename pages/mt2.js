@@ -190,7 +190,7 @@ const initialState = {
   user_id: v1(),
   trial_id: "mt2-pilot",
   group_id: "control",
-  sample_id: 323,
+  sample_id: 999,
   decisionState: "init",
   dialogState: "intro",
   pairSeq: sl,
@@ -215,7 +215,7 @@ const magicTrick = ({ pair, direction }) => {
 };
 
 const reducer = (state, action) => {
-  const { data, timeStamp, pairSeq, pair, user_id } = state;
+  const { data, timeStamp, pairSeq, pair, user_id, postData } = state;
   const newTS = Date.now();
   const { payload } = action;
   console.log("ACTION TYPE: " + action.type + ", PAYLOAD: " + payload);
@@ -264,9 +264,7 @@ const reducer = (state, action) => {
       }
 
       const newData =
-        state.decisionState === "pre"
-          ? [...data, newDP]
-          : [...state.postData, newDP];
+        state.decisionState === "pre" ? [...data, newDP] : [...postData, newDP];
 
       const newPair = pairSeq.getNext();
       const newFkey = arrayRandomizer(pairSeq.getFeatureKeys());
