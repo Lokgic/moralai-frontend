@@ -9,15 +9,23 @@
         "Another reason",
         "I did not revise any of my selection"
       ],
-      "subtype": "inclusive"
+      "qType": "inclusive"
+    },
+    {
+      "q": "Do you think kidney allocation should take into account whether or not someone is responsible for his or her own kidney disease?",
+      "a": ["No, it should not.", "Yes, it should."]
+    },
+    {
+      "q": "Please explain your reasoning behind your answer for the previous question:",
+      "qType": "textInput"
     },
     {
       "q": "Have you ever been part of a kidney transplant?",
-      "a": ["Yes, I was the recipient", "Yes, I was the donor", "No"]
+      "a": ["No", "Yes, I was the recipient", "Yes, I was the donor"]
     },
     {
       "q": "Have you ever been part of a non-kidney organ transplant?",
-      "a": ["Yes, I was the recipient", "Yes, I was the donor", "No"]
+      "a": ["No", "Yes, I was the recipient", "Yes, I was the donor"]
     },
     {
       "q": "What is your gender?",
@@ -58,10 +66,6 @@
         "Slightly conservative",
         "Very conservative"
       ]
-    },
-    {
-      "q": "Do you think kidney allocation should take into account whether or not someone is responsible for his or her own kidney disease??",
-      "a": ["Yes", "No"]
     }
   ],
 
@@ -81,19 +85,19 @@
   ],
   "dFeatures": {
     "income": [
-      "10,000",
-      "20,000",
-      "30,000",
-      "40,000",
-      "50,000",
-      "60,000",
-      "70,000",
-      "80,000",
-      "90,000",
-      "100,000",
-      "150,000",
-      "200,000",
-      "500,000"
+      "10000",
+      "20000",
+      "30000",
+      "40000",
+      "50000",
+      "60000",
+      "70000",
+      "80000",
+      "90000",
+      "100000",
+      "150000",
+      "200000",
+      "500000"
     ],
     "gender": ["male", "female"],
     "smoking": [

@@ -11,6 +11,7 @@ import {
   DarkOverlay,
   MCQuestion,
   MCItem,
+  SurveyTextInput,
   StackedButton,
   PatientEmphasis
 } from "../comp-styled/interface";
@@ -72,6 +73,8 @@ const valueTranslator = (fkey, value) => {
     //     : value === "alcohol"
     //     ? "heavy alcohol use"
     //     : "heavy drug use";
+    case "income":
+      return `$${valueDictionary[fkey][value]} per year`;
     default:
       return valueDictionary[fkey][value];
   }
@@ -185,9 +188,9 @@ const sl2 = new SequenceLogic({
 
 const initialState = {
   user_id: v1(),
-  trial_id: "mt2",
-  groupId: "exp",
-  sampleId: 323,
+  trial_id: "mt2-pilot",
+  group_id: "control",
+  sample_id: 323,
   decisionState: "init",
   dialogState: "intro",
   pairSeq: sl,
@@ -218,6 +221,11 @@ const reducer = (state, action) => {
   console.log("ACTION TYPE: " + action.type + ", PAYLOAD: " + payload);
 
   switch (action.type) {
+    case "SET_GROUP_ID":
+      return {
+        ...state,
+        group_id: action.payload
+      };
     case "CLOSE_DIALOG":
       const newState = {
         ...state,
@@ -242,7 +250,7 @@ const reducer = (state, action) => {
         fKeysRandomized: state.fKeysRandomized
       };
       if (
-        state.groupId === "control" ||
+        state.group_id === "control" ||
         state.fKeysRandomized.indexOf("exp") === -1 ||
         state.decisionState !== "pre"
       ) {
@@ -250,7 +258,7 @@ const reducer = (state, action) => {
       } else {
         newDP.chosen = magicTrick({
           pair,
-          direction: state.groupId
+          direction: state.group_id
         });
         newDP.realChosen = state.chosen;
       }
@@ -339,20 +347,24 @@ const reducer = (state, action) => {
           };
         }
       } else if (state.dialogState === "exit-survey") {
-        const sData = [...state.surveyData, state.dialogChosen];
+        const newSDP =
+          action.qType === "textInput" ? state.textInput : state.dialogChosen;
+        const sData = [...state.surveyData, newSDP];
 
         if (sData.length === mats.exitSurvey.length) {
           return {
             ...state,
             dialogChosen: null,
             surveyData: sData,
-            dialogState: "outro"
+            dialogState: "outro",
+            textInput: ""
           };
         } else {
           return {
             ...state,
             dialogChosen: null,
-            surveyData: sData
+            surveyData: sData,
+            textInput: ""
           };
         }
       }
@@ -408,7 +420,7 @@ const reducer = (state, action) => {
         const { chosen } = state;
         const expPatient = pair[0].exp > pair[1].exp ? 0 : 1;
         const expfavor_original = expPatient === realChosen ? 1 : 0;
-        const group = state.groupId;
+        const group = state.group_id;
         const expfavor_final = expPatient === chosen ? 1 : 0;
         const newMTPoint = {
           user_id,
@@ -477,7 +489,7 @@ const pdURL = baseURL + "add-ppt";
 const ddURL = baseURL + "add-comparison";
 const mtdURL = baseURL + "add-mt";
 const sdURL = baseURL + "add-survey";
-export default () => {
+export default props => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   let dialog, decisionScreen;
@@ -500,6 +512,7 @@ export default () => {
   } = state;
 
   console.log(state);
+
   const sendPost = async ({ body, url }) => {
     return fetch(url, {
       method: "POST",
@@ -512,14 +525,21 @@ export default () => {
       return res;
     });
   };
+
+  useEffect(() => {
+    if (props.group_id !== null && props.group_id !== undefined) {
+      dispatch({ type: "SET_GROUP_ID", payload: props.group_id });
+      console.log(props.group_id);
+    }
+  }, [props.group_id]);
   // effect hook tracks change of decision state
   useEffect(() => {
     if (decisionState === "pre") {
       const body = {
         user_id,
         trial_id,
-        group_id: state.groupId,
-        sample_id: state.sampleId
+        group_id: state.group_id,
+        sample_id: state.sample_id
       };
       sendPost({ body, url: pdURL });
     }
@@ -907,38 +927,52 @@ export default () => {
                 {mats.exitSurvey[state.surveyData.length].q}
               </p>
             </div>
-            <MCQuestion>
-              {mats.exitSurvey[state.surveyData.length].a.map((a, ai) => (
-                <MCItem
-                  key={`mcitem_${a}_${ai}`}
-                  onClick={() => {
-                    dispatch({
-                      type: "DIALOG_CLICK",
-                      payload: ai,
-                      qType: mats.exitSurvey[state.surveyData.length].qType
-                    });
-                  }}
-                  active={
-                    dialogChosen !== null
-                      ? typeof dialogChosen === "object"
-                        ? dialogChosen.indexOf(ai) > -1
-                        : dialogChosen === ai
-                      : false
-                  }
-                >
-                  <div className="click-box" />
-                  <p>{a}</p>
-                </MCItem>
-              ))}
-            </MCQuestion>
+            {mats.exitSurvey[state.surveyData.length].qType === "textInput" ? (
+              <SurveyTextInput
+                placeholder="type answer here"
+                value={textInput}
+                onChange={e =>
+                  dispatch({
+                    type: "SET_TEXT_INPUT",
+                    payload: e.target.value
+                  })
+                }
+              />
+            ) : (
+              <MCQuestion>
+                {mats.exitSurvey[state.surveyData.length].a.map((a, ai) => (
+                  <MCItem
+                    key={`mcitem_${a}_${ai}`}
+                    onClick={() => {
+                      dispatch({
+                        type: "DIALOG_CLICK",
+                        payload: ai,
+                        qType: mats.exitSurvey[state.surveyData.length].qType
+                      });
+                    }}
+                    active={
+                      dialogChosen !== null
+                        ? typeof dialogChosen === "object"
+                          ? dialogChosen.indexOf(ai) > -1
+                          : dialogChosen === ai
+                        : false
+                    }
+                  >
+                    <div className="click-box" />
+                    <p>{a}</p>
+                  </MCItem>
+                ))}
+              </MCQuestion>
+            )}
 
             <div className="buttons">
-              {dialogChosen != null ? (
+              {dialogChosen != null || textInput.length > 0 ? (
                 <button
                   className="confirm-button"
                   onClick={() => {
                     dispatch({
-                      type: "DIALOG_CONFIRM"
+                      type: "DIALOG_CONFIRM",
+                      qType: mats.exitSurvey[state.surveyData.length].qType
                     });
                   }}
                 >

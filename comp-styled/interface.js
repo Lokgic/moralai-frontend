@@ -539,3 +539,13 @@ export const PatientEmphasis = styled.div`
   border: tomato 1rem solid;
   z-index: 3;
 `;
+
+export const SurveyTextInput = styled.textarea`
+  /* width: 100%; */
+
+  background: ${({ theme }) => theme.grey};
+  margin: 1rem 1rem;
+  padding: 1rem 1rem;
+  border: none;
+  font-size: 1.4rem;
+`;
