@@ -255,6 +255,7 @@ const reducer = (state, action) => {
         state.decisionState !== "pre"
       ) {
         newDP.chosen = state.chosen;
+        newDP.realChosen = state.chosen;
       } else {
         newDP.chosen = magicTrick({
           pair,
@@ -1104,7 +1105,7 @@ export default props => {
                     : { gridRow: "1/3", height: "100%" }
                 }
               >
-                Confirm
+                Continue
               </StackedButton>
             </UserIconContainer>,
             <PatientEmphasis

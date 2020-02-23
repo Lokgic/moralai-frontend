@@ -66,6 +66,20 @@
         "Slightly conservative",
         "Very conservative"
       ]
+    },
+    {
+      "q": "What is your self-identified religion?",
+      "a": [
+        "Christian - Catholic",
+        "Christian - Non-Catholic",
+        "Jewish",
+        "Muslim",
+        "Hindu",
+        "Buddist",
+        "Atheist",
+        "None",
+        "Other"
+      ]
     }
   ],
 
@@ -76,7 +90,7 @@
     },
     {
       "q": "What type of organ transplant is the most common in the US?",
-      "a": ["kidney", "liver", "heart", "lung"]
+      "a": ["Kidney", "Liver", "Heart", "Lung"]
     },
     {
       "q": "What is the average amount of time patients spend on the waiting list before receiving a kidney transplant?",
