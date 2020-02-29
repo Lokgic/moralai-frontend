@@ -44,7 +44,8 @@ const featureDict = {
   weight: "Weight",
   previouslyReceived: "Previously Received an Organ Transplant",
   pastContribution: "Past contributions to hospital",
-  mentalHealth: "current mental health"
+  mentalHealth: "current mental health",
+  postHabit: "drinking/drug hahit after diagnosis"
 };
 
 const targetEdDistractionFeature = [
@@ -67,12 +68,6 @@ const valueTranslator = (fkey, value) => {
       return `${value} years`;
     case "dependents":
       return value === 0 ? "none" : value;
-    // case "cause":
-    //   return value === "hereditary"
-    //     ? value
-    //     : value === "alcohol"
-    //     ? "heavy alcohol use"
-    //     : "heavy drug use";
     case "income":
       return `$${valueDictionary[fkey][value]} per year`;
     default:
@@ -82,60 +77,61 @@ const valueTranslator = (fkey, value) => {
 
 const postPairs = [
   [
-    { exp: 27, cause: 2 },
-    { exp: 21, cause: 0 }
-  ],
-  [
-    { exp: 16, cause: 1 },
+    { exp: 27, cause: 1 },
     { exp: 11, cause: 0 }
   ],
   [
-    { exp: 9, cause: 2 },
-    { exp: 4, cause: 0 }
+    { exp: 16, cause: 1 },
+    { exp: 6, cause: 0 }
+  ],
+  [
+    { exp: 21, cause: 2 },
+    { exp: 14, cause: 0 }
   ],
   [
     { exp: 20, cause: 2 },
     { exp: 10, cause: 0 }
   ],
   [
-    { exp: 5, cause: 2 },
-    { exp: 2, cause: 0 }
+    { exp: 28, cause: 2 },
+    { exp: 8, cause: 0 }
   ],
   [
-    { exp: 25, cause: 1 },
-    { exp: 19, cause: 0 }
+    { exp: 24, cause: 1 },
+    { exp: 12, cause: 0 }
   ],
   [
-    { exp: 19, cause: 2 },
+    { exp: 25, cause: 2 },
     { exp: 14, cause: 0 }
   ],
   [
-    { exp: 10, cause: 2 },
-    { exp: 5, cause: 0 }
+    { exp: 24, cause: 2 },
+    { exp: 6, cause: 0 }
   ],
   [
-    { exp: 17, cause: 1 },
+    { exp: 27, cause: 1 },
     { exp: 14, cause: 0 }
   ],
   [
-    { exp: 13, cause: 1 },
-    { exp: 10, cause: 0 }
+    { exp: 14, cause: 1 },
+    { exp: 7, cause: 0 }
   ]
 ];
 
 const addDistraction = arr => {
   return [...arr].map(d => {
-    const df = arrayRandomizer(targetEdDistractionFeature).slice(0, 2);
+    const df = arrayRandomizer(targetEdDistractionFeature).slice(0, 1);
     const fVal = df.map(d =>
       Math.floor(Math.random() * mats.dFeatures[d].length)
     );
 
     return d.map(patient => {
-      return {
+      const newP = {
         ...patient,
         [df[0]]: fVal[0],
-        [df[1]]: fVal[1]
+        postHabit: 0
       };
+      return newP;
     });
   });
 };
@@ -188,7 +184,7 @@ const sl2 = new SequenceLogic({
 
 const initialState = {
   user_id: v1(),
-  trial_id: "mt2-pilot",
+  trial_id: "mt2-pilotv2",
   group_id: "control",
   sample_id: 999,
   decisionState: "init",
