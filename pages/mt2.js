@@ -45,7 +45,7 @@ const featureDict = {
   previouslyReceived: "Previously Received an Organ Transplant",
   pastContribution: "Past contributions to hospital",
   mentalHealth: "current mental health",
-  postHabit: "drinking/drug hahit after diagnosis"
+  postHabit: "Post-Diagnosis Drug/Alcohol Use/Abuse"
 };
 
 const targetEdDistractionFeature = [
