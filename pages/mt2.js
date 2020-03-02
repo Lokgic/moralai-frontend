@@ -81,12 +81,12 @@ const postPairs = [
     { exp: 11, cause: 0 }
   ],
   [
-    { exp: 16, cause: 1 },
+    { exp: 18, cause: 1 },
     { exp: 6, cause: 0 }
   ],
   [
-    { exp: 21, cause: 2 },
-    { exp: 14, cause: 0 }
+    { exp: 28, cause: 2 },
+    { exp: 10, cause: 0 }
   ],
   [
     { exp: 20, cause: 2 },
@@ -157,12 +157,12 @@ const distractPairs = [...Array(8).keys()].map(d => {
 
 const preBasePairs = [
   [
-    { exp: 19, cause: 2 },
-    { exp: 14, cause: 0 }
+    { exp: 28, cause: 2 },
+    { exp: 10, cause: 0 }
   ],
   [
-    { exp: 16, cause: 1 },
-    { exp: 11, cause: 0 }
+    { exp: 18, cause: 1 },
+    { exp: 6, cause: 0 }
   ]
 ];
 
