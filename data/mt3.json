@@ -1,4 +1,56 @@
 {
+  "postPairs": [
+    [
+      { "exp": 26, "dependents": 0 },
+      { "exp": 11, "dependents": 2 }
+    ],
+    [
+      { "exp": 23, "dependents": 0 },
+      { "exp": 5, "dependents": 2 }
+    ],
+    [
+      { "exp": 40, "dependents": 0 },
+      { "exp": 13, "dependents": 2 }
+    ],
+    [
+      { "exp": 42, "dependents": 0 },
+      { "exp": 10, "dependents": 2 }
+    ],
+    [
+      { "exp": 28, "dependents": 0 },
+      { "exp": 7, "dependents": 2 }
+    ],
+    [
+      { "exp": 25, "dependents": 0 },
+      { "exp": 12, "dependents": 2 }
+    ],
+    [
+      { "exp": 29, "dependents": 0 },
+      { "exp": 10, "dependents": 2 }
+    ],
+    [
+      { "exp": 21, "dependents": 0 },
+      { "exp": 5, "dependents": 2 }
+    ],
+    [
+      { "exp": 39, "dependents": 0 },
+      { "exp": 14, "dependents": 2 }
+    ],
+    [
+      { "exp": 27, "dependents": 0 },
+      { "exp": 7, "dependents": 2 }
+    ]
+  ],
+  "preBasePairs": [
+    [
+      { "exp": 29, "dependents": 0 },
+      { "exp": 10, "dependents": 2 }
+    ],
+    [
+      { "exp": 23, "dependents": 0 },
+      { "exp": 5, "dependents": 2 }
+    ]
+  ],
   "exitSurvey": [
     {
       "q": "If you revised any of your selections during the text input, what was the reason? Choose as many as apply.",

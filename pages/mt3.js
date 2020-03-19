@@ -80,49 +80,6 @@ const valueTranslator = (fkey, value) => {
   }
 };
 
-const postPairs = [
-  [
-    { exp: 26, dependents: 0 },
-    { exp: 11, dependents: 2 }
-  ],
-  [
-    { exp: 18, dependents: 0 },
-    { exp: 6, dependents: 2 }
-  ],
-  [
-    { exp: 21, dependents: 0 },
-    { exp: 14, dependents: 2 }
-  ],
-  [
-    { exp: 20, dependents: 0 },
-    { exp: 10, dependents: 2 }
-  ],
-  [
-    { exp: 28, dependents: 0 },
-    { exp: 8, dependents: 2 }
-  ],
-  [
-    { exp: 24, dependents: 0 },
-    { exp: 12, dependents: 2 }
-  ],
-  [
-    { exp: 28, dependents: 0 },
-    { exp: 10, dependents: 2 }
-  ],
-  [
-    { exp: 21, dependents: 0 },
-    { exp: 5, dependents: 2 }
-  ],
-  [
-    { exp: 27, dependents: 0 },
-    { exp: 14, dependents: 2 }
-  ],
-  [
-    { exp: 14, dependents: 0 },
-    { exp: 7, dependents: 2 }
-  ]
-];
-
 const addDistraction = arr => {
   return [...arr].map(d => {
     const df = arrayRandomizer(targetEdDistractionFeature).slice(0, 2);
@@ -160,16 +117,7 @@ const distractPairs = [...Array(8).keys()].map(d => {
   });
 });
 
-const preBasePairs = [
-  [
-    { exp: 28, dependents: 0 },
-    { exp: 10, dependents: 2 }
-  ],
-  [
-    { exp: 18, dependents: 0 },
-    { exp: 6, dependents: 2 }
-  ]
-];
+const { preBasePairs, postPairs } = mats;
 
 const prePairs = [...addDistraction(preBasePairs), ...distractPairs];
 const postPairD = [...addDistraction(postPairs)];
@@ -189,7 +137,7 @@ const sl2 = new SequenceLogic({
 
 const initialState = {
   user_id: v1(),
-  trial_id: "mt3-pilot",
+  trial_id: "mt3-pilotv2",
   group_id: "control",
   sample_id: 999,
   decisionState: "init",
