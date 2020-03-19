@@ -575,6 +575,7 @@ export default () => {
         body[`left_${i + 1}`] = dp.pair[0][feature];
         body[`right_${i + 1}`] = dp.pair[1][feature];
       }
+      body["name_5"] = "pre";
       body["left_5"] = -999;
       body["right_5"] = -999;
       body["user_id"] = state.user_id;
@@ -610,7 +611,7 @@ export default () => {
         body[`left_${i + 1}`] = dp.pair[0][feature];
         body[`right_${i + 1}`] = dp.pair[1][feature];
       }
-      body["name_5"] = "";
+      body["name_5"] = "post";
       body["left_5"] = -999;
       body["right_5"] = -999;
       body["user_id"] = state.user_id;
