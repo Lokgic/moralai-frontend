@@ -227,6 +227,11 @@ const reducer = (state, action) => {
         ...state,
         group_id: action.payload
       };
+    case "SET_SAMPLE_ID":
+      return {
+        ...state,
+        sample_id: action.payload
+      };
     case "SET_TRIAL_ID":
       return {
         ...state,
@@ -543,7 +548,7 @@ export default () => {
         dispatch({ type: "SET_GROUP_ID", payload: query.g });
       }
       if (query.mode === "test" && state.user_id !== "test") {
-        dispatch({ type: "SET_USER_ID", payload: "test" });
+        dispatch({ type: "SET_SAMPLE_ID", payload: -1 });
       }
     }
   }, [query]);
@@ -596,7 +601,7 @@ export default () => {
           console.log(arr);
           return arr.indexOf(d) !== -1 ? arr : [...arr, d];
         },
-        ["cause", "exp"]
+        ["dependents", "exp"]
       );
       console.log(dp);
       for (let i = 0; i < order.length; i++) {
