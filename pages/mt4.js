@@ -21,7 +21,7 @@ import SequenceLogic from "../components/SequenceLogic";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { arrayRandomizer } from "../components/FeatureHelpers";
 import { v1 } from "uuid";
-import mats from "../data/mt3.json";
+import mats from "../data/mt4.json";
 
 const rand = (floor, ceiling) =>
   floor + Math.floor(Math.random() * (ceiling - floor + 1));
