@@ -191,11 +191,13 @@ const IntroScreen = ({ handleNext, group }) => (
         <p>
           In this activity, we will ask you about our opinions about morality.
         </p>
-        <p className="choice-message">
-          An <span className="emph">artificial intelligence (AI)</span> will use
-          your responses to these questions to predict how you will make
-          decisions in the next part of the activity.
-        </p>
+        {group !== "control" ? (
+          <p className="choice-message">
+            An <span className="emph">artificial intelligence (AI)</span> will
+            use your responses to these questions to predict how you will make
+            decisions in the next part of the activity.
+          </p>
+        ) : null}
       </div>
       <div className="buttons">
         <button className="confirm-button" onClick={handleNext}>
