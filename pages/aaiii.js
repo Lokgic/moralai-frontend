@@ -15,7 +15,9 @@ import {
   StackedButton,
   PatientEmphasis,
   LikertScale,
-  LikertOption
+  LikertOption,
+  DialogMessage,
+  DialogMessageContainer
 } from "../comp-styled/interface";
 import { useReducer, useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -25,6 +27,10 @@ import { arrayRandomizer } from "../components/FeatureHelpers";
 import { v1 } from "uuid";
 import mats from "../data/aaiii.json";
 import oxfordScale from "../data/ous.json";
+
+const oxfordQOrder = arrayRandomizer([...Array(oxfordScale.q.length).keys()]);
+
+console.log(oxfordQOrder);
 const targetEdDistractionFeature = [
   "income",
   "race",
@@ -174,7 +180,7 @@ const initialState = {
   timeStamp: Date.now(),
   chosen: null,
   dialogChosen: -1,
-  ousData: [],
+  ousData: {},
   pairwiseData: [],
   exitData: [],
   fKeysRandomized: arrayRandomizer(sl.getFeatureKeys()),
@@ -211,6 +217,7 @@ const IntroScreen = ({ handleNext, group }) => (
 );
 
 const OxfordUtilScale = ({
+  qIndex,
   finishedQ,
   handleNextQuestion,
   chosen,
@@ -222,12 +229,12 @@ const OxfordUtilScale = ({
       <div className="dialog-header">
         <h2>{group === "control" ? "" : "AI "} Moral Personality Assessment</h2>
       </div>
-      <div className="message">
+      <DialogMessageContainer>
         <p>
           Do you agree with the following statement?
           {` (${finishedQ}/${oxfordScale.q.length})`}
         </p>
-        <p className="choice-message">{oxfordScale.q[finishedQ]}</p>
+        <DialogMessage>{oxfordScale.q[qIndex]}</DialogMessage>
 
         <LikertScale>
           {oxfordScale.a.map((d, i) => (
@@ -237,7 +244,7 @@ const OxfordUtilScale = ({
             </div>
           ))}
         </LikertScale>
-      </div>
+      </DialogMessageContainer>
       <div className="buttons">
         {chosen > -1 ? (
           <button
@@ -287,22 +294,22 @@ const DecisionIntro = ({ handleNext }) => {
       </p>
       <p>
         Patients who <b>do not</b> receive the kidney will remain on dialysis
-        and is likely to die within a year or two.
+        and are likely to die within a year or two.
       </p>
     </div>
   );
   const page2 = (
-    <div className="message">
+    <DialogMessageContainer>
       <p>Please keep in mind that:</p>
-      <p className="choice-message" style={{ textAlign: "left" }}>
-        Life expectancy will <b>not</b> be affected by the patient’s future
-        alcohol and drug use
-      </p>
-      <p className="choice-message" style={{ textAlign: "left" }}>
-        All patients <b>have stopped drinking and drug use</b> after being
+      <DialogMessage>
+        Life expectancy is <b>not</b> affected by the patient’s future alcohol
+        and drug use
+      </DialogMessage>
+      <DialogMessage>
+        None of the patients have used alcohol or drugs <b>after</b> being
         diagnosed with a kidney disease.
-      </p>
-    </div>
+      </DialogMessage>
+    </DialogMessageContainer>
   );
   const next = () => (page === 0 ? setPage(1) : handleNext());
   return (
@@ -346,13 +353,16 @@ const reducer = (state, action) => {
           dialogState: "ous"
         };
       } else if (dialogState === "ous") {
+        const newData = { ...ousData };
+        const dataLength = Object.keys(ousData).length;
+        newData[oxfordQOrder[dataLength]] = dialogChosen;
         const out = {
           ...state,
-          ousData: [...ousData, dialogChosen],
+          ousData: newData,
           dialogChosen: -1
         };
 
-        if (out.ousData.length === oxfordScale.q.length) {
+        if (Object.keys(newData).length === oxfordScale.q.length) {
           out.dialogState = group_id === "control" ? "decisionIntro" : "ass";
         }
 
@@ -585,6 +595,7 @@ const DialogComp = ({ state, dispatch }) => {
     user_id
   } = state;
   const dialogConfirm = () => dispatch({ type: "DIALOG_CONFIRM" });
+  const oDataLength = Object.keys(ousData).length;
   switch (dialogState) {
     case "intro":
       return <IntroScreen group={group_id} handleNext={dialogConfirm} />;
@@ -592,7 +603,8 @@ const DialogComp = ({ state, dispatch }) => {
       return (
         <OxfordUtilScale
           group={group_id}
-          finishedQ={ousData.length}
+          finishedQ={oDataLength}
+          qIndex={oxfordQOrder[oDataLength]}
           handleNextQuestion={dialogConfirm}
           chosen={dialogChosen}
           setChosen={chosen =>

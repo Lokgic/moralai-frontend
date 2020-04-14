@@ -473,6 +473,30 @@ export const Dialog = styled.div`
   }
 `;
 
+export const DialogMessageContainer = styled.div`
+  padding: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+  line-height: 2rem;
+  @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
+    padding: 1em;
+  }
+`;
+
+export const DialogMessage = styled.p`
+  color: rgba(0, 0, 0, 1);
+  margin-top: 3rem;
+  font-size: 2.4rem;
+  font-weight: 400;
+  text-align: left;
+  line-height: 2.7rem;
+  .emph {
+    font-weight: 700;
+  }
+  @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
+    font-size: 1.6rem;
+  }
+`;
+
 export const LikertScale = styled.div`
   display: flex;
   flex-direction: row;
@@ -480,18 +504,33 @@ export const LikertScale = styled.div`
     display: flex;
     margin: 1rem auto;
     flex-direction: column;
-
     p {
       margin: 1rem auto;
       text-align: center;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
+      line-height: 1.7rem;
       max-width: 6rem;
       text-transform: capitalize;
     }
   }
+
+  @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
+    flex-direction: column;
+    .likert-item {
+      flex-direction: row;
+      margin: 1rem auto auto 1rem;
+      p {
+        text-align: left;
+        margin: auto auto auto 1rem;
+        font-size: 1.6rem;
+        line-height: 1.6rem;
+        max-width: none;
+      }
+    }
+  }
 `;
 
-export const LikertOption = styled.div`
+export const LikertOption = styled.button`
   margin: 1rem auto;
   width: 3rem;
   height: 3rem;
