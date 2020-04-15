@@ -478,6 +478,7 @@ export const DialogMessageContainer = styled.div`
   color: rgba(0, 0, 0, 0.8);
   line-height: 2rem;
   display: flex;
+  flex-direction: column;
   @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
     padding: 1em;
   }
@@ -485,7 +486,7 @@ export const DialogMessageContainer = styled.div`
 
 export const DialogMessage = styled.p`
   color: rgba(0, 0, 0, 1);
-  margin: 3rem auto;
+  margin: 1.5rem auto;
   font-size: 2rem;
   font-weight: 300;
   text-align: left;
