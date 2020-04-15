@@ -174,7 +174,7 @@ const initialState = {
   group_id: "control",
   sample_id: 999,
   decisionState: "intro",
-  dialogState: "exitSurvey",
+  dialogState: "intro",
   pairSeq: sl,
   pair: sl.getCurrent(),
   timeStamp: Date.now(),
