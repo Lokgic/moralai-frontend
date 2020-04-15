@@ -477,6 +477,7 @@ export const DialogMessageContainer = styled.div`
   padding: 2rem;
   color: rgba(0, 0, 0, 0.8);
   line-height: 2rem;
+  display: flex;
   @media (max-width: ${props => props.theme.breakpoint.w[1]}) {
     padding: 1em;
   }
@@ -484,16 +485,18 @@ export const DialogMessageContainer = styled.div`
 
 export const DialogMessage = styled.p`
   color: rgba(0, 0, 0, 1);
-  margin-top: 3rem;
-  font-size: 2.4rem;
-  font-weight: 400;
+  margin: 3rem auto;
+  font-size: 2rem;
+  font-weight: 300;
   text-align: left;
-  line-height: 2.7rem;
+  line-height: 2rem;
+  display: inline-block;
   .emph {
     font-weight: 700;
   }
   @media (max-width: ${props => props.theme.breakpoint.w[0]}) {
     font-size: 1.6rem;
+    line-height: 1.7rem;
   }
 `;
 
@@ -552,12 +555,12 @@ export const MCItem = styled.div`
   flex-direction: row;
 
   p {
-    margin: auto auto auto 3rem;
-    text-align: center;
+    text-align: left;
+    margin: auto auto auto 1rem;
     font-size: 1.6rem;
+    line-height: 1.6rem;
+    max-width: none;
     cursor: pointer;
-    line-height: 1.5rem;
-    /* text-transform: capitalize; */
   }
   .click-box {
     margin: auto auto auto 3rem;

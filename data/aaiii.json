@@ -25,12 +25,14 @@
   },
   "exitSurvey": [
     {
-      "q": "Do you think kidney allocation should take into account whether or not someone is responsible for his or her own kidney disease?",
-      "a": ["No, it should not.", "Yes, it should."]
-    },
-    {
-      "q": "Please explain your reasoning behind your answer for the previous question:",
-      "qType": "textInput"
+      "q": "In general, do you think it is more important to consider whether a patient is responsible for their own kidney failure OR how long a patient is expected to live if they receive a kidney when deciding which patient should be prioritized for a transplant?",
+      "a": [
+        "I think the patient's responsibility for their own organ failure is much more important than their life expectancy",
+        "I think the patient's responsibility for their own organ failure is somewhat more important than their life expectancy",
+        "I think responsibility and life expectancy are equally important",
+        "I think the patient's life expectancy is somewhat more important than responsibility for their own organ failure",
+        "I think the patient's life expectancy is much more important than responsibility for their own organ failure"
+      ]
     },
     {
       "q": "Have you ever been part of a kidney transplant?",
@@ -42,7 +44,7 @@
     },
     {
       "q": "What is your gender?",
-      "a": ["Female", "Male", "Other", "None/Prefer not to answer"]
+      "a": ["Female", "Male", "Other", "Prefer not to answer"]
     },
     {
       "q": "What is your race/ethnicity? Choose as many as apply.",
@@ -57,7 +59,7 @@
       "qType": "inclusive"
     },
     {
-      "q": "What is your current age?",
+      "q": "What is your cu÷rrent age?",
       "a": ["18-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80 or older"]
     },
     {
@@ -81,6 +83,36 @@
         "Buddist",
         "Atheist/Agnostic",
         "Other"
+      ]
+    },
+    {
+      "q": "What is the highest degree or level of school you have completed? If currently enrolled, please mark the previous grade or highest degree received.",
+      "a": [
+        "Less than high school",
+        "Some high school, no diploma",
+        "High school graduate (diploma or a legally accepted equivalent)",
+        "Some college; no college degree",
+        "Associate degree",
+        "Bachelor's degree",
+        "Master's degree",
+        "Professional degree, such as MD, DDS, DVM, LLB, JD",
+        "Doctorate degree, such as PhD, EdD"
+      ]
+    },
+    {
+      "q": "In these scenarios, did patients’ drinking or drug habits influence their life expectancy?",
+      "a": [
+        "no, patients’ habits did not influence their life expectancy,",
+        "yes, patients’ habits influenced their life expectancy",
+        "it is unclear whether patients’ habits influenced their life expectancy"
+      ]
+    },
+    {
+      "q": "In these scenarios, did patients stop drinking or using drugs after being diagnosed with a kidney disease?",
+      "a": [
+        "no, all patients continued drinking or using drugs after diagnosis.",
+        "Some but not all patients stop drinking or using drugs after diagnosis.",
+        "yes, all patients stop drinking or using drugs after diagnosis."
       ]
     }
   ],

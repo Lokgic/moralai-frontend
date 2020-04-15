@@ -174,7 +174,7 @@ const initialState = {
   group_id: "control",
   sample_id: 999,
   decisionState: "intro",
-  dialogState: "intro",
+  dialogState: "exitSurvey",
   pairSeq: sl,
   pair: sl.getCurrent(),
   timeStamp: Date.now(),
@@ -294,7 +294,7 @@ const DecisionIntro = ({ handleNext }) => {
       </p>
       <p>
         Patients who <b>do not</b> receive the kidney will remain on dialysis
-        and are likely to die within a year or two.
+        and are likely to die in a year.
       </p>
     </div>
   );
@@ -302,8 +302,8 @@ const DecisionIntro = ({ handleNext }) => {
     <DialogMessageContainer>
       <p>Please keep in mind that:</p>
       <DialogMessage>
-        Life expectancy is <b>not</b> affected by the patient’s future alcohol
-        and drug use
+        Life expectancy after transplantation is <b>not</b> affected by the
+        patient’s future alcohol and drug use.
       </DialogMessage>
       <DialogMessage>
         None of the patients have used alcohol or drugs <b>after</b> being
@@ -501,9 +501,9 @@ const ExitSurvey = ({ qIndex, dispatch, dialogChosen, textInput }) => (
       <div className="dialog-header">
         <h2>Exit Survery</h2>
       </div>
-      <div className="message">
-        <p className="choice-message">{mats.exitSurvey[qIndex].q}</p>
-      </div>
+      <DialogMessageContainer>
+        <DialogMessage>{mats.exitSurvey[qIndex].q}</DialogMessage>
+      </DialogMessageContainer>
       {mats.exitSurvey[qIndex].qType === "textInput" ? (
         <SurveyTextInput
           placeholder="type answer here"
