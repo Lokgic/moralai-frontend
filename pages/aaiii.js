@@ -172,6 +172,8 @@ const initialState = {
   user_id: v1(),
   trial_id: "",
   group_id: "control",
+  ass: true,
+  rec: false,
   sample_id: 999,
   decisionState: "intro",
   dialogState: "intro",
