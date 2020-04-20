@@ -1,39 +1,31 @@
 {
-  "name": "moral-ai-app-fe",
+  "name": "moral-ai-project",
   "version": "1.0.0",
-  "description": "front end for moral ai app",
   "main": "index.js",
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.26",
-    "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@fortawesome/react-fontawesome": "^0.1.8",
-    "acorn": "^6.4.0",
-    "d3": "^5.15.0",
-    "next": "^9.2.0",
-    "npm": "^6.13.6",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-spring": "^8",
-    "styled-components": "^4.4.1",
-    "uuid": "^3.4.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@types/node": "^13.1.8",
-    "@types/react": "^16.9.18",
-    "babel-loader": "^8.0.5",
-    "babel-plugin-styled-components": "^1.10.0",
-    "typescript": "^3.7.5"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "export": "npm run build && next export",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "export": "npm run build && next export"
   },
-  "author": "",
+  "dependencies": {
+    "@stdlib/stdlib": "0.0.91",
+    "@types/uuid": "^7.0.2",
+    "framer-motion": "^1.10.3",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "styled-components": "^5.0.1",
+    "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "@types/uuid": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/styled-components": "latest",
+    "babel-plugin-styled-components": "latest",
+    "typescript": "latest"
+  },
   "license": "ISC"
 }
