@@ -9,8 +9,6 @@
     "export": "npm run build && next export"
   },
   "dependencies": {
-    "@stdlib/stdlib": "0.0.91",
-    "@types/uuid": "^7.0.2",
     "framer-motion": "^1.10.3",
     "next": "latest",
     "react": "latest",
@@ -19,11 +17,11 @@
     "uuid": "^7.0.3"
   },
   "devDependencies": {
-    "@types/uuid": "latest",
-    "@types/node": "latest",
+    "@types/node": "^13.13.1",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@types/styled-components": "latest",
+    "@types/uuid": "latest",
     "babel-plugin-styled-components": "latest",
     "typescript": "latest"
   },
